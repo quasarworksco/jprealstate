@@ -1,6 +1,6 @@
-# JP Real State — sitio web
+# JP Real Estate — sitio web
 
-Rediseño del sitio de JP Real State (Paula Chavez & Juliana Osorio · The Team | lpt realty).
+Rediseño del sitio de JP Real Estate (Paula Chavez & Juliana Osorio · The Team | lpt realty).
 
 Sitio estático, sin dependencias: abre `index.html` o publícalo en cualquier hosting estático (GitHub Pages, Netlify, Vercel).
 

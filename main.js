@@ -1,4 +1,4 @@
-/* JP Real State — interactions (GSAP + ScrollTrigger + Lenis) */
+/* JP Real Estate — interactions (GSAP + ScrollTrigger + Lenis) */
 (() => {
   const $ = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => [...c.querySelectorAll(s)];
@@ -391,11 +391,11 @@
 
     if (e.submitter?.value === "correo") {
       const subject = `Solicitud de cita (${form.interes.value}) — ${name.value.trim()}`;
-      const bodyText = ["¡Hola JP Real State! Quiero agendar una cita.", "", ...lines].join("\n");
+      const bodyText = ["¡Hola JP Real Estate! Quiero agendar una cita.", "", ...lines].join("\n");
       location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
       ok.textContent = "¡Gracias! Abrimos tu app de correo con el mensaje listo para enviar.";
     } else {
-      const text = ["¡Hola JP Real State! Quiero agendar una cita.", ...lines].join("\n");
+      const text = ["¡Hola JP Real Estate! Quiero agendar una cita.", ...lines].join("\n");
       window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`, "_blank", "noopener");
       ok.textContent = "¡Gracias! Abrimos WhatsApp con tu mensaje listo para enviar.";
     }
