@@ -1,179 +1,32 @@
-/* JP Real State — interactions */
+/* JP Real State — interactions (GSAP + ScrollTrigger + Lenis) */
 (() => {
   const $ = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+  const root = document.documentElement;
+  const body = document.body;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
-  const body = document.body;
+  const hasGsap = !!(window.gsap && window.ScrollTrigger);
+  const motion = hasGsap && !reduced;
 
+  if (!motion) root.classList.add("no-motion");
+  if (hasGsap) gsap.registerPlugin(ScrollTrigger);
   $("#year").textContent = new Date().getFullYear();
 
-  /* ---------- Hero: split title into words, stagger intro ---------- */
-  $$(".hero__title .split").forEach((line) => {
-    const html = line.innerHTML.trim();
-    const parts = html.split(/\s+(?![^<]*>)/);
-    line.innerHTML = parts.map((p) => `<span class="word"><span>${p}</span></span>`).join(" ");
-  });
-  $$(".hero__title .word > span").forEach((w, i) => (w.style.transitionDelay = `${i * 90 + 100}ms`));
-  [".hero__eyebrow", ".hero__lead", ".hero__actions"].forEach((s, i) => {
-    const el = $(s);
-    el.setAttribute("data-in", "");
-    el.style.transitionDelay = `${[0, 650, 800][i]}ms`;
+  /* ---------- Button text roll: wrap label so it can slide ---------- */
+  $$(".btn__text").forEach((t) => {
+    const label = t.textContent.trim();
+    t.innerHTML = `<i data-text="${label}">${label}</i>`;
   });
 
-  /* ---------- Preloader ---------- */
-  $$(".preloader__word span").forEach((s, i) => s.style.setProperty("--i", i));
-  const start = () => {
-    const pre = $(".preloader");
-    pre.classList.add("is-done");
-    body.classList.remove("is-loading");
-    setTimeout(() => body.classList.add("is-ready"), 250);
-    setTimeout(() => pre.remove(), 1400);
-  };
-  const minTime = reduced ? 0 : 2100;
-  const t0 = performance.now();
-  const onLoaded = () => setTimeout(start, Math.max(0, minTime - (performance.now() - t0)));
-  if (document.readyState === "complete") onLoaded();
-  else window.addEventListener("load", onLoaded, { once: true });
-  setTimeout(() => body.classList.contains("is-loading") && start(), 5000); // safety net
-
-  /* ---------- Hero word rotator ---------- */
-  const items = $$(".rotator__item");
-  let ri = 0;
-  if (!reduced) {
-    setInterval(() => {
-      const cur = items[ri];
-      cur.classList.remove("is-active");
-      cur.classList.add("is-leaving");
-      setTimeout(() => cur.classList.remove("is-leaving"), 1000);
-      ri = (ri + 1) % items.length;
-      items[ri].classList.add("is-active");
-    }, 3200);
+  /* ---------- Smooth scroll ---------- */
+  let lenis = null;
+  if (motion && window.Lenis) {
+    lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
   }
-
-  /* ---------- Reveal on scroll ---------- */
-  $$("[data-delay]").forEach((el) => el.style.setProperty("--d", `${el.dataset.delay}ms`));
-  const io = new IntersectionObserver(
-    (entries) => entries.forEach((e) => {
-      if (!e.isIntersecting) return;
-      e.target.classList.add("is-in");
-      io.unobserve(e.target);
-    }),
-    { threshold: 0.18, rootMargin: "0px 0px -6% 0px" }
-  );
-  $$(".reveal").forEach((el) => io.observe(el));
-  // clip-path hides the target from IntersectionObserver, so watch its parent instead
-  const clipIO = new IntersectionObserver((entries) => entries.forEach((e) => {
-    if (!e.isIntersecting) return;
-    $(".reveal-clip", e.target).classList.add("is-in");
-    clipIO.unobserve(e.target);
-  }), { threshold: 0.2 });
-  $$(".reveal-clip").forEach((el) => clipIO.observe(el.parentElement));
-
-  /* ---------- Counters ---------- */
-  const countIO = new IntersectionObserver((entries) => entries.forEach((e) => {
-    if (!e.isIntersecting) return;
-    const el = e.target, end = +el.dataset.count, dur = reduced ? 1 : 1800, t = performance.now();
-    const tick = (now) => {
-      const p = Math.min(1, (now - t) / dur);
-      el.textContent = Math.round(end * (1 - Math.pow(1 - p, 4)));
-      if (p < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-    countIO.unobserve(el);
-  }), { threshold: 0.6 });
-  $$("[data-count]").forEach((el) => countIO.observe(el));
-
-  /* ---------- Statement: words light up while scrolling ---------- */
-  const stmt = $("[data-scrub-words]");
-  const goldWords = ["primera", "consulta", "llaves,", "contigo"];
-  stmt.innerHTML = stmt.textContent.trim().split(/\s+/)
-    .map((w) => `<span class="w${goldWords.includes(w) ? " gold" : ""}">${w}</span>`).join(" ");
-  const words = $$(".w", stmt);
-
-  /* ---------- Nav ---------- */
-  const nav = $(".nav");
-  const progress = $(".progress");
-  const wa = $(".wa-float");
-  let lastY = 0;
-
-  /* ---------- Horizontal gallery ---------- */
-  const hg = $(".hgallery");
-  const track = $(".hgallery__track");
-  const useHG = !reduced;
-  let hgDist = 0;
-  const sizeHG = () => {
-    if (!useHG) { hg.classList.add("is-static"); return; }
-    hgDist = Math.max(0, track.scrollWidth - innerWidth);
-    hg.style.height = `${innerHeight + hgDist}px`;
-  };
-
-  /* ---------- Timeline ---------- */
-  const tl = $(".timeline");
-  const tlLine = $(".timeline__line i");
-
-  /* ---------- Parallax ---------- */
-  const parallax = $$("[data-parallax]");
-  const inner = $$("[data-parallax-inner]");
-
-  const sections = $$("main section[id]");
-  const navLinks = $$(".nav__links a");
-
-  const onScroll = () => {
-    const y = scrollY, vh = innerHeight;
-    const max = document.documentElement.scrollHeight - vh;
-    progress.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
-
-    nav.classList.toggle("is-solid", y > vh * 0.75);
-    nav.classList.toggle("is-hidden", y > lastY && y > vh && !body.classList.contains("menu-open"));
-    lastY = y;
-    wa.classList.toggle("is-visible", y > vh * 0.5);
-
-    if (!reduced) {
-      parallax.forEach((el) => {
-        const r = el.parentElement.getBoundingClientRect();
-        if (r.bottom < 0 || r.top > vh) return;
-        el.style.transform = `translate3d(0, ${(r.top) * -+el.dataset.parallax}px, 0)`;
-      });
-      inner.forEach((el) => {
-        const r = el.getBoundingClientRect();
-        el.style.translate = `0 ${(r.top + r.height / 2 - vh / 2) * -+el.dataset.parallaxInner}px`;
-      });
-
-      // statement words
-      const sr = stmt.getBoundingClientRect();
-      const sp = Math.min(1, Math.max(0, (vh * 0.85 - sr.top) / (sr.height + vh * 0.35)));
-      const lit = Math.round(sp * words.length);
-      words.forEach((w, i) => w.classList.toggle("on", i < lit));
-
-      // horizontal gallery
-      if (useHG) {
-        const r = hg.getBoundingClientRect();
-        const p = Math.min(1, Math.max(0, -r.top / (r.height - vh)));
-        track.style.transform = `translate3d(${-p * hgDist}px,0,0)`;
-      }
-    }
-
-    // timeline line
-    const tr = tl.getBoundingClientRect();
-    const tp = Math.min(1, Math.max(0, (vh * 0.6 - tr.top) / tr.height));
-    tlLine.style.setProperty("--p", tp);
-
-    // active nav link
-    let current = "";
-    sections.forEach((s) => { if (s.getBoundingClientRect().top < vh * 0.4) current = s.id; });
-    navLinks.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === `#${current}`));
-  };
-
-  let ticking = false;
-  addEventListener("scroll", () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => { onScroll(); ticking = false; });
-  }, { passive: true });
-  addEventListener("resize", () => { sizeHG(); onScroll(); });
-  addEventListener("load", () => { sizeHG(); onScroll(); });
-  sizeHG(); onScroll();
 
   /* ---------- Mobile menu ---------- */
   const burger = $(".burger");
@@ -183,20 +36,23 @@
     burger.setAttribute("aria-expanded", open);
     burger.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
     menu.setAttribute("aria-hidden", !open);
-    body.style.overflow = open ? "hidden" : "";
+    if (lenis) open ? lenis.stop() : lenis.start();
+    else body.style.overflow = open ? "hidden" : "";
   };
   burger.addEventListener("click", () => setMenu(!body.classList.contains("menu-open")));
-  $$("a", menu).forEach((a) => a.addEventListener("click", () => setMenu(false)));
   addEventListener("keydown", (e) => e.key === "Escape" && setMenu(false));
 
-  /* ---------- Service panels ---------- */
-  const panels = $$(".panel");
-  const openPanel = (p) => panels.forEach((x) => x.classList.toggle("is-open", x === p));
-  panels.forEach((p) => {
-    if (finePointer) p.addEventListener("mouseenter", () => openPanel(p));
-    p.addEventListener("click", () => openPanel(p));
-    p.addEventListener("focus", () => openPanel(p));
-  });
+  /* ---------- Anchor links ---------- */
+  $$('a[href^="#"]').forEach((a) => a.addEventListener("click", (e) => {
+    const id = a.getAttribute("href");
+    const target = id.length > 1 && $(id);
+    if (!target) return;
+    e.preventDefault();
+    const wasOpen = body.classList.contains("menu-open");
+    setMenu(false);
+    const go = () => (lenis ? lenis.scrollTo(target, { duration: 1.6 }) : target.scrollIntoView({ behavior: reduced ? "auto" : "smooth" }));
+    wasOpen ? setTimeout(go, 350) : go();
+  }));
 
   /* ---------- Interest links prefill the form ---------- */
   $$("[data-interest]").forEach((a) => a.addEventListener("click", () => {
@@ -204,51 +60,287 @@
     if (r) r.checked = true;
   }));
 
-  /* ---------- Pointer effects (desktop) ---------- */
+  /* ---------- Hero word rotator ---------- */
+  const startRotator = () => {
+    if (reduced) return;
+    const items = $$(".rotator__item");
+    let i = 0;
+    setInterval(() => {
+      const cur = items[i];
+      cur.classList.replace("is-active", "is-leaving");
+      setTimeout(() => cur.classList.remove("is-leaving"), 1100);
+      i = (i + 1) % items.length;
+      items[i].classList.add("is-active");
+    }, 3000);
+  };
+
+  /* ---------- Split text into masked words (keeps <em>) ---------- */
+  const splitWords = (el) => {
+    const inners = [];
+    const frag = document.createDocumentFragment();
+    [...el.childNodes].forEach((node) => {
+      const tag = node.nodeType === 1 ? node.tagName.toLowerCase() : null;
+      if (tag === "br") { frag.appendChild(document.createElement("br")); return; }
+      node.textContent.split(/\s+/).filter(Boolean).forEach((word) => {
+        const mask = document.createElement("span");
+        mask.className = "w-mask";
+        const inner = document.createElement("span");
+        inner.className = "w-in";
+        if (tag) {
+          const t = document.createElement(tag);
+          t.textContent = word;
+          inner.appendChild(t);
+        } else inner.textContent = word;
+        mask.appendChild(inner);
+        frag.append(mask, " ");
+        inners.push(inner);
+      });
+    });
+    el.textContent = "";
+    el.appendChild(frag);
+    return inners;
+  };
+
+  /* ---------- Fallback: no GSAP or reduced motion ---------- */
+  const wa = $(".wa-float");
+  const nav = $(".nav");
+  if (!motion) {
+    $(".preloader")?.remove();
+    startRotator();
+    $$(".step").forEach((s) => s.classList.add("is-in"));
+    let lastY = 0;
+    addEventListener("scroll", () => {
+      const y = scrollY;
+      wa.classList.toggle("is-visible", y > innerHeight * 0.5);
+      nav.classList.toggle("is-hidden", y > lastY && y > innerHeight && !body.classList.contains("menu-open"));
+      lastY = y;
+    }, { passive: true });
+  }
+
+  /* =========================================================
+     Motion (GSAP)
+     ========================================================= */
+  if (motion) {
+    const expo = "expo.out";
+
+    /* ---------- Preloader + hero intro ---------- */
+    const pre = $(".preloader");
+    const num = $(".preloader__num");
+    body.classList.add("is-loading");
+    lenis?.stop();
+    const counter = { v: 0 };
+
+    gsap.set(".hero__media img", { scale: 1.35 });
+    gsap.set(".hero__title .line__in", { yPercent: 115 });
+    gsap.set("[data-hero]", { y: 30, autoAlpha: 0 });
+    gsap.set(nav, { yPercent: -100, autoAlpha: 0 });
+
+    const intro = gsap.timeline({ paused: true });
+    intro
+      .to(".preloader__houses path", { strokeDashoffset: 0, duration: 1.5, stagger: 0.15, ease: "power3.inOut" }, 0)
+      .to(counter, { v: 100, duration: 2.1, ease: "power2.inOut", onUpdate: () => (num.textContent = Math.round(counter.v)) }, 0)
+      .to(".preloader__line", { scaleX: 1, duration: 2.1, ease: "power2.inOut" }, 0)
+      .to(".preloader__center, .preloader__top, .preloader__bottom", { autoAlpha: 0, y: -40, duration: 0.6, stagger: 0.06, ease: "power2.in" }, 2.15)
+      .to(pre, { yPercent: -100, duration: 1.2, ease: "expo.inOut" }, 2.45)
+      .to(".hero__media img", { scale: 1, duration: 2.4, ease: expo }, 2.6)
+      .to(".hero__title .line__in", { yPercent: 0, duration: 1.6, stagger: 0.12, ease: expo }, 2.95)
+      .to("[data-hero]", { y: 0, autoAlpha: 1, duration: 1.3, stagger: 0.1, ease: expo }, 3.2)
+      .to(nav, { yPercent: 0, autoAlpha: 1, duration: 1.2, ease: expo, clearProps: "transform" }, 3.1)
+      .add(() => {
+        pre.remove();
+        body.classList.remove("is-loading");
+        lenis?.start();
+        startRotator();
+        ScrollTrigger.refresh();
+      }, 3.6);
+
+    const play = () => intro.play();
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => setTimeout(play, 150));
+    setTimeout(play, 2500); // safety net if fonts hang
+
+    /* ---------- Hero parallax on scroll ---------- */
+    gsap.to(".hero__media", { yPercent: 22, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true } });
+    gsap.to(".hero__content, .hero__foot", { y: -80, autoAlpha: 0.2, ease: "none", scrollTrigger: { trigger: ".hero", start: "40% top", end: "bottom top", scrub: true } });
+
+    /* ---------- Nav hide/show & WhatsApp ---------- */
+    ScrollTrigger.create({
+      start: 0, end: "max",
+      onUpdate: (s) => {
+        const y = s.scroll();
+        nav.classList.toggle("is-hidden", s.direction === 1 && y > innerHeight && !body.classList.contains("menu-open"));
+        wa.classList.toggle("is-visible", y > innerHeight * 0.5);
+      },
+    });
+
+    /* ---------- Headings: masked word reveal ---------- */
+    $$("[data-split]").forEach((el) => {
+      const words = splitWords(el);
+      gsap.from(words, {
+        yPercent: 115, rotate: 4, duration: 1.4, stagger: 0.06, ease: expo,
+        scrollTrigger: { trigger: el, start: "top 86%" },
+      });
+    });
+
+    /* ---------- Intro: words light up with scroll ---------- */
+    const introWords = splitWords($("[data-words]"));
+    gsap.fromTo(introWords, { opacity: 0.12 }, {
+      opacity: 1, stagger: 0.1, ease: "none",
+      scrollTrigger: { trigger: ".intro__text", start: "top 80%", end: "bottom 50%", scrub: true },
+    });
+
+    /* ---------- Generic reveal (batched) ---------- */
+    gsap.set("[data-reveal]", { y: 60, autoAlpha: 0 });
+    ScrollTrigger.batch("[data-reveal]", {
+      start: "top 90%",
+      onEnter: (batch) => {
+        gsap.to(batch, { y: 0, autoAlpha: 1, duration: 1.3, stagger: 0.09, ease: expo, overwrite: true });
+        batch.forEach((el) => el.classList.add("is-in"));
+      },
+    });
+
+    /* ---------- About image: curtain + parallax ---------- */
+    gsap.fromTo(".about__frame", { clipPath: "inset(100% 0% 0% 0%)" }, {
+      clipPath: "inset(0% 0% 0% 0%)", duration: 1.8, ease: "expo.inOut",
+      scrollTrigger: { trigger: ".about__frame", start: "top 82%" },
+    });
+    gsap.from(".about__frame img", { scale: 1.4, duration: 2.4, ease: expo, scrollTrigger: { trigger: ".about__frame", start: "top 82%" } });
+    $$("[data-speed]").forEach((img) => {
+      const amt = +img.dataset.speed * 100;
+      gsap.fromTo(img, { yPercent: -amt / 2 }, { yPercent: amt / 2, ease: "none", scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true } });
+    });
+    gsap.from(".about__badge", { scale: 0, rotate: -90, duration: 1.4, ease: "back.out(1.6)", scrollTrigger: { trigger: ".about__frame", start: "top 60%" } });
+
+    /* ---------- Marquee reacts to scroll speed/direction ---------- */
+    const mTrack = $(".marquee__track");
+    let mx = 0, dir = -1, boost = 0;
+    ScrollTrigger.create({
+      trigger: ".marquee", start: "top bottom", end: "bottom top",
+      onUpdate: (s) => { dir = s.direction === 1 ? -1 : 1; boost = Math.min(8, Math.abs(s.getVelocity()) / 250); },
+    });
+    gsap.ticker.add(() => {
+      boost *= 0.93;
+      mx += (0.045 + boost * 0.09) * dir;
+      if (mx <= -50) mx += 50;
+      if (mx > 0) mx -= 50;
+      gsap.set(mTrack, { xPercent: mx, skewX: -boost * dir * 0.8 });
+    });
+
+    /* ---------- Counters ---------- */
+    $$("[data-count]").forEach((el) => {
+      const end = +el.dataset.count;
+      const o = { v: 0 };
+      el.textContent = "0";
+      gsap.to(o, {
+        v: end, duration: 2, ease: "power3.out",
+        onUpdate: () => (el.textContent = Math.round(o.v)),
+        scrollTrigger: { trigger: el, start: "top 90%" },
+      });
+    });
+
+    /* ---------- Services: floating preview follows cursor ---------- */
+    if (finePointer && innerWidth > 760) {
+      const prev = $(".services-preview");
+      const prevInner = $(".services-preview__inner");
+      const list = $(".services__list");
+      const px = gsap.quickTo(prev, "x", { duration: 0.7, ease: "power3" });
+      const py = gsap.quickTo(prev, "y", { duration: 0.7, ease: "power3" });
+      const pr = gsap.quickTo(prev, "rotate", { duration: 0.8, ease: "power3" });
+      gsap.set(prev, { scale: 0, autoAlpha: 0, xPercent: 0, yPercent: 0 });
+      let lastX = 0;
+      list.addEventListener("mouseenter", (e) => { gsap.set(prev, { x: e.clientX, y: e.clientY }); gsap.to(prev, { scale: 1, autoAlpha: 1, duration: 0.6, ease: expo }); });
+      list.addEventListener("mouseleave", () => gsap.to(prev, { scale: 0, autoAlpha: 0, duration: 0.5, ease: "power3.in" }));
+      list.addEventListener("mousemove", (e) => {
+        px(e.clientX); py(e.clientY);
+        pr(gsap.utils.clamp(-12, 12, (e.clientX - lastX) * 0.6));
+        lastX = e.clientX;
+      });
+      $$(".srow").forEach((row) => row.addEventListener("mouseenter", () => {
+        prevInner.style.transform = `translateY(${-row.dataset.index * 100}%)`;
+      }));
+    }
+
+    /* ---------- Horizontal gallery (pinned) ---------- */
+    const track = $(".hgallery__track");
+    const dist = () => Math.max(0, track.scrollWidth - innerWidth);
+    gsap.to(track, {
+      x: () => -dist(), ease: "none",
+      scrollTrigger: {
+        trigger: ".hgallery", start: "top top", end: () => `+=${dist()}`,
+        pin: true, scrub: 1, invalidateOnRefresh: true, anticipatePin: 1,
+        onUpdate: (s) => gsap.set(".hgallery__progress i", { scaleX: s.progress }),
+      },
+    });
+
+
+    /* ---------- CTA band: image expands to full bleed ---------- */
+    gsap.fromTo(".band__media", { clipPath: "inset(12% 16% 12% 16% round 8px)" }, {
+      clipPath: "inset(0% 0% 0% 0% round 0px)", ease: "none",
+      scrollTrigger: { trigger: ".band", start: "top 85%", end: "top top", scrub: true },
+    });
+    gsap.fromTo(".band__media img", { scale: 1.3 }, { scale: 1, ease: "none", scrollTrigger: { trigger: ".band", start: "top bottom", end: "bottom top", scrub: true } });
+
+    /* ---------- Footer giant wordmark ---------- */
+    gsap.from(".footer__big span", { yPercent: 105, duration: 1.6, stagger: 0.1, ease: expo, scrollTrigger: { trigger: ".footer__big", start: "top 95%" } });
+
+    /* ---------- Magnetic buttons ---------- */
+    if (finePointer) {
+      $$(".magnetic").forEach((el) => {
+        const xTo = gsap.quickTo(el, "x", { duration: 0.6, ease: "power3" });
+        const yTo = gsap.quickTo(el, "y", { duration: 0.6, ease: "power3" });
+        el.addEventListener("mousemove", (e) => {
+          const r = el.getBoundingClientRect();
+          xTo((e.clientX - r.left - r.width / 2) * 0.3);
+          yTo((e.clientY - r.top - r.height / 2) * 0.4);
+        });
+        el.addEventListener("mouseleave", () => gsap.to(el, { x: 0, y: 0, duration: 1, ease: "elastic.out(1, .4)" }));
+      });
+    }
+
+    addEventListener("load", () => ScrollTrigger.refresh());
+  }
+
+  /* =========================================================
+     Custom cursor (independent of GSAP)
+     ========================================================= */
   if (finePointer && !reduced) {
-    // cursor
-    const cursor = $(".cursor"), dot = $(".cursor__dot"), ring = $(".cursor__ring");
-    let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my;
-    addEventListener("mousemove", (e) => { mx = e.clientX; my = e.clientY; dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`; });
+    root.classList.add("has-cursor");
+    const cursor = $(".cursor");
+    const blob = $(".cursor__blob"), dot = $(".cursor__dot"), label = $(".cursor__label");
+    const labelText = $("span", label);
+    let mx = -100, my = -100, bx = mx, by = my, lx = mx, ly = my;
+    addEventListener("mousemove", (e) => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
+      cursor.classList.remove("is-hidden");
+    }, { passive: true });
     const loop = () => {
-      rx += (mx - rx) * 0.16; ry += (my - ry) * 0.16;
-      ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`;
+      bx += (mx - bx) * 0.18; by += (my - by) * 0.18;
+      lx += (mx - lx) * 0.12; ly += (my - ly) * 0.12;
+      blob.style.transform = `translate3d(${bx}px, ${by}px, 0)`;
+      label.style.translate = `${lx}px ${ly}px`;
       requestAnimationFrame(loop);
     };
     loop();
-    $$("a, button, .panel, label").forEach((el) => {
-      el.addEventListener("mouseenter", () => cursor.classList.add("is-hover"));
-      el.addEventListener("mouseleave", () => cursor.classList.remove("is-hover"));
+    document.addEventListener("mouseover", (e) => {
+      const t = e.target;
+      const lab = t.closest("[data-cursor]");
+      if (lab) {
+        labelText.textContent = lab.dataset.cursor;
+        cursor.classList.add("is-label");
+        cursor.classList.remove("is-hover");
+        return;
+      }
+      cursor.classList.remove("is-label");
+      cursor.classList.toggle("is-hover", !!t.closest("a, button, label, [data-hover], .srow"));
     });
-    $$("[data-cursor]").forEach((el) => {
-      el.addEventListener("mouseenter", () => cursor.classList.add("is-view"));
-      el.addEventListener("mouseleave", () => cursor.classList.remove("is-view"));
-    });
-
-    // magnetic buttons
-    $$(".magnetic").forEach((el) => {
-      el.addEventListener("mousemove", (e) => {
-        const r = el.getBoundingClientRect();
-        const x = e.clientX - r.left - r.width / 2, y = e.clientY - r.top - r.height / 2;
-        el.style.transform = `translate(${x * 0.25}px, ${y * 0.35}px)`;
-      });
-      el.addEventListener("mouseleave", () => (el.style.transform = ""));
-    });
-
-    // tilt cards with glow
-    $$(".tilt").forEach((el) => {
-      el.addEventListener("mousemove", (e) => {
-        const r = el.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
-        el.style.transform = `rotateX(${(0.5 - py) * 8}deg) rotateY(${(px - 0.5) * 10}deg) translateY(-6px)`;
-        el.style.setProperty("--mx", `${px * 100}%`);
-        el.style.setProperty("--my", `${py * 100}%`);
-      });
-      el.addEventListener("mouseleave", () => (el.style.transform = ""));
-    });
+    document.addEventListener("mousedown", () => cursor.classList.add("is-down"));
+    document.addEventListener("mouseup", () => cursor.classList.remove("is-down"));
+    document.addEventListener("mouseleave", () => cursor.classList.add("is-hidden"));
   }
 
-  /* ---------- Form → WhatsApp ---------- */
+  /* =========================================================
+     Form → WhatsApp
+     ========================================================= */
   const form = $("#cita-form");
   const ok = $(".form__ok", form);
   form.addEventListener("submit", (e) => {
@@ -259,15 +351,14 @@
       [email, /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())],
       [phone, phone.value.replace(/\D/g, "").length >= 7],
     ];
-    let valid = true;
-    checks.forEach(([el, good]) => { el.closest(".field").classList.toggle("has-error", !good); if (!good) valid = false; });
-    if (!valid) { checks.find(([, g]) => !g)[0].focus(); return; }
+    checks.forEach(([el, good]) => el.closest(".field").classList.toggle("has-error", !good));
+    const bad = checks.find(([, good]) => !good);
+    if (bad) { bad[0].focus(); return; }
 
-    const interes = form.interes.value;
     const msg = form.mensaje.value.trim();
     const text = [
-      `¡Hola JP Real State! Quiero agendar una cita.`,
-      `• Interés: ${interes}`,
+      "¡Hola JP Real State! Quiero agendar una cita.",
+      `• Interés: ${form.interes.value}`,
       `• Nombre: ${name.value.trim()}`,
       `• Correo: ${email.value.trim()}`,
       `• Teléfono: ${phone.value.trim()}`,

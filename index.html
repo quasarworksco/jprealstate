@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>JP Real State | Bienes raíces en Florida</title>
   <meta name="description" content="JP Real State — Paula Chavez & Juliana Osorio. Compra, venta y alquiler de propiedades en Florida con asesoría cercana, segura y personalizada." />
-  <meta name="theme-color" content="#14110f" />
+  <meta name="theme-color" content="#0a0a0a" />
   <meta property="og:title" content="JP Real State | Tu próxima propiedad comienza aquí" />
   <meta property="og:description" content="Somos un equipo listo para llevarte al hogar que deseas. Compra · Venta · Alquiler en Florida." />
   <meta property="og:type" content="website" />
@@ -15,9 +15,10 @@
   <link rel="apple-touch-icon" href="assets/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="preload" as="image" href="assets/hero-villa.jpg" />
   <link rel="stylesheet" href="styles.css" />
+  <script>document.documentElement.classList.add("js");</script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -34,39 +35,56 @@
   }
   </script>
 </head>
-<body class="is-loading">
+<body>
 
   <!-- ============ PRELOADER ============ -->
   <div class="preloader" aria-hidden="true">
-    <div class="preloader__inner">
+    <div class="preloader__top">
+      <span>JP Real State</span>
+      <span>Florida, EE. UU.</span>
+    </div>
+    <div class="preloader__center">
       <svg class="preloader__houses" viewBox="0 0 460 200" fill="none">
         <path d="M18 192 V96 L120 14 L172 56" />
         <path d="M124 192 V100 L226 18 L328 100 V192" />
         <path d="M276 56 L330 14 L440 100 V192" />
       </svg>
-      <p class="preloader__word"><span>J</span><span>P</span><span>&nbsp;</span><span>R</span><span>e</span><span>a</span><span>l</span><span>&nbsp;</span><span>S</span><span>t</span><span>a</span><span>t</span><span>e</span></p>
-      <div class="preloader__bar"><i></i></div>
+    </div>
+    <div class="preloader__bottom">
+      <span class="preloader__tag">Compra · Venta · Alquiler</span>
+      <span class="preloader__count"><span class="preloader__num">0</span><small>%</small></span>
+    </div>
+    <div class="preloader__line"></div>
+  </div>
+
+  <!-- ============ CURSOR ============ -->
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor__blob"></div>
+    <div class="cursor__label"><span></span></div>
+    <div class="cursor__dot"></div>
+  </div>
+  <div class="services-preview" aria-hidden="true">
+    <div class="services-preview__inner">
+      <img src="assets/compra.jpg" alt="" />
+      <img src="assets/venta.jpg" alt="" />
+      <img src="assets/alquiler.jpg" alt="" />
     </div>
   </div>
 
-  <div class="cursor" aria-hidden="true"><span class="cursor__dot"></span><span class="cursor__ring"><em>Ver</em></span></div>
-  <div class="progress" aria-hidden="true"></div>
-
   <!-- ============ NAV ============ -->
-  <header class="nav" id="top">
+  <header class="nav">
     <a href="#inicio" class="nav__brand" aria-label="JP Real State — inicio">
-      <img src="assets/logo-light.png" alt="The Team · lpt realty" class="nav__logo nav__logo--light" width="126" height="44" />
-      <img src="assets/logo-dark.png" alt="" class="nav__logo nav__logo--dark" width="126" height="44" aria-hidden="true" />
-      <span class="nav__name">JP <em>Real State</em></span>
+      <img src="assets/logo-light.png" alt="The Team · lpt realty" class="nav__logo" width="126" height="44" />
+      <span class="nav__name">JP Real State</span>
     </a>
     <nav class="nav__links" aria-label="Principal">
-      <a href="#nosotros">Nosotros</a>
-      <a href="#por-que">Por qué nosotras</a>
-      <a href="#servicios">Servicios</a>
-      <a href="#proceso">Proceso</a>
-      <a href="#contacto">Contacto</a>
+      <a href="#nosotros" data-hover><span data-text="Nosotros">Nosotros</span></a>
+      <a href="#por-que" data-hover><span data-text="Por qué nosotras">Por qué nosotras</span></a>
+      <a href="#servicios" data-hover><span data-text="Servicios">Servicios</span></a>
+      <a href="#proceso" data-hover><span data-text="Proceso">Proceso</span></a>
+      <a href="#contacto" data-hover><span data-text="Contacto">Contacto</span></a>
     </nav>
-    <a href="#contacto" class="btn btn--small btn--gold nav__cta magnetic"><span>Agenda tu cita</span></a>
+    <a href="#contacto" class="nav__cta magnetic" data-hover><span>Agenda tu cita</span></a>
     <button class="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span></button>
   </header>
 
@@ -81,235 +99,204 @@
     <div class="mobile-menu__foot">
       <a href="tel:+13219612892">321 961-2892</a>
       <a href="tel:+17869062790">786 906-2790</a>
+      <a href="https://wa.me/13219612892" target="_blank" rel="noopener">WhatsApp</a>
     </div>
   </div>
 
   <main>
     <!-- ============ HERO ============ -->
     <section class="hero" id="inicio">
-      <div class="hero__media" data-parallax="0.25">
-        <img src="assets/hero-villa.jpg" alt="Villa moderna con piscina al atardecer" />
+      <div class="hero__media">
+        <img src="assets/hero-villa.jpg" alt="Villa moderna con piscina" />
       </div>
       <div class="hero__shade"></div>
-      <div class="hero__grain"></div>
 
-      <div class="hero__content container">
-        <p class="eyebrow hero__eyebrow"><span class="line"></span> Florida, EE. UU. · Bienes raíces</p>
+      <div class="hero__content">
+        <p class="hero__kicker" data-hero><span class="dot"></span> Bienes raíces en Florida</p>
         <h1 class="hero__title">
-          <span class="split">Tu</span>
-          <span class="rotator" aria-live="polite">
-            <span class="rotator__item is-active">próxima propiedad</span>
-            <span class="rotator__item">próximo hogar</span>
-            <span class="rotator__item">próxima inversión</span>
-          </span>
-          <span class="split">comienza <em>aquí.</em></span>
+          <span class="line"><span class="line__in">Tu <span class="rotator" aria-live="polite"><span class="rotator__item is-active">próxima propiedad</span><span class="rotator__item">próximo hogar</span><span class="rotator__item">próxima inversión</span></span></span></span>
+          <span class="line"><span class="line__in">comienza <em>aquí.</em></span></span>
         </h1>
-        <p class="hero__lead">Somos un equipo listo para llevarte al hogar que deseas — con transparencia, cercanía y estrategia en cada paso.</p>
-        <div class="hero__actions">
-          <a href="#contacto" class="btn btn--gold magnetic"><span>Contáctanos hoy</span>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a href="https://wa.me/13219612892" target="_blank" rel="noopener" class="btn btn--ghost magnetic">
-            <svg viewBox="0 0 24 24" aria-hidden="true" class="wa"><path d="M20.5 3.5A11.8 11.8 0 0 0 1.9 17.7L.3 23.7l6.2-1.6A11.8 11.8 0 0 0 20.5 3.5ZM12 21.6c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 1 1 12 21.6Zm5.4-7.3c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1l-.9 1.2c-.2.2-.3.2-.6.1a8 8 0 0 1-4-3.5c-.3-.5.3-.5.9-1.6.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5 1.9.8 2.6.9 3.6.7.6-.1 1.8-.7 2-1.5.3-.7.3-1.3.2-1.5-.1-.1-.3-.2-.6-.3Z"/></svg>
-            <span>WhatsApp</span></a>
+      </div>
+
+      <div class="hero__foot">
+        <p class="hero__lead" data-hero>Somos un equipo listo para llevarte al hogar que deseas — con transparencia, cercanía y estrategia en cada paso.</p>
+        <div class="hero__actions" data-hero>
+          <a href="#contacto" class="btn btn--light magnetic" data-hover><span class="btn__text" data-text="Contáctanos hoy">Contáctanos hoy</span><span class="btn__icon"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+          <a href="https://wa.me/13219612892" target="_blank" rel="noopener" class="btn btn--outline magnetic" data-hover><span class="btn__text" data-text="WhatsApp">WhatsApp</span></a>
+        </div>
+        <div class="hero__meta" data-hero>
+          <span>Compra</span><span>Venta</span><span>Alquiler</span>
         </div>
       </div>
 
-      <aside class="hero__card glass">
-        <div class="hero__card-row">
-          <span class="dot"></span>
-          <p><strong>Disponibles hoy</strong><br /><small>Respondemos tu mensaje</small></p>
-        </div>
-        <ul class="hero__chips">
-          <li>Compra</li><li>Venta</li><li>Alquiler</li>
-        </ul>
-      </aside>
+      <a href="#intro" class="hero__scroll" aria-label="Desplazarse hacia abajo" data-hover><span>Scroll</span><i></i></a>
+    </section>
 
-      <a href="#nosotros" class="hero__scroll" aria-label="Desplazarse hacia abajo"><span>Scroll</span><i></i></a>
+    <!-- ============ INTRO ============ -->
+    <section class="intro" id="intro">
+      <div class="container intro__grid">
+        <p class="label" data-reveal>(01) — JP Real State</p>
+        <p class="intro__text" data-words>Somos un equipo listo para llevarte al hogar que deseas. Escuchamos, entendemos y guiamos a cada cliente con <em>transparencia</em> y <em>confianza</em>.</p>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="about" id="nosotros">
+      <div class="container about__grid">
+        <div class="about__visual">
+          <div class="about__frame" data-clip>
+            <img src="assets/equipo.jpg" alt="Paula Chavez y Juliana Osorio, fundadoras de JP Real State" data-speed="0.12" />
+          </div>
+          <div class="about__badge" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <defs><path id="circle" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0" /></defs>
+              <text><textPath href="#circle">JP REAL STATE · THE TEAM · LPT REALTY · </textPath></text>
+            </svg>
+            <img src="assets/icon.png" alt="" />
+          </div>
+        </div>
+
+        <div class="about__text">
+          <p class="label" data-reveal>(02) — Sobre nosotras</p>
+          <h2 class="h2" data-split>Paula Chavez <em>&amp;</em> Juliana Osorio</h2>
+          <p class="about__lead" data-reveal>Dos mujeres apasionadas por el mundo inmobiliario y comprometidas con acompañarte en uno de los pasos más importantes: encontrar un lugar que realmente se sienta como hogar.</p>
+          <div class="about__cols">
+            <p data-reveal>Cada una de nosotras aporta experiencia, dedicación y una visión humana del negocio, lo que nos permite brindar un servicio cercano, seguro y completamente personalizado.</p>
+            <p data-reveal>Para nosotras no se trata solo de comprar, vender o rentar una propiedad, sino de crear una experiencia positiva donde te sientas respaldado en todo momento.</p>
+          </div>
+          <ul class="values">
+            <li data-reveal><span>01</span>Escuchar</li>
+            <li data-reveal><span>02</span>Entender</li>
+            <li data-reveal><span>03</span>Guiar</li>
+          </ul>
+          <div class="about__sign" data-reveal>
+            <img src="assets/logo-dark.png" alt="The Team · lpt realty" width="160" height="56" />
+            <a href="#contacto" class="link" data-hover>Conversemos <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- ============ MARQUEE ============ -->
     <div class="marquee" aria-hidden="true">
       <div class="marquee__track">
-        <span>Compra</span><b>✦</b><span>Venta</span><b>✦</b><span>Alquiler</span><b>✦</b><span>Florida</span><b>✦</b><span>Asesoría personalizada</span><b>✦</b><span>Residencial &amp; Comercial</span><b>✦</b>
-        <span>Compra</span><b>✦</b><span>Venta</span><b>✦</b><span>Alquiler</span><b>✦</b><span>Florida</span><b>✦</b><span>Asesoría personalizada</span><b>✦</b><span>Residencial &amp; Comercial</span><b>✦</b>
+        <div class="marquee__group"><span>Compra</span><i></i><span><em>Venta</em></span><i></i><span>Alquiler</span><i></i><span><em>Florida</em></span><i></i><span>Residencial</span><i></i><span><em>Comercial</em></span><i></i></div>
+        <div class="marquee__group"><span>Compra</span><i></i><span><em>Venta</em></span><i></i><span>Alquiler</span><i></i><span><em>Florida</em></span><i></i><span>Residencial</span><i></i><span><em>Comercial</em></span><i></i></div>
       </div>
     </div>
 
-    <!-- ============ ABOUT ============ -->
-    <section class="about section" id="nosotros">
-      <div class="container about__grid">
-        <div class="about__visual">
-          <div class="about__frame reveal-clip">
-            <img src="assets/equipo.jpg" alt="Paula Chavez y Juliana Osorio, fundadoras de JP Real State" data-parallax-inner="0.08" />
-          </div>
-          <div class="about__badge" aria-hidden="true">
-            <svg viewBox="0 0 200 200">
-              <defs><path id="circle" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" /></defs>
-              <text><textPath href="#circle">JP REAL STATE • THE TEAM • LPT REALTY • </textPath></text>
-            </svg>
-            <img src="assets/icon.png" alt="" />
-          </div>
-          <div class="about__tag glass-light reveal" data-delay="300">
-            <span class="about__tag-k">P&amp;J</span>
-            <span>Dos asesoras,<br />un mismo compromiso</span>
-          </div>
-        </div>
-
-        <div class="about__text">
-          <p class="eyebrow reveal"><span class="line"></span> Sobre nosotras</p>
-          <h2 class="title reveal" data-delay="80">Paula Chavez <em>&amp;</em><br />Juliana Osorio</h2>
-          <p class="lead reveal" data-delay="160">Dos mujeres apasionadas por el mundo inmobiliario y comprometidas con acompañarte en uno de los pasos más importantes: encontrar un lugar que realmente se sienta como <em>hogar</em>.</p>
-          <p class="reveal" data-delay="220">Cada una de nosotras aporta experiencia, dedicación y una visión humana del negocio, lo que nos permite brindar un servicio cercano, seguro y completamente personalizado.</p>
-          <p class="reveal" data-delay="280">Creemos en la importancia de escuchar, entender y guiar a cada cliente con transparencia y confianza. Para nosotras no se trata solo de comprar, vender o rentar una propiedad, sino de crear una experiencia positiva donde te sientas respaldado en todo momento.</p>
-
-          <ul class="values reveal" data-delay="340">
-            <li><span>01</span>Escuchar</li>
-            <li><span>02</span>Entender</li>
-            <li><span>03</span>Guiar</li>
-          </ul>
-
-          <div class="about__sign reveal" data-delay="400">
-            <img src="assets/logo-dark.png" alt="The Team · lpt realty" width="172" height="60" />
-            <a href="#contacto" class="link-arrow">Conversemos <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ STATEMENT (scroll highlight) ============ -->
-    <section class="statement">
-      <div class="container">
-        <p class="statement__text" data-scrub-words>Desde la primera consulta hasta la entrega de llaves, estamos contigo en cada paso.</p>
-      </div>
-    </section>
-
     <!-- ============ WHY US ============ -->
-    <section class="why section" id="por-que">
-      <div class="container">
-        <div class="section-head">
-          <p class="eyebrow reveal"><span class="line"></span> ¿Por qué con nosotras?</p>
-          <h2 class="title reveal" data-delay="80">Relaciones construidas sobre <em>transparencia</em>, compromiso y resultados.</h2>
+    <section class="why" id="por-que">
+      <div class="container why__grid">
+        <div class="why__head">
+          <p class="label label--light" data-reveal>(03) — ¿Por qué con nosotras?</p>
+          <h2 class="h2" data-split>Transparencia, compromiso y <em>resultados.</em></h2>
+          <p class="why__sub" data-reveal>Desde la primera consulta hasta la entrega de llaves, estamos contigo en cada paso.</p>
         </div>
 
-        <div class="why__grid">
-          <article class="card tilt reveal" data-delay="0">
-            <div class="card__glow"></div>
-            <span class="card__num">01</span>
-            <div class="card__icon">
-              <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 7 11v12c0 10.5 7.2 18.8 17 21 9.8-2.2 17-10.5 17-21V11L24 4Z"/><path d="m16 24 6 6 11-12"/></svg>
+        <div class="why__list">
+          <article class="why__item" data-reveal>
+            <span class="why__num">01</span>
+            <div>
+              <h3>Confianza y trayectoria</h3>
+              <p>Nuestra experiencia en el mercado nos permite ofrecerte un acompañamiento seguro y confiable, cuidando cada detalle del proceso para que tomes decisiones informadas.</p>
             </div>
-            <h3>Confianza y trayectoria</h3>
-            <p>Nuestra experiencia en el mercado nos permite ofrecerte un acompañamiento seguro y confiable, cuidando cada detalle del proceso para que tomes decisiones informadas.</p>
           </article>
-
-          <article class="card tilt reveal" data-delay="120">
-            <div class="card__glow"></div>
-            <span class="card__num">02</span>
-            <div class="card__icon">
-              <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="16" r="8"/><path d="M8 42c1.8-8.4 8.2-13 16-13s14.2 4.6 16 13"/><path d="m33 9 2 2 4-4"/></svg>
+          <article class="why__item" data-reveal>
+            <span class="why__num">02</span>
+            <div>
+              <h3>Asesoramiento personalizado</h3>
+              <p>Cada cliente tiene necesidades únicas. Adaptamos el servicio a tu presupuesto, tus prioridades y tu estilo de vida, con información clara y estrategias modernas.</p>
             </div>
-            <h3>Asesoramiento personalizado</h3>
-            <p>Cada cliente tiene necesidades únicas. Adaptamos el servicio a tu presupuesto, tus prioridades y tu estilo de vida, con información clara y estrategias modernas.</p>
           </article>
-
-          <article class="card tilt reveal" data-delay="240">
-            <div class="card__glow"></div>
-            <span class="card__num">03</span>
-            <div class="card__icon">
-              <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 22 24 7l18 15"/><path d="M11 18v23h26V18"/><path d="M20 41V29h8v12"/></svg>
+          <article class="why__item" data-reveal>
+            <span class="why__num">03</span>
+            <div>
+              <h3>Amplio catálogo de propiedades</h3>
+              <p>Selección residencial y comercial en zonas estratégicas: desde apartamentos modernos hasta exclusivas casas familiares. Actualizamos constantemente nuestras oportunidades.</p>
             </div>
-            <h3>Amplio catálogo de propiedades</h3>
-            <p>Selección residencial y comercial en zonas estratégicas: desde apartamentos modernos hasta exclusivas casas familiares. Actualizamos constantemente nuestras oportunidades.</p>
           </article>
         </div>
+      </div>
 
-        <div class="stats">
-          <div class="stat reveal"><strong><span data-count="2">0</span></strong><p>Asesoras dedicadas a ti</p></div>
-          <div class="stat reveal" data-delay="100"><strong><span data-count="3">0</span></strong><p>Servicios: compra, venta y alquiler</p></div>
-          <div class="stat reveal" data-delay="200"><strong><span data-count="100">0</span><sup>%</sup></strong><p>Atención personalizada</p></div>
-          <div class="stat reveal" data-delay="300"><strong>FL</strong><p>Florida, nuestro mercado y nuestro hogar</p></div>
-        </div>
+      <div class="container stats">
+        <div class="stat" data-reveal><strong><span data-count="2">2</span></strong><p>Asesoras dedicadas a ti</p></div>
+        <div class="stat" data-reveal><strong><span data-count="3">3</span></strong><p>Servicios: compra, venta y alquiler</p></div>
+        <div class="stat" data-reveal><strong><span data-count="100">100</span>%</strong><p>Atención personalizada</p></div>
+        <div class="stat" data-reveal><strong>FL</strong><p>Florida, nuestro mercado y nuestro hogar</p></div>
       </div>
     </section>
 
     <!-- ============ SERVICES ============ -->
-    <section class="services section" id="servicios">
+    <section class="services" id="servicios">
       <div class="container">
-        <div class="section-head section-head--row">
-          <div>
-            <p class="eyebrow reveal"><span class="line"></span> Servicios</p>
-            <h2 class="title reveal" data-delay="80">Lo que hacemos <em>por ti</em></h2>
-          </div>
-          <p class="section-head__aside reveal" data-delay="160">Sea cual sea tu próximo paso, te acompañamos con una estrategia clara y un equipo que responde.</p>
+        <div class="services__head">
+          <p class="label" data-reveal>(04) — Servicios</p>
+          <h2 class="h2" data-split>Lo que hacemos <em>por ti</em></h2>
         </div>
 
-        <div class="panels reveal" data-delay="120">
-          <article class="panel is-open" tabindex="0">
-            <img src="assets/compra.jpg" alt="Casa blanca moderna con piscina" loading="lazy" />
-            <div class="panel__shade"></div>
-            <div class="panel__body">
-              <span class="panel__idx">01</span>
-              <h3>Compra</h3>
-              <p>Encontramos la propiedad que se ajusta a tu vida y presupuesto. Búsqueda, visitas, negociación y cierre — contigo en cada decisión.</p>
-              <a href="#contacto" data-interest="Compra" class="link-arrow link-arrow--light">Quiero comprar <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-            </div>
-            <span class="panel__label">Compra</span>
-          </article>
-          <article class="panel" tabindex="0">
-            <img src="assets/venta.jpg" alt="Casa contemporánea iluminada al atardecer" loading="lazy" />
-            <div class="panel__shade"></div>
-            <div class="panel__body">
-              <span class="panel__idx">02</span>
-              <h3>Venta</h3>
-              <p>Posicionamos tu propiedad con presentación profesional y estrategias de marketing modernas para venderla al mejor valor posible.</p>
-              <a href="#contacto" data-interest="Venta" class="link-arrow link-arrow--light">Quiero vender <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-            </div>
-            <span class="panel__label">Venta</span>
-          </article>
-          <article class="panel" tabindex="0">
-            <img src="assets/alquiler.jpg" alt="Sala moderna y luminosa" loading="lazy" />
-            <div class="panel__shade"></div>
-            <div class="panel__body">
-              <span class="panel__idx">03</span>
-              <h3>Alquiler</h3>
-              <p>Te ayudamos a rentar o a encontrar dónde vivir, con procesos claros, opciones verificadas y acompañamiento sin complicaciones.</p>
-              <a href="#contacto" data-interest="Alquiler" class="link-arrow link-arrow--light">Quiero alquilar <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-            </div>
-            <span class="panel__label">Alquiler</span>
-          </article>
-        </div>
+        <ul class="services__list">
+          <li class="srow" data-index="0">
+            <a href="#contacto" data-interest="Compra">
+              <span class="srow__num">01</span>
+              <span class="srow__title">Compra</span>
+              <span class="srow__desc">Encontramos la propiedad que se ajusta a tu vida y presupuesto: búsqueda, visitas, negociación y cierre.</span>
+              <span class="srow__arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+              <img class="srow__img" src="assets/compra.jpg" alt="Casa blanca moderna con piscina" loading="lazy" />
+            </a>
+          </li>
+          <li class="srow" data-index="1">
+            <a href="#contacto" data-interest="Venta">
+              <span class="srow__num">02</span>
+              <span class="srow__title">Venta</span>
+              <span class="srow__desc">Posicionamos tu propiedad con presentación profesional y marketing moderno para venderla al mejor valor.</span>
+              <span class="srow__arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+              <img class="srow__img" src="assets/venta.jpg" alt="Casa contemporánea al atardecer" loading="lazy" />
+            </a>
+          </li>
+          <li class="srow" data-index="2">
+            <a href="#contacto" data-interest="Alquiler">
+              <span class="srow__num">03</span>
+              <span class="srow__title">Alquiler</span>
+              <span class="srow__desc">Rentar o encontrar dónde vivir, con procesos claros, opciones verificadas y acompañamiento sin complicaciones.</span>
+              <span class="srow__arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+              <img class="srow__img" src="assets/alquiler.jpg" alt="Sala moderna y luminosa" loading="lazy" />
+            </a>
+          </li>
+        </ul>
       </div>
     </section>
 
     <!-- ============ PROCESS ============ -->
-    <section class="process section" id="proceso">
-      <div class="container process__grid">
+    <section class="process" id="proceso">
+      <div class="container">
         <div class="process__head">
-          <p class="eyebrow reveal"><span class="line"></span> Cómo trabajamos</p>
-          <h2 class="title reveal" data-delay="80">Un proceso <em>simple</em>, sin complicaciones.</h2>
-          <p class="reveal" data-delay="160">Analizamos tus opciones, te guiamos con información clara y cuidamos cada detalle para que avances con total tranquilidad.</p>
-          <a href="#contacto" class="btn btn--dark magnetic reveal" data-delay="220"><span>Empezar ahora</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <p class="label" data-reveal>(05) — Cómo trabajamos</p>
+          <h2 class="h2" data-split>Un proceso simple, <em>sin complicaciones.</em></h2>
         </div>
-
-        <ol class="timeline">
-          <span class="timeline__line"><i></i></span>
-          <li class="step reveal">
-            <span class="step__dot">1</span>
+        <ol class="steps">
+          <li class="step" data-reveal>
+            <span class="step__bar"><i></i></span>
+            <span class="step__num">01</span>
             <h3>Primera consulta</h3>
             <p>Te escuchamos: qué buscas, tu presupuesto, tus tiempos y tus prioridades.</p>
           </li>
-          <li class="step reveal">
-            <span class="step__dot">2</span>
+          <li class="step" data-reveal>
+            <span class="step__bar"><i></i></span>
+            <span class="step__num">02</span>
             <h3>Estrategia a tu medida</h3>
             <p>Seleccionamos opciones o preparamos tu propiedad con un plan claro y personalizado.</p>
           </li>
-          <li class="step reveal">
-            <span class="step__dot">3</span>
+          <li class="step" data-reveal>
+            <span class="step__bar"><i></i></span>
+            <span class="step__num">03</span>
             <h3>Visitas y negociación</h3>
             <p>Te acompañamos en cada visita y negociamos por ti con transparencia.</p>
           </li>
-          <li class="step reveal">
-            <span class="step__dot">4</span>
+          <li class="step" data-reveal>
+            <span class="step__bar"><i></i></span>
+            <span class="step__num">04</span>
             <h3>Entrega de llaves</h3>
             <p>Cuidamos el cierre hasta el final. Y seguimos aquí para lo que necesites.</p>
           </li>
@@ -319,22 +306,26 @@
 
     <!-- ============ HORIZONTAL GALLERY ============ -->
     <section class="hgallery" id="estilos">
-      <div class="hgallery__sticky">
-        <div class="hgallery__intro container">
-          <p class="eyebrow"><span class="line"></span> Estilos de vida en Florida</p>
-          <h2 class="title">Residencial &amp; <em>comercial</em>,<br />en zonas estratégicas.</h2>
+      <div class="hgallery__pin">
+        <div class="hgallery__head container">
+          <p class="label label--light">(06) — Estilos de vida en Florida</p>
+          <div class="hgallery__progress"><i></i></div>
         </div>
         <div class="hgallery__track">
-          <figure class="hcard" data-cursor><img src="assets/g-piscina.jpg" alt="Casa familiar con piscina y palmeras" loading="lazy" /><figcaption><span>Casas familiares</span><small>Espacio para crecer</small></figcaption></figure>
-          <figure class="hcard hcard--tall" data-cursor><img src="assets/fl-casa1.jpg" alt="Casa de estilo mediterráneo en Florida" loading="lazy" /><figcaption><span>Estilo Florida</span><small>Clásico y luminoso</small></figcaption></figure>
-          <figure class="hcard" data-cursor><img src="assets/g-moderna.jpg" alt="Residencia moderna con piscina infinita" loading="lazy" /><figcaption><span>Diseño moderno</span><small>Líneas limpias</small></figcaption></figure>
-          <figure class="hcard hcard--tall" data-cursor><img src="assets/g-sala.jpg" alt="Interior de sala amplia y luminosa" loading="lazy" /><figcaption><span>Apartamentos</span><small>Vida urbana</small></figcaption></figure>
-          <figure class="hcard" data-cursor><img src="assets/fl-casa2.jpg" alt="Casa residencial con garaje doble" loading="lazy" /><figcaption><span>Primer hogar</span><small>Tu inicio ideal</small></figcaption></figure>
-          <figure class="hcard hcard--tall" data-cursor><img src="assets/comercial.jpg" alt="Edificios comerciales modernos" loading="lazy" /><figcaption><span>Comercial</span><small>Inversión estratégica</small></figcaption></figure>
-          <figure class="hcard" data-cursor><img src="assets/g-madera.jpg" alt="Casa contemporánea de madera y vidrio" loading="lazy" /><figcaption><span>Exclusivas</span><small>Detalles que importan</small></figcaption></figure>
-          <a href="#contacto" class="hcard hcard--cta">
+          <div class="hgallery__title">
+            <h2 class="h2">Residencial &amp; <em>comercial</em>, en zonas estratégicas.</h2>
+          </div>
+          <figure class="hcard" data-cursor="Ver"><div class="hcard__img"><img src="assets/g-piscina.jpg" alt="Casa familiar con piscina y palmeras" loading="lazy" /></div><figcaption><span>Casas familiares</span><small>01</small></figcaption></figure>
+          <figure class="hcard hcard--tall" data-cursor="Ver"><div class="hcard__img"><img src="assets/fl-casa1.jpg" alt="Casa de estilo mediterráneo en Florida" loading="lazy" /></div><figcaption><span>Estilo Florida</span><small>02</small></figcaption></figure>
+          <figure class="hcard" data-cursor="Ver"><div class="hcard__img"><img src="assets/g-moderna.jpg" alt="Residencia moderna con piscina" loading="lazy" /></div><figcaption><span>Diseño moderno</span><small>03</small></figcaption></figure>
+          <figure class="hcard hcard--tall" data-cursor="Ver"><div class="hcard__img"><img src="assets/g-sala.jpg" alt="Interior de sala amplia" loading="lazy" /></div><figcaption><span>Apartamentos</span><small>04</small></figcaption></figure>
+          <figure class="hcard" data-cursor="Ver"><div class="hcard__img"><img src="assets/fl-casa2.jpg" alt="Casa residencial con garaje doble" loading="lazy" /></div><figcaption><span>Primer hogar</span><small>05</small></figcaption></figure>
+          <figure class="hcard hcard--tall" data-cursor="Ver"><div class="hcard__img"><img src="assets/comercial.jpg" alt="Edificios comerciales modernos" loading="lazy" /></div><figcaption><span>Comercial</span><small>06</small></figcaption></figure>
+          <figure class="hcard" data-cursor="Ver"><div class="hcard__img"><img src="assets/g-madera.jpg" alt="Casa contemporánea de madera y vidrio" loading="lazy" /></div><figcaption><span>Exclusivas</span><small>07</small></figcaption></figure>
+          <a href="#contacto" class="hcard hcard--cta" data-cursor="Ir">
             <span>¿Ninguna es la tuya todavía?</span>
-            <strong>Cuéntanos qué buscas <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></strong>
+            <strong>Cuéntanos qué buscas</strong>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
           </a>
         </div>
       </div>
@@ -342,45 +333,39 @@
 
     <!-- ============ CTA BAND ============ -->
     <section class="band">
-      <div class="band__media" data-parallax="0.18"><img src="assets/g-blanca.jpg" alt="" loading="lazy" /></div>
-      <div class="band__shade"></div>
-      <div class="container band__content">
-        <p class="eyebrow eyebrow--light reveal"><span class="line"></span> Comunícate con nosotras</p>
-        <h2 class="band__title reveal" data-delay="80">Agendemos <em>tu cita</em>.</h2>
-        <p class="reveal" data-delay="160">Nos encanta recibir a nuestros clientes. Para brindarte el mejor servicio, agenda tu espacio llenando el formulario o escribiéndonos.</p>
-        <div class="band__actions reveal" data-delay="220">
-          <a href="#contacto" class="btn btn--gold magnetic"><span>Agenda tu cita hoy</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a href="tel:+13219612892" class="btn btn--ghost magnetic"><span>Llamar ahora</span></a>
+      <div class="band__media" data-expand>
+        <img src="assets/g-blanca.jpg" alt="" loading="lazy" />
+        <div class="band__shade"></div>
+      </div>
+      <div class="band__content container">
+        <p class="label label--light" data-reveal>Comunícate con nosotras</p>
+        <h2 class="band__title" data-split>Agendemos <em>tu cita.</em></h2>
+        <p data-reveal>Nos encanta recibir a nuestros clientes. Para brindarte el mejor servicio, agenda tu espacio llenando el formulario o escribiéndonos.</p>
+        <div class="band__actions" data-reveal>
+          <a href="#contacto" class="btn btn--light magnetic" data-hover><span class="btn__text" data-text="Agenda tu cita hoy">Agenda tu cita hoy</span><span class="btn__icon"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+          <a href="tel:+13219612892" class="btn btn--outline magnetic" data-hover><span class="btn__text" data-text="Llamar ahora">Llamar ahora</span></a>
         </div>
       </div>
     </section>
 
     <!-- ============ CONTACT ============ -->
-    <section class="contact section" id="contacto">
+    <section class="contact" id="contacto">
       <div class="container contact__grid">
         <div class="contact__info">
-          <p class="eyebrow reveal"><span class="line"></span> Contacto</p>
-          <h2 class="title reveal" data-delay="80">Envíanos un <em>mensaje</em>.</h2>
-          <p class="reveal" data-delay="160">Cuéntanos qué necesitas y te respondemos lo antes posible. Tu próximo paso empieza con una conversación.</p>
+          <p class="label" data-reveal>(07) — Contacto</p>
+          <h2 class="h2" data-split>Envíanos un <em>mensaje.</em></h2>
+          <p class="contact__lead" data-reveal>Cuéntanos qué necesitas y te respondemos lo antes posible. Tu próximo paso empieza con una conversación.</p>
 
           <ul class="contact__list">
-            <li class="reveal" data-delay="200">
-              <span class="contact__ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2"/></svg></span>
-              <div><small>Teléfonos</small>
-                <a href="tel:+13219612892">321 961-2892</a> <span class="muted">·</span> <a href="tel:+17869062790">786 906-2790</a></div>
-            </li>
-            <li class="reveal" data-delay="260">
-              <span class="contact__ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-4A8.5 8.5 0 1 1 8.4 19z"/></svg></span>
-              <div><small>WhatsApp</small><a href="https://wa.me/13219612892" target="_blank" rel="noopener">Escríbenos directo</a></div>
-            </li>
-            <li class="reveal" data-delay="320">
-              <span class="contact__ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.3 7-12a7 7 0 0 0-14 0c0 5.7 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
-              <div><small>Ubicación</small><span>Florida, EE. UU.</span></div>
-            </li>
+            <li data-reveal><small>Teléfonos</small>
+              <a href="tel:+13219612892" data-hover>321 961-2892</a>
+              <a href="tel:+17869062790" data-hover>786 906-2790</a></li>
+            <li data-reveal><small>WhatsApp</small><a href="https://wa.me/13219612892" target="_blank" rel="noopener" data-hover>Escríbenos directo ↗</a></li>
+            <li data-reveal><small>Ubicación</small><span>Florida, EE. UU.</span></li>
           </ul>
         </div>
 
-        <form class="form reveal" data-delay="120" id="cita-form" novalidate>
+        <form class="form" id="cita-form" novalidate data-reveal>
           <div class="form__head">
             <h3>Agenda tu cita hoy</h3>
             <p>Te contactaremos para confirmar tu espacio.</p>
@@ -388,9 +373,9 @@
 
           <fieldset class="form__chips">
             <legend>Me interesa</legend>
-            <label><input type="radio" name="interes" value="Compra" checked /><span>Compra</span></label>
-            <label><input type="radio" name="interes" value="Venta" /><span>Venta</span></label>
-            <label><input type="radio" name="interes" value="Alquiler" /><span>Alquiler</span></label>
+            <label data-hover><input type="radio" name="interes" value="Compra" checked /><span>Compra</span></label>
+            <label data-hover><input type="radio" name="interes" value="Venta" /><span>Venta</span></label>
+            <label data-hover><input type="radio" name="interes" value="Alquiler" /><span>Alquiler</span></label>
           </fieldset>
 
           <div class="field">
@@ -415,7 +400,7 @@
             <label for="f-msg">Cuéntanos qué buscas (opcional)</label>
           </div>
 
-          <button type="submit" class="btn btn--dark btn--block magnetic"><span>Enviar por WhatsApp</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <button type="submit" class="btn btn--dark btn--block magnetic" data-hover><span class="btn__text" data-text="Enviar por WhatsApp">Enviar por WhatsApp</span><span class="btn__icon"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span></button>
           <p class="form__note">Al enviar se abrirá WhatsApp con tu mensaje listo para JP Real State.</p>
           <div class="form__ok" role="status" aria-live="polite"></div>
         </form>
@@ -426,35 +411,41 @@
   <!-- ============ FOOTER ============ -->
   <footer class="footer">
     <div class="container">
-      <div class="footer__big" aria-hidden="true">JP Real State</div>
-      <div class="footer__row">
+      <div class="footer__top">
         <div class="footer__brand">
-          <img src="assets/logo-light.png" alt="The Team · lpt realty" width="172" height="60" loading="lazy" />
+          <img src="assets/logo-light.png" alt="The Team · lpt realty" width="160" height="56" loading="lazy" />
           <p>Somos un equipo listo para llevarte al hogar que deseas.</p>
         </div>
         <nav class="footer__nav" aria-label="Pie de página">
-          <a href="#nosotros">Nosotros</a>
-          <a href="#servicios">Servicios</a>
-          <a href="#proceso">Proceso</a>
-          <a href="#contacto">Contacto</a>
+          <small>Menú</small>
+          <a href="#nosotros" data-hover>Nosotros</a>
+          <a href="#servicios" data-hover>Servicios</a>
+          <a href="#proceso" data-hover>Proceso</a>
+          <a href="#contacto" data-hover>Contacto</a>
         </nav>
         <div class="footer__contact">
-          <a href="tel:+13219612892">321 961-2892</a>
-          <a href="tel:+17869062790">786 906-2790</a>
+          <small>Contacto</small>
+          <a href="tel:+13219612892" data-hover>321 961-2892</a>
+          <a href="tel:+17869062790" data-hover>786 906-2790</a>
+          <a href="https://wa.me/13219612892" target="_blank" rel="noopener" data-hover>WhatsApp</a>
           <span>Florida, EE. UU.</span>
         </div>
       </div>
+      <div class="footer__big" aria-hidden="true"><span>JP</span><span>Real</span><span>State</span></div>
       <div class="footer__bottom">
         <p>© <span id="year">2026</span> JP Real State — Todos los derechos reservados.</p>
-        <a href="#inicio" class="to-top">Volver arriba ↑</a>
+        <a href="#inicio" class="to-top" data-hover>Volver arriba ↑</a>
       </div>
     </div>
   </footer>
 
-  <a href="https://wa.me/13219612892" class="wa-float" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+  <a href="https://wa.me/13219612892" class="wa-float" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp" data-hover>
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 1.9 17.7L.3 23.7l6.2-1.6A11.8 11.8 0 0 0 20.5 3.5ZM12 21.6c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 1 1 12 21.6Zm5.4-7.3c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1l-.9 1.2c-.2.2-.3.2-.6.1a8 8 0 0 1-4-3.5c-.3-.5.3-.5.9-1.6.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5 1.9.8 2.6.9 3.6.7.6-.1 1.8-.7 2-1.5.3-.7.3-1.3.2-1.5-.1-.1-.3-.2-.6-.3Z"/></svg>
   </a>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
   <script src="main.js" defer></script>
 </body>
 </html>
