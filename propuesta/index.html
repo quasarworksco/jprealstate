@@ -38,7 +38,7 @@
     *, *::before, *::after { box-sizing: border-box; }
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overflow-x: clip; }
     body { margin: 0; font-family: var(--sans); font-size: 16px; line-height: 1.6; color: var(--black); background: var(--white); -webkit-font-smoothing: antialiased; }
-    img { display: block; max-width: 100%; }
+    img { display: block; max-width: 100%; height: auto; }
     a { color: inherit; text-decoration: none; }
     em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: -.01em; }
     .container { max-width: 1240px; margin: 0 auto; padding: 0 var(--gutter); }
@@ -97,7 +97,7 @@
     .js .rv.is-in { opacity: 1; transform: none; }
 
     /* before / after */
-    .ba { position: relative; margin-top: 56px; border-radius: var(--radius); overflow: hidden; aspect-ratio: 16 / 10; background: var(--paper); box-shadow: 0 40px 80px -40px rgba(0,0,0,.45); user-select: none; touch-action: pan-y; }
+    .ba { position: relative; margin-top: 0; border-radius: var(--radius); overflow: hidden; aspect-ratio: 16 / 10; background: var(--paper); box-shadow: 0 40px 80px -40px rgba(0,0,0,.45); user-select: none; touch-action: pan-y; }
     .ba img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; pointer-events: none; }
     .ba__after { clip-path: inset(0 0 0 var(--pos, 50%)); }
     .ba__handle { position: absolute; top: 0; bottom: 0; left: var(--pos, 50%); width: 2px; background: var(--white); transform: translateX(-1px); pointer-events: none; box-shadow: 0 0 20px rgba(0,0,0,.4); }
@@ -118,6 +118,33 @@
     .compare__col--old li { color: var(--grey-d); }
     .compare__col--old li::before { content: "—"; color: var(--grey); }
     .compare__col--new li::before { content: "✓"; font-weight: 700; }
+
+    /* section-by-section comparison */
+    .cmp { margin-top: 48px; }
+    .cmp__bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tab, .mode__btn { font: 500 14.5px var(--sans); padding: 11px 18px; border-radius: 999px; border: 1px solid var(--line); background: var(--white); color: var(--black); cursor: pointer; transition: background .3s, color .3s, border-color .3s, box-shadow .3s; }
+    .tab:hover, .mode__btn:hover { border-color: var(--black); }
+    .tab.is-active { background: var(--black); color: var(--white); border-color: var(--black); }
+    .mode { display: inline-flex; padding: 4px; border-radius: 999px; background: var(--paper); }
+    .mode__btn { border: 0; background: transparent; padding: 9px 16px; }
+    .mode__btn.is-active { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,.1); }
+    .mode__btn[disabled] { opacity: .35; cursor: not-allowed; }
+    .cmp__note { margin: 0 0 22px; color: var(--grey-d); font-size: 15.5px; max-width: 80ch; min-height: 3.2em; }
+    .stage .duo, .stage .ba, .stage .phones { display: none; }
+    .stage[data-mode="slide"] .ba { display: block; }
+    .stage[data-mode="duo"] .duo, .stage[data-mode="movil"] .phones { display: grid; }
+    .duo { grid-template-columns: 1fr 1fr; gap: 20px; }
+    .shot { margin: 0; }
+    .shot figcaption { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; margin-bottom: 10px; }
+    .pill { font-size: 12px; font-weight: 600; text-transform: uppercase; padding: 5px 11px; border-radius: 999px; background: var(--paper); color: var(--grey-d); }
+    .pill--new { background: var(--black); color: var(--white); }
+    .shot__frame { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); box-shadow: 0 30px 60px -35px rgba(0,0,0,.45); background: var(--paper); }
+    .stage img[data-before], .stage img[data-after] { transition: opacity .3s ease; }
+    .stage.is-swapping img[data-before], .stage.is-swapping img[data-after] { opacity: 0; }
+    .phones { grid-template-columns: 1fr 1fr; gap: 28px; max-width: 700px; margin: 0 auto; }
+    .phones .phone { width: 100%; max-width: 300px; }
+    .phones figcaption { justify-content: center; }
 
     /* includes */
     .inc { background: var(--black); color: var(--white); }
@@ -229,9 +256,12 @@
     @media (max-width: 680px) {
       .bar__brand span, .bar a.bar__link { display: none; }
       .compare { grid-template-columns: 1fr; }
+      .duo { grid-template-columns: 1fr; gap: 26px; }
+      .phones { gap: 14px; }
+      .tabs { flex-wrap: nowrap; overflow-x: auto; margin: 0 calc(var(--gutter) * -1); padding: 0 var(--gutter) 4px; scrollbar-width: none; }
+      .tab { white-space: nowrap; }
       .inc__grid { grid-template-columns: 1fr; }
       .plans { grid-template-columns: 1fr; }
-      .ba { aspect-ratio: 4 / 3.4; }
       .ba__handle::after { width: 46px; height: 46px; }
       .mbar { display: flex; }
       .meta strong { font-size: 16px; }
@@ -286,17 +316,60 @@
     <div class="container">
       <p class="label rv">01 — Antes y después</p>
       <h2 class="h2 rv">De una plantilla genérica a un sitio con <em>identidad propia.</em></h2>
-      <p class="sub rv">Desliza para comparar el sitio actual con la nueva versión.</p>
+      <p class="sub rv">Así se ve el sitio actual frente a la nueva versión, sección por sección. Elige una sección y arrastra el control para comparar.</p>
 
-      <div class="ba rv" style="--pos:50%">
-        <img src="img/antes.webp" alt="Sitio actual de JP Real State" width="1200" height="750" />
-        <img class="ba__after" src="img/despues.webp" alt="Sitio renovado de JP Real State" width="1200" height="750" />
-        <span class="ba__tag ba__tag--l">Antes</span>
-        <span class="ba__tag ba__tag--r">Después</span>
-        <input type="range" min="0" max="100" value="50" aria-label="Comparar antes y después" />
-        <span class="ba__handle" aria-hidden="true"></span>
+      <div class="cmp rv">
+        <div class="cmp__bar">
+          <div class="tabs" role="tablist" aria-label="Secciones">
+            <button type="button" role="tab" class="tab is-active" aria-selected="true" data-tab="inicio">Inicio</button>
+            <button type="button" role="tab" class="tab" aria-selected="false" data-tab="nosotros">Sobre nosotras</button>
+            <button type="button" role="tab" class="tab" aria-selected="false" data-tab="porque">Por qué nosotras</button>
+            <button type="button" role="tab" class="tab" aria-selected="false" data-tab="servicios">Servicios</button>
+            <button type="button" role="tab" class="tab" aria-selected="false" data-tab="contacto">Contacto</button>
+            <button type="button" role="tab" class="tab" aria-selected="false" data-tab="movil">En el celular</button>
+          </div>
+          <div class="mode" role="group" aria-label="Modo de comparación">
+            <button type="button" class="mode__btn is-active" data-mode="slide">Deslizar</button>
+            <button type="button" class="mode__btn" data-mode="duo">Lado a lado</button>
+          </div>
+        </div>
+
+        <p class="cmp__note" data-note>Antes: imagen con el texto incrustado y aviso de cookies tapando la portada. Después: portada a pantalla completa, título animado y botones directos para contactar y escribir por WhatsApp.</p>
+
+        <div class="stage" data-mode="slide">
+          <div class="ba" style="--pos:50%">
+            <img data-before src="img/ba/inicio-antes.webp" alt="Sitio actual: Inicio" width="1200" height="750" />
+            <img class="ba__after" data-after src="img/ba/inicio-despues.webp" alt="Sitio renovado: Inicio" width="1200" height="750" />
+            <span class="ba__tag ba__tag--l">Antes</span>
+            <span class="ba__tag ba__tag--r">Después</span>
+            <input type="range" min="0" max="100" value="50" aria-label="Comparar antes y después" />
+            <span class="ba__handle" aria-hidden="true"></span>
+          </div>
+
+          <div class="duo">
+            <figure class="shot">
+              <figcaption><span class="pill">Antes</span> Sitio actual</figcaption>
+              <div class="shot__frame"><img data-before src="img/ba/inicio-antes.webp" alt="Sitio actual: Inicio" width="1200" height="750" /></div>
+            </figure>
+            <figure class="shot">
+              <figcaption><span class="pill pill--new">Después</span> Sitio renovado</figcaption>
+              <div class="shot__frame"><img data-after src="img/ba/inicio-despues.webp" alt="Sitio renovado: Inicio" width="1200" height="750" /></div>
+            </figure>
+          </div>
+
+          <div class="phones">
+            <figure class="shot">
+              <figcaption><span class="pill">Antes</span> Sitio actual</figcaption>
+              <div class="phone"><img src="img/ba/movil-antes.webp" alt="Sitio actual en el celular" width="600" height="1298" loading="lazy" /></div>
+            </figure>
+            <figure class="shot">
+              <figcaption><span class="pill pill--new">Después</span> Sitio renovado</figcaption>
+              <div class="phone"><img src="img/ba/movil-despues.webp" alt="Sitio renovado en el celular" width="600" height="1298" loading="lazy" /></div>
+            </figure>
+          </div>
+        </div>
+        <p class="ba__hint" data-hint>← Arrastra para comparar →</p>
       </div>
-      <p class="ba__hint">← Arrastra para comparar →</p>
 
       <div class="compare">
         <div class="compare__col compare__col--old rv">
@@ -352,9 +425,9 @@
       <div class="pv__grid">
         <div class="browser rv">
           <div class="browser__top"><i></i><i></i><i></i><span>jprealstate.com</span></div>
-          <img src="img/despues.webp" alt="Sitio renovado en computadora" width="1200" height="750" loading="lazy" />
+          <img src="img/ba/inicio-despues.webp" alt="Sitio renovado en computadora" width="1200" height="750" loading="lazy" />
         </div>
-        <div class="phone rv" style="--d:.15s"><img src="img/despues-movil.webp" alt="Sitio renovado en celular" width="390" height="844" loading="lazy" /></div>
+        <div class="phone rv" style="--d:.15s"><img src="img/ba/movil-despues.webp" alt="Sitio renovado en celular" width="600" height="1298" loading="lazy" /></div>
       </div>
       <div class="pv__links rv">
         <a href="../" class="btn btn--dark" target="_blank" rel="noopener">Abrir el sitio nuevo ↗</a>
@@ -497,27 +570,78 @@
     }), { threshold: 0.15, rootMargin: "0px 0px -5% 0px" });
     $$(".rv").forEach((el) => io.observe(el));
 
-    /* before / after */
+    /* before / after: section tabs + slider / side by side */
+    const NOTES = {
+      inicio: "Antes: imagen con el texto incrustado y aviso de cookies tapando la portada. Después: portada a pantalla completa, título animado y botones directos para contactar y escribir por WhatsApp.",
+      nosotros: "Los mismos textos y la foto del equipo, ahora con jerarquía clara, valores destacados (Escuchar, Entender, Guiar) y un sello animado.",
+      porque: "Tres columnas de texto corrido pasan a una sección en negro con puntos numerados, fáciles de leer, y cifras destacadas.",
+      servicios: "De tres fotos de stock con el texto encima a una lista interactiva: al pasar el mouse cada servicio se resalta y muestra su imagen.",
+      contacto: "Del formulario genérico a una agenda de citas que llega directo por WhatsApp o por correo, con los datos del cliente listos.",
+      movil: "Versión móvil pensada desde el inicio: portada con impacto, menú de pantalla completa y botón de WhatsApp siempre a la mano.",
+    };
+    const stage = $(".stage");
     const ba = $(".ba");
     const range = $("input", ba);
+    const hintEl = $("[data-hint]");
+    const modeBtns = $$(".mode__btn");
+    let mode = "slide";
+    let currentTab = "inicio";
     range.addEventListener("input", () => ba.style.setProperty("--pos", `${range.value}%`));
-    if (!reduced) {
-      // small hint animation the first time it becomes visible
-      const hint = new IntersectionObserver(([e]) => {
-        if (!e.isIntersecting) return;
-        hint.disconnect();
-        let t0 = null;
-        const step = (t) => {
-          t0 ??= t;
-          const p = Math.min(1, (t - t0) / 1800);
-          const v = 50 + Math.sin(p * Math.PI * 2) * 18 * (1 - p);
-          ba.style.setProperty("--pos", `${v}%`); range.value = v;
-          if (p < 1) requestAnimationFrame(step);
-        };
-        setTimeout(() => requestAnimationFrame(step), 700);
-      }, { threshold: 0.6 });
-      hint.observe(ba);
-    }
+
+    // small hint animation the first time the slider is shown
+    let wiggled = false;
+    const wiggle = () => {
+      if (reduced || wiggled) return;
+      wiggled = true;
+      let t0 = null;
+      const step = (t) => {
+        t0 ??= t;
+        const p = Math.min(1, (t - t0) / 1800);
+        const v = 50 + Math.sin(p * Math.PI * 2) * 18 * (1 - p);
+        ba.style.setProperty("--pos", `${v}%`); range.value = v;
+        if (p < 1) requestAnimationFrame(step);
+      };
+      setTimeout(() => requestAnimationFrame(step), 300);
+    };
+
+    const setMode = () => {
+      const isMovil = currentTab === "movil";
+      stage.dataset.mode = isMovil ? "movil" : mode;
+      modeBtns.forEach((b) => { b.classList.toggle("is-active", !isMovil && b.dataset.mode === mode); b.disabled = isMovil; });
+      hintEl.hidden = isMovil || mode !== "slide";
+    };
+    modeBtns.forEach((b) => b.addEventListener("click", () => { mode = b.dataset.mode; setMode(); if (mode === "slide") wiggle(); }));
+
+    $$(".tab").forEach((t) => t.addEventListener("click", () => {
+      const key = t.dataset.tab;
+      if (key === currentTab) return;
+      currentTab = key;
+      $$(".tab").forEach((x) => { x.classList.toggle("is-active", x === t); x.setAttribute("aria-selected", x === t); });
+      $("[data-note]").textContent = NOTES[key];
+      if (key !== "movil") {
+        const label = t.textContent.trim();
+        stage.classList.add("is-swapping");
+        setTimeout(() => {
+          const imgs = [];
+          $$("img[data-before]", stage).forEach((img) => { img.src = `img/ba/${key}-antes.webp`; img.alt = `Sitio actual: ${label}`; imgs.push(img); });
+          $$("img[data-after]", stage).forEach((img) => { img.src = `img/ba/${key}-despues.webp`; img.alt = `Sitio renovado: ${label}`; imgs.push(img); });
+          Promise.all(imgs.map((i) => (i.decode ? i.decode().catch(() => {}) : null))).then(() => stage.classList.remove("is-swapping"));
+        }, 200);
+      }
+      setMode();
+    }));
+
+    const seenIO = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      seenIO.disconnect();
+      if (stage.dataset.mode === "slide") wiggle();
+    }, { threshold: 0.6 });
+    seenIO.observe(stage);
+
+    // preload the other sections so tab changes are instant
+    addEventListener("load", () => {
+      ["nosotros", "porque", "servicios", "contacto"].forEach((k) => ["antes", "despues"].forEach((v) => { const i = new Image(); i.src = `img/ba/${k}-${v}.webp`; }));
+    });
 
     /* pricing */
     const form = $("#acepta");
