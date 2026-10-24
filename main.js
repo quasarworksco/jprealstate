@@ -60,6 +60,12 @@
     if (r) r.checked = true;
   }));
 
+  /* ---------- Images only needed on hover: load after the page ---------- */
+  const lateImages = () => $$("img[data-src]").forEach((img) => { img.src = img.dataset.src; img.removeAttribute("data-src"); });
+  if (finePointer && innerWidth > 760) {
+    document.readyState === "complete" ? lateImages() : addEventListener("load", lateImages, { once: true });
+  }
+
   /* ---------- Hero word rotator ---------- */
   const startRotator = () => {
     if (reduced) return;
@@ -151,7 +157,6 @@
       intro.to(pre, { autoAlpha: 0, duration: 0.4, ease: "power2.out" }, 0);
     } else {
       intro
-        .to(".preloader__houses path", { strokeDashoffset: 0, duration: 0.7, stagger: 0.06, ease: "power3.inOut" }, 0)
         .to(counter, { v: 100, duration: 0.75, ease: "power2.inOut", onUpdate: () => (num.textContent = Math.round(counter.v)) }, 0)
         .to(".preloader__line", { scaleX: 1, duration: 0.75, ease: "power2.inOut" }, 0)
         .to(".preloader__center, .preloader__top, .preloader__bottom", { autoAlpha: 0, y: -30, duration: 0.3, stagger: 0.03, ease: "power2.in" }, 0.72)
@@ -357,8 +362,10 @@
   }
 
   /* =========================================================
-     Form → WhatsApp
+     Form → WhatsApp or e-mail
      ========================================================= */
+  const WHATSAPP = "13219612892";
+  const EMAIL = ""; // correo del negocio que recibe las citas
   const form = $("#cita-form");
   const ok = $(".form__ok", form);
   form.addEventListener("submit", (e) => {
@@ -374,16 +381,24 @@
     if (bad) { bad[0].focus(); return; }
 
     const msg = form.mensaje.value.trim();
-    const text = [
-      "¡Hola JP Real State! Quiero agendar una cita.",
+    const lines = [
       `• Interés: ${form.interes.value}`,
       `• Nombre: ${name.value.trim()}`,
       `• Correo: ${email.value.trim()}`,
       `• Teléfono: ${phone.value.trim()}`,
       msg && `• Mensaje: ${msg}`,
-    ].filter(Boolean).join("\n");
-    window.open(`https://wa.me/13219612892?text=${encodeURIComponent(text)}`, "_blank", "noopener");
-    ok.textContent = "¡Gracias! Abrimos WhatsApp con tu mensaje listo para enviar.";
+    ].filter(Boolean);
+
+    if (e.submitter?.value === "correo") {
+      const subject = `Solicitud de cita (${form.interes.value}) — ${name.value.trim()}`;
+      const bodyText = ["¡Hola JP Real State! Quiero agendar una cita.", "", ...lines].join("\n");
+      location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+      ok.textContent = "¡Gracias! Abrimos tu app de correo con el mensaje listo para enviar.";
+    } else {
+      const text = ["¡Hola JP Real State! Quiero agendar una cita.", ...lines].join("\n");
+      window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`, "_blank", "noopener");
+      ok.textContent = "¡Gracias! Abrimos WhatsApp con tu mensaje listo para enviar.";
+    }
     form.reset();
   });
   $$("input", form).forEach((i) => i.addEventListener("input", () => i.closest(".field")?.classList.remove("has-error")));

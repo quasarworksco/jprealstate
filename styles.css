@@ -1,6 +1,11 @@
 /* =========================================================
    JP Real State — monochrome edition
    ========================================================= */
+/* Self-hosted fonts (latin subset, covers Spanish accents) */
+@font-face { font-family: "Inter Tight"; font-style: normal; font-weight: 300 700; font-display: swap; src: url("assets/fonts/inter-tight-latin.woff2") format("woff2"); }
+@font-face { font-family: "Instrument Serif"; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/instrument-serif-latin.woff2") format("woff2"); }
+@font-face { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-display: swap; src: url("assets/fonts/instrument-serif-italic-latin.woff2") format("woff2"); }
+
 :root {
   --black: #0a0a0a;
   --white: #ffffff;
@@ -104,7 +109,10 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
 .preloader__top, .preloader__bottom { display: flex; justify-content: space-between; align-items: flex-end; font-size: 13px; text-transform: uppercase; letter-spacing: .02em; color: rgba(255,255,255,.6); }
 .preloader__center { display: grid; place-items: center; }
 .preloader__houses { width: min(200px, 46vw); overflow: visible; }
-.preloader__houses path { stroke: var(--white); stroke-width: 20; stroke-dasharray: 600; stroke-dashoffset: 600; }
+.preloader__houses path { stroke: var(--white); stroke-width: 20; stroke-dasharray: 600; stroke-dashoffset: 600; animation: draw .8s cubic-bezier(.65,0,.35,1) forwards; }
+.preloader__houses path:nth-child(2) { animation-delay: .06s; }
+.preloader__houses path:nth-child(3) { animation-delay: .12s; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
 .preloader__count { font-size: clamp(90px, 16vw, 240px); font-weight: 500; letter-spacing: -.06em; line-height: .8; color: var(--white); display: flex; align-items: flex-start; font-variant-numeric: tabular-nums; }
 .preloader__count small { font-size: .3em; letter-spacing: 0; margin-left: .1em; margin-top: .1em; color: rgba(255,255,255,.5); }
 .preloader__line { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: var(--white); transform: scaleX(0); transform-origin: left; }
@@ -383,7 +391,12 @@ body.menu-open .mobile-menu nav a:nth-child(5) { transition-delay: .54s; }
 .field__err { position: absolute; right: 0; top: 4px; font-size: 12px; color: #c0392b; opacity: 0; transition: opacity .3s; }
 .field.has-error input { border-color: #c0392b; }
 .field.has-error .field__err { opacity: 1; }
-.form .btn { margin-top: 10px; justify-content: space-between; }
+.form__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+.form .btn { justify-content: space-between; padding-left: 22px; }
+.btn--line { background: transparent; color: var(--black); border-color: var(--black); --fill: var(--black); --icon-bg: var(--black); --icon-fg: var(--white); }
+.btn--line:hover { color: var(--white); --icon-bg: var(--white); --icon-fg: var(--black); }
+.footer__by a { color: var(--white); border-bottom: 1px solid rgba(255,255,255,.35); transition: border-color .3s; }
+.footer__by a:hover { border-color: var(--white); }
 .form__note { font-size: 13px; color: var(--grey); text-align: center; margin: 16px 0 0; }
 .form__ok { text-align: center; font-weight: 600; font-size: 14px; }
 .form__ok:not(:empty) { margin-top: 10px; }
@@ -452,7 +465,7 @@ body.menu-open .mobile-menu nav a:nth-child(5) { transition-delay: .54s; }
   .stat { padding-right: 14px; }
   .stat + .stat { padding-left: 16px; }
   .stat:nth-child(3) { padding-left: 0; }
-  .field-row { grid-template-columns: 1fr; }
+  .field-row, .form__actions { grid-template-columns: 1fr; }
   .contact__list small { flex-basis: 100%; }
   .hcard img { filter: grayscale(0); }
   .wa-float { width: 52px; height: 52px; right: 16px; bottom: 16px; }
