@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Propuesta: Renovación del sitio web | JP Real State</title>
+  <meta name="description" content="Propuesta comercial de DGP Global Group para la renovación del sitio web de JP Real State." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#0a0a0a" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Propuesta: Renovación del sitio web de JP Real State" />
+  <meta property="og:description" content="Preparada por DGP Global Group. Renovación del sitio web + hosting." />
+  <meta property="og:url" content="https://quasarworksco.github.io/jprealstate/propuesta/" />
+  <meta property="og:image" content="https://quasarworksco.github.io/jprealstate/assets/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Propuesta: Renovación del sitio web de JP Real State" />
+  <meta name="twitter:description" content="Preparada por DGP Global Group. Renovación del sitio web + hosting." />
+  <meta name="twitter:image" content="https://quasarworksco.github.io/jprealstate/assets/og-image.jpg" />
+
+  <link rel="icon" type="image/png" href="../assets/icon.png" />
+  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/inter-tight-latin.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/instrument-serif-italic-latin.woff2" crossorigin />
+  <style>
+    @font-face { font-family: "Inter Tight"; font-style: normal; font-weight: 300 700; font-display: swap; src: url("../assets/fonts/inter-tight-latin.woff2") format("woff2"); }
+    @font-face { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-display: swap; src: url("../assets/fonts/instrument-serif-italic-latin.woff2") format("woff2"); }
+
+    :root {
+      --black: #0a0a0a; --white: #fff; --paper: #f3f3f2; --grey: #8b8b8b; --grey-d: #5c5c5c;
+      --line: rgba(10,10,10,.12); --line-l: rgba(255,255,255,.16);
+      --sans: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+      --serif: "Instrument Serif", "Times New Roman", serif;
+      --ease: cubic-bezier(.22,1,.36,1); --ease-io: cubic-bezier(.76,0,.24,1);
+      --gutter: clamp(16px, 3.4vw, 56px); --radius: 6px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overflow-x: clip; }
+    body { margin: 0; font-family: var(--sans); font-size: 16px; line-height: 1.6; color: var(--black); background: var(--white); -webkit-font-smoothing: antialiased; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: -.01em; }
+    .container { max-width: 1240px; margin: 0 auto; padding: 0 var(--gutter); }
+    .label { margin: 0 0 22px; font-size: 13px; font-weight: 500; text-transform: uppercase; color: var(--grey-d); }
+    .label--light { color: rgba(255,255,255,.55); }
+    .h2 { font-weight: 500; font-size: clamp(38px, 5vw, 76px); line-height: .96; letter-spacing: -.045em; margin: 0 0 24px; }
+    .h2 em { letter-spacing: -.02em; }
+    .sub { color: var(--grey-d); font-size: 18px; max-width: 58ch; margin: 0; }
+    section { padding: clamp(90px, 11vw, 160px) 0; }
+
+    /* buttons */
+    .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 12px; height: 56px; padding: 0 26px; border-radius: 999px; border: 1px solid transparent; font: 500 15px/1 var(--sans); cursor: pointer; overflow: hidden; isolation: isolate; transition: color .5s var(--ease), border-color .5s, transform .4s var(--ease); }
+    .btn::before { content: ""; position: absolute; left: 50%; top: 100%; width: 170%; aspect-ratio: 1; border-radius: 50%; background: var(--fill); transform: translate(-50%, 0) scale(0); z-index: -1; transition: transform .7s var(--ease-io); }
+    .btn:hover::before, .btn:focus-visible::before { transform: translate(-50%, -50%) scale(1); }
+    .btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .btn--light { background: var(--white); color: var(--black); --fill: #dcdcdc; }
+    .btn--outline { color: var(--white); border-color: rgba(255,255,255,.4); --fill: var(--white); }
+    .btn--outline:hover { color: var(--black); }
+    .btn--dark { background: var(--black); color: var(--white); --fill: #2c2c2c; }
+    .btn--wa { background: #25d366; color: #06301a; --fill: #1fb457; }
+    .btn--wa svg { fill: currentColor; stroke: none; width: 20px; height: 20px; }
+    .btn[disabled] { opacity: .45; cursor: not-allowed; }
+
+    /* top bar */
+    .bar { position: fixed; inset: 0 0 auto 0; z-index: 50; height: 70px; display: flex; align-items: center; gap: 18px; padding: 0 var(--gutter); color: var(--white); transition: background .4s, box-shadow .4s; }
+    .bar.is-solid { background: rgba(10,10,10,.94); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 1px 0 rgba(255,255,255,.08); }
+    .bar__brand { display: flex; align-items: center; gap: 14px; margin-right: auto; font-weight: 600; font-size: 15px; }
+    .bar__brand img { height: 32px; width: auto; }
+    .bar__brand span { padding-left: 14px; border-left: 1px solid rgba(255,255,255,.4); }
+    .bar__brand small { font-weight: 400; color: rgba(255,255,255,.6); margin-left: 6px; }
+    .bar a.bar__link { font-size: 14px; font-weight: 500; padding: 10px 18px; border-radius: 999px; border: 1px solid rgba(255,255,255,.5); transition: background .3s, color .3s; }
+    .bar a.bar__link:hover { background: var(--white); color: var(--black); }
+    .bar button.bar__link { font: 500 14px var(--sans); padding: 10px 18px; border-radius: 999px; background: var(--white); color: var(--black); border: 0; cursor: pointer; }
+
+    /* hero */
+    .hero { position: relative; min-height: 100vh; min-height: 100svh; padding: 140px 0 60px; color: var(--white); background: var(--black); overflow: hidden; display: flex; align-items: flex-end; }
+    .hero__bg { position: absolute; inset: 0; }
+    .hero__bg img { width: 100%; height: 100%; object-fit: cover; opacity: .38; transform: scale(1.15); animation: heroIn 2.4s var(--ease) forwards; }
+    @keyframes heroIn { to { transform: scale(1); } }
+    .hero__bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,10,10,.6), rgba(10,10,10,.3) 40%, rgba(10,10,10,.95)); }
+    .hero .container { position: relative; width: 100%; }
+    .hero h1 { margin: 0 0 26px; font-weight: 500; font-size: clamp(46px, 8.2vw, 136px); line-height: .92; letter-spacing: -.055em; max-width: 13ch; }
+    .hero h1 em { letter-spacing: -.03em; }
+    .hero__lead { max-width: 560px; font-size: 18px; color: rgba(255,255,255,.78); margin: 0 0 36px; }
+    .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 64px; }
+    .meta { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line-l); }
+    .meta div { padding: 22px 22px 0 0; }
+    .meta div + div { padding-left: 22px; border-left: 1px solid var(--line-l); }
+    .meta small { display: block; font-size: 12px; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 6px; }
+    .meta strong { font-weight: 500; font-size: 18px; letter-spacing: -.02em; line-height: 1.3; display: block; }
+    .hero [data-in] { opacity: 0; transform: translateY(40px); animation: rise 1.2s var(--ease) forwards; animation-delay: var(--d, 0s); }
+    @keyframes rise { to { opacity: 1; transform: none; } }
+
+    /* reveal */
+    .js .rv { opacity: 0; transform: translateY(46px); transition: opacity 1.1s var(--ease), transform 1.1s var(--ease); transition-delay: var(--d, 0s); }
+    .js .rv.is-in { opacity: 1; transform: none; }
+
+    /* before / after */
+    .ba { position: relative; margin-top: 56px; border-radius: var(--radius); overflow: hidden; aspect-ratio: 16 / 10; background: var(--paper); box-shadow: 0 40px 80px -40px rgba(0,0,0,.45); user-select: none; touch-action: pan-y; }
+    .ba img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; pointer-events: none; }
+    .ba__after { clip-path: inset(0 0 0 var(--pos, 50%)); }
+    .ba__handle { position: absolute; top: 0; bottom: 0; left: var(--pos, 50%); width: 2px; background: var(--white); transform: translateX(-1px); pointer-events: none; box-shadow: 0 0 20px rgba(0,0,0,.4); }
+    .ba__handle::after { content: "⟷"; position: absolute; top: 50%; left: 50%; width: 56px; height: 56px; border-radius: 50%; background: var(--white); color: var(--black); display: grid; place-items: center; font-size: 22px; transform: translate(-50%, -50%); box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+    .ba__tag { position: absolute; top: 18px; padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 600; background: rgba(10,10,10,.75); color: var(--white); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); pointer-events: none; }
+    .ba__tag--l { left: 18px; } .ba__tag--r { right: 18px; background: var(--white); color: var(--black); }
+    .ba input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
+    .ba input:focus-visible + .ba__handle::after { outline: 3px solid var(--black); outline-offset: 3px; }
+    .ba__hint { text-align: center; color: var(--grey); font-size: 14px; margin: 14px 0 0; }
+
+    .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 56px; }
+    .compare__col { padding: 34px; border-radius: var(--radius); }
+    .compare__col--old { background: var(--paper); }
+    .compare__col--new { background: var(--black); color: var(--white); }
+    .compare h3 { margin: 0 0 18px; font-size: 22px; font-weight: 500; letter-spacing: -.03em; }
+    .compare ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+    .compare li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; font-size: 15.5px; }
+    .compare__col--old li { color: var(--grey-d); }
+    .compare__col--old li::before { content: "—"; color: var(--grey); }
+    .compare__col--new li::before { content: "✓"; font-weight: 700; }
+
+    /* includes */
+    .inc { background: var(--black); color: var(--white); }
+    .inc .sub { color: rgba(255,255,255,.62); }
+    .inc__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-top: 60px; background: var(--line-l); border: 1px solid var(--line-l); border-radius: var(--radius); overflow: hidden; }
+    .inc__item { background: var(--black); padding: 34px 28px 30px; position: relative; transition: background .5s var(--ease); }
+    .inc__item:hover { background: #151515; }
+    .inc__item b { display: block; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 30px; color: rgba(255,255,255,.4); line-height: 1; margin-bottom: 26px; transition: color .4s; }
+    .inc__item:hover b { color: var(--white); }
+    .inc__item h3 { margin: 0 0 10px; font-size: 21px; font-weight: 500; letter-spacing: -.03em; line-height: 1.15; }
+    .inc__item p { margin: 0; color: rgba(255,255,255,.6); font-size: 14.5px; }
+
+    /* preview */
+    .pv__grid { display: grid; grid-template-columns: 1.7fr 1fr; gap: 40px; align-items: center; margin-top: 56px; }
+    .browser { border-radius: 12px; overflow: hidden; background: #e9e9e9; box-shadow: 0 40px 80px -40px rgba(0,0,0,.45); }
+    .browser__top { height: 36px; display: flex; align-items: center; gap: 7px; padding: 0 14px; }
+    .browser__top i { width: 10px; height: 10px; border-radius: 50%; background: #c4c4c4; }
+    .browser__top span { margin-left: 14px; font-size: 12px; color: var(--grey-d); background: var(--white); padding: 3px 12px; border-radius: 999px; }
+    .phone { width: min(300px, 100%); margin: 0 auto; border-radius: 42px; padding: 10px; background: var(--black); box-shadow: 0 40px 80px -30px rgba(0,0,0,.5); }
+    .phone img { border-radius: 33px; width: 100%; }
+    .pv__links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
+
+    /* pricing */
+    .price { background: var(--paper); }
+    .price__grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 28px; margin-top: 56px; align-items: start; }
+    .card { background: var(--white); border-radius: var(--radius); padding: clamp(24px, 3vw, 40px); border: 1px solid var(--line); }
+    .card h3 { margin: 0 0 6px; font-size: 14px; font-weight: 600; text-transform: uppercase; color: var(--grey-d); }
+    .line-item { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+    .line-item strong { font-size: 22px; font-weight: 500; letter-spacing: -.03em; }
+    .line-item span small { display: block; color: var(--grey); font-size: 14px; }
+    .line-item span { font-size: 18px; font-weight: 500; letter-spacing: -.02em; }
+    .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 22px 0 10px; border: 0; padding: 0; }
+    .plans legend { font-size: 14px; font-weight: 600; text-transform: uppercase; color: var(--grey-d); margin-bottom: 12px; padding: 0; }
+    .plan { position: relative; cursor: pointer; }
+    .plan input { position: absolute; opacity: 0; pointer-events: none; }
+    .plan__box { display: block; height: 100%; padding: 22px; border-radius: var(--radius); border: 1.5px solid var(--line); background: var(--white); transition: border-color .3s, background .3s, color .3s, transform .4s var(--ease); }
+    .plan:hover .plan__box { border-color: var(--black); }
+    .plan input:checked + .plan__box { background: var(--black); color: var(--white); border-color: var(--black); }
+    .plan input:focus-visible + .plan__box { outline: 3px solid var(--black); outline-offset: 3px; }
+    .plan__name { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; }
+    .plan__radio { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid currentColor; display: grid; place-items: center; flex: none; }
+    .plan input:checked + .plan__box .plan__radio::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: currentColor; }
+    .plan__price { display: block; margin: 16px 0 4px; font-size: 44px; font-weight: 500; letter-spacing: -.05em; line-height: 1; }
+    .plan__price small { font-size: 16px; letter-spacing: 0; font-weight: 400; opacity: .7; }
+    .plan__note { font-size: 13.5px; opacity: .7; }
+    .plan__badge { display: inline-block; margin-top: 12px; font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 999px; background: var(--paper); color: var(--black); }
+    .plan input:checked + .plan__box .plan__badge { background: var(--white); }
+    .incl { list-style: none; margin: 26px 0 0; padding: 0; display: grid; gap: 10px; }
+    .incl li { display: grid; grid-template-columns: 22px 1fr; gap: 8px; font-size: 15px; }
+    .incl li::before { content: "✓"; font-weight: 700; }
+    .notinc { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--line); }
+    .notinc h4 { margin: 0 0 10px; font-size: 14px; text-transform: uppercase; color: var(--grey-d); font-weight: 600; }
+    .notinc ul { margin: 0; padding-left: 18px; color: var(--grey-d); font-size: 14.5px; display: grid; gap: 6px; }
+
+    .summary { position: sticky; top: 96px; background: var(--black); color: var(--white); border: 0; }
+    .summary h3 { color: rgba(255,255,255,.55); }
+    .summary .line-item { border-color: var(--line-l); }
+    .summary .line-item span small { color: rgba(255,255,255,.5); }
+    .total { padding: 26px 0 8px; }
+    .total small { display: block; font-size: 13px; text-transform: uppercase; color: rgba(255,255,255,.55); }
+    .total__num { display: flex; align-items: flex-start; font-size: clamp(64px, 7vw, 104px); font-weight: 500; letter-spacing: -.06em; line-height: .95; font-variant-numeric: tabular-nums; }
+    .total__num sup { font-size: .35em; margin: .2em .08em 0 0; letter-spacing: 0; }
+    .total__num span.usd { font-size: .22em; letter-spacing: 0; margin: auto 0 .45em .4em; color: rgba(255,255,255,.55); }
+    .total__then { color: rgba(255,255,255,.7); font-size: 15px; margin: 6px 0 0; }
+
+    /* accept */
+    .accept { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line-l); }
+    .field { position: relative; margin-bottom: 18px; }
+    .field input { width: 100%; border: 0; border-bottom: 1px solid rgba(255,255,255,.3); background: transparent; color: var(--white); font: 500 17px var(--sans); padding: 24px 0 10px; outline: none; border-radius: 0; }
+    .field label { position: absolute; left: 0; top: 22px; color: rgba(255,255,255,.5); pointer-events: none; transform-origin: left; transition: transform .4s var(--ease), color .3s; }
+    .field input:focus + label, .field input:not(:placeholder-shown) + label { transform: translateY(-20px) scale(.78); color: var(--white); }
+    .field::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1.5px; background: var(--white); transform: scaleX(0); transform-origin: left; transition: transform .6s var(--ease); }
+    .field:focus-within::after { transform: scaleX(1); }
+    .field.has-error input { border-color: #ff6b5b; }
+    .check { display: grid; grid-template-columns: 22px 1fr; gap: 12px; align-items: start; font-size: 14.5px; color: rgba(255,255,255,.8); cursor: pointer; margin: 6px 0 22px; }
+    .check input { width: 20px; height: 20px; accent-color: var(--white); margin: 2px 0 0; cursor: pointer; }
+    .accept .btn { width: 100%; }
+    .accept__note { font-size: 13px; color: rgba(255,255,255,.5); text-align: center; margin: 12px 0 0; }
+    .accept__ok { text-align: center; font-weight: 600; font-size: 14px; margin-top: 10px; }
+
+    /* terms + footer */
+    .terms { padding: 70px 0; }
+    .terms__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; border-top: 1px solid var(--black); padding-top: 30px; }
+    .terms h4 { margin: 0 0 8px; font-size: 13px; text-transform: uppercase; color: var(--grey-d); font-weight: 600; }
+    .terms p { margin: 0; font-size: 15.5px; }
+    .foot { background: var(--black); color: rgba(255,255,255,.7); padding: clamp(70px, 9vw, 120px) 0 28px; }
+    .foot__big { font-size: clamp(44px, 7.4vw, 120px); font-weight: 500; letter-spacing: -.055em; line-height: .95; color: var(--white); margin: 0 0 40px; max-width: 14ch; }
+    .foot__big em { letter-spacing: -.03em; }
+    .foot__row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; padding-top: 26px; border-top: 1px solid var(--line-l); font-size: 14px; }
+    .foot__by { font-size: 15px; }
+    .foot__by a { color: var(--white); border-bottom: 1px solid rgba(255,255,255,.35); }
+    .foot__by a:hover { border-color: var(--white); }
+
+    /* mobile sticky total */
+    .mbar { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 40; display: none; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 10px 10px 20px; border-radius: 999px; background: var(--black); color: var(--white); box-shadow: 0 20px 40px -10px rgba(0,0,0,.5); transform: translateY(150%); transition: transform .5s var(--ease); }
+    .mbar.is-visible { transform: none; }
+    .mbar small { display: block; font-size: 11px; text-transform: uppercase; color: rgba(255,255,255,.55); line-height: 1.2; }
+    .mbar strong { font-size: 22px; font-weight: 500; letter-spacing: -.03em; }
+    .mbar a { background: var(--white); color: var(--black); font-weight: 600; font-size: 14px; padding: 12px 18px; border-radius: 999px; white-space: nowrap; }
+
+    @media (max-width: 1000px) {
+      .meta { grid-template-columns: 1fr 1fr; }
+      .meta div:nth-child(3) { border-left: 0; padding-left: 0; }
+      .inc__grid { grid-template-columns: 1fr 1fr; }
+      .pv__grid, .price__grid { grid-template-columns: 1fr; }
+      .summary { position: static; }
+      .terms__grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 680px) {
+      .bar__brand span, .bar a.bar__link { display: none; }
+      .compare { grid-template-columns: 1fr; }
+      .inc__grid { grid-template-columns: 1fr; }
+      .plans { grid-template-columns: 1fr; }
+      .ba { aspect-ratio: 4 / 3.4; }
+      .ba__handle::after { width: 46px; height: 46px; }
+      .mbar { display: flex; }
+      .meta strong { font-size: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+      .js .rv { opacity: 1; transform: none; }
+    }
+    @media print {
+      .bar, .mbar, .hero__actions, .pv__links, .accept, .ba__hint, .ba input { display: none !important; }
+      .hero { min-height: auto; padding: 40px 0; }
+      .js .rv { opacity: 1 !important; transform: none !important; }
+      section { padding: 40px 0; break-inside: avoid; }
+      .summary { position: static; }
+    }
+  </style>
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+
+  <header class="bar">
+    <a href="../" class="bar__brand" aria-label="Ir al sitio de JP Real State">
+      <img src="../assets/logo-light.webp" alt="The Team · lpt realty" width="92" height="32" />
+      <span>JP Real State <small>· Propuesta</small></span>
+    </a>
+    <a href="../" class="bar__link" target="_blank" rel="noopener">Ver sitio nuevo ↗</a>
+    <button type="button" class="bar__link" onclick="window.print()">Guardar PDF</button>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero__bg"><img src="../assets/hero-villa-1600.webp" alt="" /></div>
+    <div class="container">
+      <p class="label label--light" data-in style="--d:.1s">Propuesta comercial</p>
+      <h1 data-in style="--d:.2s">Renovación del sitio web de <em>JP Real State.</em></h1>
+      <p class="hero__lead" data-in style="--d:.35s">Un sitio a la medida, moderno y rápido, que transmite la confianza y el profesionalismo de Paula y Juliana, y convierte cada visita en una cita agendada.</p>
+      <div class="hero__actions" data-in style="--d:.45s">
+        <a href="#inversion" class="btn btn--light">Ver inversión <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
+        <a href="../" class="btn btn--outline" target="_blank" rel="noopener">Ver el sitio nuevo ↗</a>
+      </div>
+      <div class="meta" data-in style="--d:.55s">
+        <div><small>Preparada para</small><strong>JP Real State<br />Paula Chavez &amp; Juliana Osorio</strong></div>
+        <div><small>Preparada por</small><strong>DGP Global Group</strong></div>
+        <div><small>Estado</small><strong>Sitio terminado,<br />listo para publicar</strong></div>
+        <div><small>Inversión</small><strong>$165 + hosting</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 01 BEFORE / AFTER ============ -->
+  <section id="antes-despues">
+    <div class="container">
+      <p class="label rv">01 — Antes y después</p>
+      <h2 class="h2 rv">De una plantilla genérica a un sitio con <em>identidad propia.</em></h2>
+      <p class="sub rv">Desliza para comparar el sitio actual con la nueva versión.</p>
+
+      <div class="ba rv" style="--pos:50%">
+        <img src="img/antes.webp" alt="Sitio actual de JP Real State" width="1200" height="750" />
+        <img class="ba__after" src="img/despues.webp" alt="Sitio renovado de JP Real State" width="1200" height="750" />
+        <span class="ba__tag ba__tag--l">Antes</span>
+        <span class="ba__tag ba__tag--r">Después</span>
+        <input type="range" min="0" max="100" value="50" aria-label="Comparar antes y después" />
+        <span class="ba__handle" aria-hidden="true"></span>
+      </div>
+      <p class="ba__hint">← Arrastra para comparar →</p>
+
+      <div class="compare">
+        <div class="compare__col compare__col--old rv">
+          <h3>Sitio actual</h3>
+          <ul>
+            <li>Plantilla genérica del constructor de sitios</li>
+            <li>Diseño plano, sin animaciones ni identidad visual propia</li>
+            <li>Pocas secciones y títulos repetidos</li>
+            <li>Formulario de contacto básico</li>
+            <li>Aviso de cookies que tapa el contenido al entrar</li>
+          </ul>
+        </div>
+        <div class="compare__col compare__col--new rv" style="--d:.1s">
+          <h3>Sitio renovado</h3>
+          <ul>
+            <li>Diseño a la medida en blanco y negro, con el logo de The Team · lpt realty</li>
+            <li>Animaciones profesionales y cursor interactivo</li>
+            <li>Secciones claras: nosotras, por qué elegirnos, servicios, proceso, galería y contacto</li>
+            <li>Agenda de citas que llega directo por WhatsApp o correo</li>
+            <li>Imágenes optimizadas para una carga rápida</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02 INCLUDES ============ -->
+  <section class="inc">
+    <div class="container">
+      <p class="label label--light rv">02 — Qué incluye la renovación</p>
+      <h2 class="h2 rv">Todo lo que necesita un sitio de <em>bienes raíces</em> profesional.</h2>
+      <p class="sub rv">Pago único de $165 por el diseño y desarrollo completo del sitio.</p>
+
+      <div class="inc__grid">
+        <article class="inc__item rv"><b>01</b><h3>Diseño a la medida</h3><p>Paleta en blanco y negro, tipografías elegantes y la imagen de The Team · lpt realty en todo el sitio.</p></article>
+        <article class="inc__item rv" style="--d:.05s"><b>02</b><h3>Animaciones premium</h3><p>Pantalla de carga con el logo, títulos que se revelan, galería horizontal y desplazamiento suave.</p></article>
+        <article class="inc__item rv" style="--d:.1s"><b>03</b><h3>Secciones completas</h3><p>Inicio, Sobre nosotras, Por qué con nosotras, Servicios, Proceso, Estilos de vida y Contacto.</p></article>
+        <article class="inc__item rv" style="--d:.15s"><b>04</b><h3>Agenda de citas</h3><p>Formulario que envía los datos del cliente por WhatsApp o por correo, listos para responder.</p></article>
+        <article class="inc__item rv"><b>05</b><h3>WhatsApp en un toque</h3><p>Botón flotante de WhatsApp y teléfonos que llaman con un clic desde el celular.</p></article>
+        <article class="inc__item rv" style="--d:.05s"><b>06</b><h3>Perfecto en celulares</h3><p>Diseño adaptado a celular, tableta y computadora, con menú de pantalla completa en móvil.</p></article>
+        <article class="inc__item rv" style="--d:.1s"><b>07</b><h3>SEO y redes sociales</h3><p>Títulos, descripciones, datos estructurados y vista previa con imagen al compartir el enlace.</p></article>
+        <article class="inc__item rv" style="--d:.15s"><b>08</b><h3>Carga rápida</h3><p>Imágenes en formato WebP y fuentes alojadas en el propio sitio para abrir rápido incluso con datos móviles.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03 PREVIEW ============ -->
+  <section>
+    <div class="container">
+      <p class="label rv">03 — Vista previa</p>
+      <h2 class="h2 rv">Ya está listo. <em>Puedes verlo hoy.</em></h2>
+      <p class="sub rv">El sitio renovado está terminado y funcionando en un enlace de prueba. Al aprobar, lo publicamos en su dominio.</p>
+      <div class="pv__grid">
+        <div class="browser rv">
+          <div class="browser__top"><i></i><i></i><i></i><span>jprealstate.com</span></div>
+          <img src="img/despues.webp" alt="Sitio renovado en computadora" width="1200" height="750" loading="lazy" />
+        </div>
+        <div class="phone rv" style="--d:.15s"><img src="img/despues-movil.webp" alt="Sitio renovado en celular" width="390" height="844" loading="lazy" /></div>
+      </div>
+      <div class="pv__links rv">
+        <a href="../" class="btn btn--dark" target="_blank" rel="noopener">Abrir el sitio nuevo ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 PRICING ============ -->
+  <section class="price" id="inversion">
+    <div class="container">
+      <p class="label rv">04 — Inversión</p>
+      <h2 class="h2 rv">Elige tu plan de <em>hosting.</em></h2>
+      <p class="sub rv">La renovación es un pago único. El hosting mantiene el sitio publicado en internet; elige si prefieres pagarlo cada año o cada mes.</p>
+
+      <form class="price__grid" id="acepta" novalidate>
+        <div class="card rv">
+          <h3>Renovación del sitio web</h3>
+          <div class="line-item">
+            <span>Diseño y desarrollo completo<small>Pago único · todo lo descrito en esta propuesta</small></span>
+            <strong>$165</strong>
+          </div>
+
+          <fieldset class="plans">
+            <legend>Plan de hosting</legend>
+            <label class="plan">
+              <input type="radio" name="plan" value="anual" checked />
+              <span class="plan__box">
+                <span class="plan__name">Anual <span class="plan__radio"></span></span>
+                <span class="plan__price">$145<small> /año</small></span>
+                <span class="plan__note">Equivale a $12.08 al mes</span><br />
+                <span class="plan__badge">Ahorras $155 al año</span>
+              </span>
+            </label>
+            <label class="plan">
+              <input type="radio" name="plan" value="mensual" />
+              <span class="plan__box">
+                <span class="plan__name">Mensual <span class="plan__radio"></span></span>
+                <span class="plan__price">$25<small> /mes</small></span>
+                <span class="plan__note">$300 al año si se paga mes a mes</span><br />
+                <span class="plan__badge">Sin pago anual</span>
+              </span>
+            </label>
+          </fieldset>
+
+          <ul class="incl">
+            <li>Publicación del sitio en internet</li>
+            <li>Certificado de seguridad (https)</li>
+            <li>Conexión con su dominio jprealstate.com</li>
+          </ul>
+
+          <div class="notinc">
+            <h4>No incluye</h4>
+            <ul>
+              <li>Renovación del dominio jprealstate.com con su proveedor actual</li>
+              <li>Funciones nuevas fuera de esta propuesta: se cotizan aparte</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card summary rv" style="--d:.1s">
+          <h3>Resumen</h3>
+          <div class="line-item"><span>Renovación del sitio web<small>Pago único</small></span><span>$165</span></div>
+          <div class="line-item"><span data-plan-label>Hosting · Plan anual<small>Primer año</small></span><span data-plan-price>$145</span></div>
+          <div class="total">
+            <small>Total a pagar hoy</small>
+            <div class="total__num"><sup>$</sup><span data-total>310</span><span class="usd">USD</span></div>
+            <p class="total__then" data-then>Después: $145 cada año por el hosting.</p>
+          </div>
+
+          <div class="accept">
+            <div class="field">
+              <input id="a-name" name="nombre" type="text" placeholder=" " autocomplete="name" required />
+              <label for="a-name">Nombre de quien aprueba*</label>
+            </div>
+            <label class="check"><input type="checkbox" name="ok" required /> <span>He revisado la propuesta y acepto la renovación del sitio web con el plan de hosting seleccionado.</span></label>
+            <button type="submit" class="btn btn--wa">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 1.9 17.7L.3 23.7l6.2-1.6A11.8 11.8 0 0 0 20.5 3.5ZM12 21.6c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 1 1 12 21.6Zm5.4-7.3c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1l-.9 1.2c-.2.2-.3.2-.6.1a8 8 0 0 1-4-3.5c-.3-.5.3-.5.9-1.6.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5 1.9.8 2.6.9 3.6.7.6-.1 1.8-.7 2-1.5.3-.7.3-1.3.2-1.5-.1-.1-.3-.2-.6-.3Z"/></svg>
+              Aceptar propuesta por WhatsApp
+            </button>
+            <p class="accept__note">Se enviará tu aceptación a DGP Global Group para elaborar la factura.</p>
+            <div class="accept__ok" role="status" aria-live="polite"></div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ TERMS ============ -->
+  <div class="terms container">
+    <div class="terms__grid">
+      <div class="rv"><h4>Entrega</h4><p>El sitio ya está terminado. Se publica en jprealstate.com una vez aprobada la propuesta y recibido el pago.</p></div>
+      <div class="rv" style="--d:.05s"><h4>Facturación</h4><p>Al aceptar, DGP Global Group te envía la factura con el plan de hosting que elegiste.</p></div>
+      <div class="rv" style="--d:.1s"><h4>Vigencia</h4><p>Emitida el <span data-date>24 de octubre de 2026</span>. Válida por 15 días.</p></div>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <div class="container">
+      <p class="foot__big">Llevemos JP Real State al <em>siguiente nivel.</em></p>
+      <div class="foot__row">
+        <p class="foot__by">Propuesta preparada por <a href="https://dgpglobalgroup.com" target="_blank" rel="noopener">DGP Global Group</a></p>
+        <p>JP Real State · Florida, EE. UU.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="mbar" aria-hidden="true">
+    <div><small>Total hoy</small><strong>$<span data-total>310</span></strong></div>
+    <a href="#inversion">Aceptar propuesta</a>
+  </div>
+
+  <script>
+  (() => {
+    const $ = (s, c = document) => c.querySelector(s);
+    const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const DGP_WHATSAPP = "12398231738";
+    const RENOVACION = 165;
+    const PLANES = {
+      anual:   { nombre: "Plan anual",   precio: 145, periodo: "año", label: "Primer año", then: "Después: $145 cada año por el hosting." },
+      mensual: { nombre: "Plan mensual", precio: 25,  periodo: "mes", label: "Primer mes", then: "Después: $25 cada mes por el hosting." },
+    };
+
+    /* top bar */
+    const bar = $(".bar");
+    const mbar = $(".mbar");
+    const price = $("#inversion");
+    const onScroll = () => {
+      bar.classList.toggle("is-solid", scrollY > innerHeight * 0.6);
+      const r = price.getBoundingClientRect();
+      mbar.classList.toggle("is-visible", scrollY > innerHeight * 0.6 && (r.top > innerHeight || r.bottom < 0));
+    };
+    addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    /* reveal */
+    const io = new IntersectionObserver((es) => es.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); }
+    }), { threshold: 0.15, rootMargin: "0px 0px -5% 0px" });
+    $$(".rv").forEach((el) => io.observe(el));
+
+    /* before / after */
+    const ba = $(".ba");
+    const range = $("input", ba);
+    range.addEventListener("input", () => ba.style.setProperty("--pos", `${range.value}%`));
+    if (!reduced) {
+      // small hint animation the first time it becomes visible
+      const hint = new IntersectionObserver(([e]) => {
+        if (!e.isIntersecting) return;
+        hint.disconnect();
+        let t0 = null;
+        const step = (t) => {
+          t0 ??= t;
+          const p = Math.min(1, (t - t0) / 1800);
+          const v = 50 + Math.sin(p * Math.PI * 2) * 18 * (1 - p);
+          ba.style.setProperty("--pos", `${v}%`); range.value = v;
+          if (p < 1) requestAnimationFrame(step);
+        };
+        setTimeout(() => requestAnimationFrame(step), 700);
+      }, { threshold: 0.6 });
+      hint.observe(ba);
+    }
+
+    /* pricing */
+    const form = $("#acepta");
+    const totals = $$("[data-total]");
+    let shown = RENOVACION + PLANES.anual.precio;
+    const animateTo = (target) => {
+      const from = shown, t0 = performance.now(), dur = reduced ? 1 : 700;
+      const tick = (now) => {
+        const p = Math.min(1, (now - t0) / dur);
+        const v = Math.round(from + (target - from) * (1 - Math.pow(1 - p, 3)));
+        totals.forEach((el) => (el.textContent = v));
+        if (p < 1) requestAnimationFrame(tick); else shown = target;
+      };
+      requestAnimationFrame(tick);
+    };
+    const update = () => {
+      const plan = PLANES[form.plan.value];
+      $("[data-plan-label]").innerHTML = `Hosting · ${plan.nombre}<small>${plan.label}</small>`;
+      $("[data-plan-price]").textContent = `$${plan.precio}`;
+      $("[data-then]").textContent = plan.then;
+      animateTo(RENOVACION + plan.precio);
+    };
+    $$('input[name="plan"]').forEach((r) => r.addEventListener("change", update));
+
+    /* accept → WhatsApp */
+    const ok = $(".accept__ok");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = form.nombre.value.trim();
+      const nameField = form.nombre.closest(".field");
+      nameField.classList.toggle("has-error", name.length < 2);
+      if (name.length < 2) { form.nombre.focus(); ok.textContent = "Escribe el nombre de quien aprueba."; return; }
+      if (!form.ok.checked) { form.ok.focus(); ok.textContent = "Marca la casilla para confirmar la aceptación."; return; }
+
+      const plan = PLANES[form.plan.value];
+      const total = RENOVACION + plan.precio;
+      const text = [
+        "Hola DGP Global Group, acepto la propuesta de renovación del sitio web de JP Real State.",
+        "",
+        `• Renovación del sitio web: $${RENOVACION} (pago único)`,
+        `• Hosting: ${plan.nombre} — $${plan.precio}/${plan.periodo}`,
+        `• Total a pagar hoy: $${total} USD`,
+        `• Después: $${plan.precio} cada ${plan.periodo} por el hosting`,
+        "",
+        `Aprobado por: ${name}`,
+        "",
+        "Por favor elaborar la factura. ¡Gracias!",
+      ].join("\n");
+      window.open(`https://wa.me/${DGP_WHATSAPP}?text=${encodeURIComponent(text)}`, "_blank", "noopener");
+      ok.textContent = "¡Gracias! Abrimos WhatsApp con tu aceptación lista para enviar.";
+    });
+    form.nombre.addEventListener("input", () => { form.nombre.closest(".field").classList.remove("has-error"); ok.textContent = ""; });
+  })();
+  </script>
+</body>
+</html>
