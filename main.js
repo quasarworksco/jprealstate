@@ -135,28 +135,39 @@
     gsap.set("[data-hero]", { y: 30, autoAlpha: 0 });
     gsap.set(nav, { yPercent: -100, autoAlpha: 0 });
 
+    // full loader only on the first visit of the session; afterwards just the hero intro
+    let seen = false;
+    try { seen = !!sessionStorage.getItem("jp-intro"); sessionStorage.setItem("jp-intro", "1"); } catch (e) {}
+    const t = seen ? 0 : 1.15; // moment the hero starts revealing
+
     const intro = gsap.timeline({ paused: true });
+    if (seen) {
+      intro.to(pre, { autoAlpha: 0, duration: 0.4, ease: "power2.out" }, 0);
+    } else {
+      intro
+        .to(".preloader__houses path", { strokeDashoffset: 0, duration: 0.9, stagger: 0.08, ease: "power3.inOut" }, 0)
+        .to(counter, { v: 100, duration: 1, ease: "power2.inOut", onUpdate: () => (num.textContent = Math.round(counter.v)) }, 0)
+        .to(".preloader__line", { scaleX: 1, duration: 1, ease: "power2.inOut" }, 0)
+        .to(".preloader__center, .preloader__top, .preloader__bottom", { autoAlpha: 0, y: -30, duration: 0.35, stagger: 0.04, ease: "power2.in" }, 0.95)
+        .to(pre, { yPercent: -100, duration: 0.9, ease: "expo.inOut" }, 1.05);
+    }
     intro
-      .to(".preloader__houses path", { strokeDashoffset: 0, duration: 1.5, stagger: 0.15, ease: "power3.inOut" }, 0)
-      .to(counter, { v: 100, duration: 2.1, ease: "power2.inOut", onUpdate: () => (num.textContent = Math.round(counter.v)) }, 0)
-      .to(".preloader__line", { scaleX: 1, duration: 2.1, ease: "power2.inOut" }, 0)
-      .to(".preloader__center, .preloader__top, .preloader__bottom", { autoAlpha: 0, y: -40, duration: 0.6, stagger: 0.06, ease: "power2.in" }, 2.15)
-      .to(pre, { yPercent: -100, duration: 1.2, ease: "expo.inOut" }, 2.45)
-      .to(".hero__media img", { scale: 1, duration: 2.4, ease: expo }, 2.6)
-      .to(".hero__title .line__in", { yPercent: 0, duration: 1.6, stagger: 0.12, ease: expo }, 2.95)
-      .to("[data-hero]", { y: 0, autoAlpha: 1, duration: 1.3, stagger: 0.1, ease: expo }, 3.2)
-      .to(nav, { yPercent: 0, autoAlpha: 1, duration: 1.2, ease: expo, clearProps: "transform" }, 3.1)
+      .to(".hero__media img", { scale: 1, duration: 2.2, ease: expo }, t + 0.05)
+      .to(".hero__title .line__in", { yPercent: 0, duration: 1.4, stagger: 0.1, ease: expo }, t + 0.3)
+      .to("[data-hero]", { y: 0, autoAlpha: 1, duration: 1.2, stagger: 0.08, ease: expo }, t + 0.5)
+      .to(nav, { yPercent: 0, autoAlpha: 1, duration: 1.1, ease: expo, clearProps: "transform" }, t + 0.4)
       .add(() => {
         pre.remove();
         body.classList.remove("is-loading");
         lenis?.start();
         startRotator();
         ScrollTrigger.refresh();
-      }, 3.6);
+      }, t + 0.6);
 
-    const play = () => intro.play();
-    (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => setTimeout(play, 150));
-    setTimeout(play, 2500); // safety net if fonts hang
+    let started = false;
+    const play = () => { if (!started) { started = true; intro.play(); } };
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(play);
+    setTimeout(play, 800); // don't wait on slow font downloads
 
     /* ---------- Hero parallax on scroll ---------- */
     gsap.to(".hero__media", { yPercent: 22, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true } });
