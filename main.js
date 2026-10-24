@@ -82,6 +82,11 @@
       const tag = node.nodeType === 1 ? node.tagName.toLowerCase() : null;
       if (tag === "br") { frag.appendChild(document.createElement("br")); return; }
       node.textContent.split(/\s+/).filter(Boolean).forEach((word) => {
+        // keep trailing punctuation glued to the previous word
+        if (/^[.,;:!?]+$/.test(word) && inners.length) {
+          inners[inners.length - 1].append(word);
+          return;
+        }
         const mask = document.createElement("span");
         mask.className = "w-mask";
         const inner = document.createElement("span");
@@ -113,6 +118,7 @@
       const y = scrollY;
       wa.classList.toggle("is-visible", y > innerHeight * 0.5);
       nav.classList.toggle("is-hidden", y > lastY && y > innerHeight && !body.classList.contains("menu-open"));
+      nav.classList.toggle("is-solid", y > innerHeight * 0.8);
       lastY = y;
     }, { passive: true });
   }
@@ -138,18 +144,18 @@
     // full loader only on the first visit of the session; afterwards just the hero intro
     let seen = false;
     try { seen = !!sessionStorage.getItem("jp-intro"); sessionStorage.setItem("jp-intro", "1"); } catch (e) {}
-    const t = seen ? 0 : 1.15; // moment the hero starts revealing
+    const t = seen ? 0 : 0.9; // moment the hero starts revealing
 
     const intro = gsap.timeline({ paused: true });
     if (seen) {
       intro.to(pre, { autoAlpha: 0, duration: 0.4, ease: "power2.out" }, 0);
     } else {
       intro
-        .to(".preloader__houses path", { strokeDashoffset: 0, duration: 0.9, stagger: 0.08, ease: "power3.inOut" }, 0)
-        .to(counter, { v: 100, duration: 1, ease: "power2.inOut", onUpdate: () => (num.textContent = Math.round(counter.v)) }, 0)
-        .to(".preloader__line", { scaleX: 1, duration: 1, ease: "power2.inOut" }, 0)
-        .to(".preloader__center, .preloader__top, .preloader__bottom", { autoAlpha: 0, y: -30, duration: 0.35, stagger: 0.04, ease: "power2.in" }, 0.95)
-        .to(pre, { yPercent: -100, duration: 0.9, ease: "expo.inOut" }, 1.05);
+        .to(".preloader__houses path", { strokeDashoffset: 0, duration: 0.7, stagger: 0.06, ease: "power3.inOut" }, 0)
+        .to(counter, { v: 100, duration: 0.75, ease: "power2.inOut", onUpdate: () => (num.textContent = Math.round(counter.v)) }, 0)
+        .to(".preloader__line", { scaleX: 1, duration: 0.75, ease: "power2.inOut" }, 0)
+        .to(".preloader__center, .preloader__top, .preloader__bottom", { autoAlpha: 0, y: -30, duration: 0.3, stagger: 0.03, ease: "power2.in" }, 0.72)
+        .to(pre, { yPercent: -100, duration: 0.8, ease: "expo.inOut" }, 0.8);
     }
     intro
       .to(".hero__media img", { scale: 1, duration: 2.2, ease: expo }, t + 0.05)
@@ -162,7 +168,7 @@
         lenis?.start();
         startRotator();
         ScrollTrigger.refresh();
-      }, t + 0.6);
+      }, t + 0.5);
 
     let started = false;
     const play = () => { if (!started) { started = true; intro.play(); } };
@@ -179,6 +185,7 @@
       onUpdate: (s) => {
         const y = s.scroll();
         nav.classList.toggle("is-hidden", s.direction === 1 && y > innerHeight && !body.classList.contains("menu-open"));
+        nav.classList.toggle("is-solid", y > innerHeight * 0.8);
         wa.classList.toggle("is-visible", y > innerHeight * 0.5);
       },
     });
