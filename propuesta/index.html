@@ -245,6 +245,79 @@
     .mbar strong { font-size: 22px; font-weight: 500; letter-spacing: -.03em; }
     .mbar a { background: var(--white); color: var(--black); font-weight: 600; font-size: 14px; padding: 12px 18px; border-radius: 999px; white-space: nowrap; }
 
+    /* CRM section */
+    .crm { background: var(--black); color: var(--white); }
+    .crm .sub { color: rgba(255,255,255,.65); }
+    .crm__head { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: end; }
+    .crm__price { text-align: right; padding: 22px 26px; border-radius: var(--radius); border: 1px solid var(--line-l); }
+    .crm__price small, .crm__price span { display: block; font-size: 13px; color: rgba(255,255,255,.55); text-transform: uppercase; }
+    .crm__price strong { display: block; font-size: clamp(48px, 5vw, 72px); font-weight: 500; letter-spacing: -.05em; line-height: 1; margin: 6px 0; }
+    .flow { list-style: none; margin: 56px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-l); border: 1px solid var(--line-l); border-radius: var(--radius); overflow: hidden; counter-reset: f; }
+    .flow li { position: relative; background: var(--black); padding: 26px 24px 28px; }
+    .flow li:not(:last-child)::after { content: "→"; position: absolute; right: -11px; top: 26px; z-index: 1; width: 22px; height: 22px; border-radius: 50%; background: var(--white); color: var(--black); display: grid; place-items: center; font-size: 12px; }
+    .flow b { display: block; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 30px; color: rgba(255,255,255,.4); line-height: 1; margin-bottom: 18px; }
+    .flow h3 { margin: 0 0 8px; font-size: 20px; font-weight: 500; letter-spacing: -.03em; }
+    .flow p { margin: 0; font-size: 14.5px; color: rgba(255,255,255,.62); }
+    .show { margin-top: 56px; }
+    .show__tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .show__tab { font: 500 14.5px var(--sans); padding: 11px 18px; border-radius: 999px; border: 1px solid var(--line-l); background: transparent; color: rgba(255,255,255,.8); cursor: pointer; transition: background .3s, color .3s, border-color .3s; }
+    .show__tab:hover { border-color: var(--white); color: var(--white); }
+    .show__tab.is-active { background: var(--white); color: var(--black); border-color: var(--white); }
+    .show__stage { display: grid; grid-template-columns: 1.75fr 1fr; gap: 32px; align-items: center; }
+    .show__frame { border-radius: 12px; overflow: hidden; background: #1c1c1c; box-shadow: 0 40px 80px -30px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.08); }
+    .show__frame .browser__top { background: #1c1c1c; }
+    .show__frame .browser__top i { background: #444; }
+    .show__frame .browser__top span { background: #2a2a2a; color: rgba(255,255,255,.7); }
+    .show__frame img { transition: opacity .3s ease; }
+    .show__frame.is-swapping img { opacity: 0; }
+    .show__info h3 { margin: 0 0 10px; font-size: 28px; font-weight: 500; letter-spacing: -.04em; }
+    .show__info p { margin: 0 0 18px; color: rgba(255,255,255,.7); }
+    .ticks { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+    .ticks li { display: grid; grid-template-columns: 20px 1fr; gap: 10px; font-size: 15px; }
+    .ticks li::before { content: "✓"; font-weight: 700; }
+    .crm .ticks li { color: rgba(255,255,255,.85); }
+    .crm__phones { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 28px; align-items: center; margin-top: 80px; }
+    .crm__phones-text h3 { margin: 0 0 10px; font-size: 28px; font-weight: 500; letter-spacing: -.04em; }
+    .crm__phones-text p { margin: 0 0 18px; color: rgba(255,255,255,.7); }
+    .crm .phone { background: #1c1c1c; box-shadow: 0 30px 60px -20px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.1); }
+    .feat { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-top: 80px; background: var(--line-l); border: 1px solid var(--line-l); border-radius: var(--radius); overflow: hidden; }
+    .feat__col { background: var(--black); padding: 28px 24px; }
+    .feat__col h3 { margin: 0 0 16px; font-size: 19px; font-weight: 500; letter-spacing: -.03em; }
+    .feat .ticks li { font-size: 14px; }
+    .crm__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 48px; }
+    .crm__cta p { margin: 0 0 0 8px; font-size: 13.5px; color: rgba(255,255,255,.5); }
+
+    /* add-on */
+    .addon { display: block; cursor: pointer; margin: 4px 0 10px; }
+    .addon input { position: absolute; opacity: 0; pointer-events: none; }
+    .addon__box { display: grid; grid-template-columns: 24px 1fr auto; gap: 14px; align-items: center; padding: 18px; border-radius: var(--radius); border: 1.5px solid var(--line); transition: border-color .3s, background .3s; }
+    .addon:hover .addon__box { border-color: var(--black); }
+    .addon__check { width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--black); display: grid; place-items: center; transition: background .2s; }
+    .addon input:checked + .addon__box { border-color: var(--black); background: var(--paper); }
+    .addon input:checked + .addon__box .addon__check { background: var(--black); }
+    .addon input:checked + .addon__box .addon__check::after { content: "✓"; color: var(--white); font-size: 13px; font-weight: 700; }
+    .addon input:focus-visible + .addon__box { outline: 3px solid var(--black); outline-offset: 3px; }
+    .addon b { display: block; font-size: 16px; font-weight: 600; }
+    .addon small { display: block; color: var(--grey-d); font-size: 13.5px; line-height: 1.4; margin-top: 2px; }
+    .addon strong { font-size: 22px; font-weight: 500; letter-spacing: -.03em; white-space: nowrap; }
+    .addon a { font-size: 13px; text-decoration: underline; }
+    .price h3.mt { margin-top: 26px; }
+    @media (max-width: 1000px) {
+      .crm__head, .show__stage { grid-template-columns: 1fr; }
+      .crm__price { text-align: left; }
+      .flow, .feat { grid-template-columns: 1fr 1fr; }
+      .flow li:nth-child(2)::after { display: none; }
+      .crm__phones { grid-template-columns: 1fr 1fr; }
+      .crm__phones-text { grid-column: 1 / -1; }
+    }
+    @media (max-width: 680px) {
+      .flow, .feat { grid-template-columns: 1fr; }
+      .flow li:not(:last-child)::after { display: none; }
+      .crm__phones { gap: 14px; }
+      .show__tabs { flex-wrap: nowrap; overflow-x: auto; margin: 0 calc(var(--gutter) * -1) 18px; padding: 0 var(--gutter) 4px; scrollbar-width: none; }
+      .show__tab { white-space: nowrap; }
+    }
+
     @media (max-width: 1000px) {
       .meta { grid-template-columns: 1fr 1fr; }
       .meta div:nth-child(3) { border-left: 0; padding-left: 0; }
@@ -297,7 +370,7 @@
     <div class="container">
       <p class="label label--light" data-in style="--d:.1s">Propuesta comercial</p>
       <h1 data-in style="--d:.2s">Renovación del sitio web de <em>JP Real Estate.</em></h1>
-      <p class="hero__lead" data-in style="--d:.35s">Un sitio a la medida, moderno y rápido, que transmite la confianza y el profesionalismo de Paula y Juliana, y convierte cada visita en una cita agendada.</p>
+      <p class="hero__lead" data-in style="--d:.35s">Un sitio a la medida, moderno y rápido, que transmite la confianza y el profesionalismo de Paula y Juliana. Y, opcional, un sistema de agenda y embudo de ventas que convierte cada anuncio en una cita y cada cita en una venta.</p>
       <div class="hero__actions" data-in style="--d:.45s">
         <a href="#inversion" class="btn btn--light">Ver inversión <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
         <a href="../" class="btn btn--outline" target="_blank" rel="noopener">Ver el sitio nuevo ↗</a>
@@ -306,7 +379,7 @@
         <div><small>Preparada para</small><strong>JP Real Estate<br />Paula Chavez &amp; Juliana Osorio</strong></div>
         <div><small>Preparada por</small><strong>DGP Global Group</strong></div>
         <div><small>Estado</small><strong>Sitio terminado,<br />listo para publicar</strong></div>
-        <div><small>Inversión</small><strong>$165 + hosting</strong></div>
+        <div><small>Inversión</small><strong>Sitio $165 · Sistema $185<br />+ hosting</strong></div>
       </div>
     </div>
   </section>
@@ -435,12 +508,121 @@
     </div>
   </section>
 
-  <!-- ============ 04 PRICING ============ -->
+  <!-- ============ 04 CRM ============ -->
+  <section class="crm" id="sistema">
+    <div class="container">
+      <div class="crm__head">
+        <div>
+          <p class="label label--light rv">04 — Sistema de agenda y embudo de ventas</p>
+          <h2 class="h2 rv">Cada anuncio, cada cita y cada cliente, <em>conectados.</em></h2>
+          <p class="sub rv">Un CRM hecho a la medida de JP Real Estate. Tus anuncios de Meta y Google llevan a un formulario donde el cliente agenda una llamada 1 a 1 o te deja un mensaje, y todo entra solo al calendario y al embudo de ventas de tu panel.</p>
+        </div>
+        <div class="crm__price rv" style="--d:.1s"><small>Adicional</small><strong>+$185</strong><span>Pago único</span></div>
+      </div>
+
+      <ol class="flow">
+        <li class="rv"><b>01</b><h3>Anuncio</h3><p>Publicas en Instagram, Facebook, Google Ads o TikTok con tu enlace “Regístrate”.</p></li>
+        <li class="rv" style="--d:.08s"><b>02</b><h3>Formulario</h3><p>El cliente elige: llamada 1 a 1 con día y hora disponibles, o enviarte un mensaje.</p></li>
+        <li class="rv" style="--d:.16s"><b>03</b><h3>Calendario + embudo</h3><p>La cita aparece en tu calendario y el contacto en el embudo, marcado con el anuncio que lo trajo.</p></li>
+        <li class="rv" style="--d:.24s"><b>04</b><h3>Cierre</h3><p>Le das seguimiento desde el panel, etapa por etapa, hasta la entrega de llaves.</p></li>
+      </ol>
+
+      <div class="show rv">
+        <div class="show__tabs" role="tablist" aria-label="Pantallas del sistema">
+          <button type="button" role="tab" class="show__tab is-active" aria-selected="true" data-shot="embudo">Embudo de ventas</button>
+          <button type="button" role="tab" class="show__tab" aria-selected="false" data-shot="kanban">Tablero</button>
+          <button type="button" role="tab" class="show__tab" aria-selected="false" data-shot="ficha">Ficha del cliente</button>
+          <button type="button" role="tab" class="show__tab" aria-selected="false" data-shot="calendario">Calendario</button>
+          <button type="button" role="tab" class="show__tab" aria-selected="false" data-shot="enlaces">Enlaces para anuncios</button>
+          <button type="button" role="tab" class="show__tab" aria-selected="false" data-shot="resumen">Resumen</button>
+        </div>
+        <div class="show__stage">
+          <div class="show__frame">
+            <div class="browser__top"><i></i><i></i><i></i><span>Panel admin · JP Real Estate</span></div>
+            <img data-shot-img src="img/crm/embudo.webp" alt="Embudo de ventas del panel admin" width="1600" height="1000" loading="lazy" />
+          </div>
+          <div class="show__info">
+            <h3 data-shot-title>Embudo de ventas</h3>
+            <p data-shot-text>Ves de un vistazo cuántos clientes hay en cada etapa, cuánto avanza cada uno y cuánto dinero hay en juego.</p>
+            <ul data-shot-list></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="crm__phones">
+        <div class="crm__phones-text rv">
+          <h3>El formulario que ve tu cliente</h3>
+          <p>Diseñado para el celular, que es donde llegan los clientes desde los anuncios. En menos de un minuto elige cómo conectar y reserva su llamada.</p>
+          <ul class="ticks">
+            <li>Dos caminos: llamada 1 a 1 o mensaje directo</li>
+            <li>Solo muestra los horarios libres de tu agenda</li>
+            <li>Confirmación con botón “Agregar a Google Calendar”</li>
+            <li>Detecta de qué anuncio vino (Meta, Google, TikTok…)</li>
+          </ul>
+        </div>
+        <div class="phone rv" style="--d:.05s"><img src="img/crm/reg1.webp" alt="Formulario: ¿cómo prefieres conectar?" width="600" height="1298" loading="lazy" /></div>
+        <div class="phone rv" style="--d:.12s"><img src="img/crm/reg2.webp" alt="Formulario: elige el día y la hora" width="600" height="1298" loading="lazy" /></div>
+      </div>
+
+      <div class="feat">
+        <div class="feat__col rv">
+          <h3>Embudo de ventas</h3>
+          <ul class="ticks">
+            <li>Embudo visual con el % de conversión entre etapas</li>
+            <li>7 etapas: Nuevo, Contactado, Cita, Visita, Negociación, Cerrado y Perdido</li>
+            <li>Tablero para arrastrar clientes de una etapa a otra</li>
+            <li>Valor de cada operación y valor total del embudo</li>
+            <li>Temperatura del cliente: caliente, tibio o frío</li>
+            <li>Alertas de clientes sin responder o sin seguimiento</li>
+            <li>Rendimiento por canal: qué anuncio trae más cierres</li>
+          </ul>
+        </div>
+        <div class="feat__col rv" style="--d:.06s">
+          <h3>Calendario de citas</h3>
+          <ul class="ticks">
+            <li>Una sola agenda para el sitio web y los anuncios</li>
+            <li>Bloquea el horario reservado: sin dobles citas</li>
+            <li>Citas por confirmar con “Confirmar y avisar” por WhatsApp</li>
+            <li>Vista del mes y del día con horarios libres</li>
+            <li>Horario de atención editable: días, horas y duración</li>
+          </ul>
+        </div>
+        <div class="feat__col rv" style="--d:.12s">
+          <h3>Ficha de cada cliente</h3>
+          <ul class="ticks">
+            <li>WhatsApp, llamada y correo en un toque</li>
+            <li>Interés, presupuesto, zona y tipo de propiedad</li>
+            <li>Notas del equipo e historial completo</li>
+            <li>Sus citas pasadas y próximas</li>
+            <li>Exportar contactos a Excel (CSV)</li>
+          </ul>
+        </div>
+        <div class="feat__col rv" style="--d:.18s">
+          <h3>Anuncios y equipo</h3>
+          <ul class="ticks">
+            <li>Enlace listo para copiar por canal: Meta, Google Ads, TikTok y WhatsApp</li>
+            <li>Código QR descargable para volantes y open houses</li>
+            <li>Acceso con usuario y contraseña</li>
+            <li>Crear usuarios con rol Admin o Agente</li>
+            <li>Datos en tiempo real en Firebase (Google) con reglas de seguridad</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="crm__cta rv">
+        <a href="../admin/?local=1&amp;demo=1" class="btn btn--light" target="_blank" rel="noopener">Ver demo del panel ↗</a>
+        <a href="../registro/?local=1" class="btn btn--outline" target="_blank" rel="noopener">Probar el formulario ↗</a>
+        <p>La demo usa datos de ejemplo y no guarda nada en el sistema real.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 05 PRICING ============ -->
   <section class="price" id="inversion">
     <div class="container">
-      <p class="label rv">04 — Inversión</p>
-      <h2 class="h2 rv">Elige tu plan de <em>hosting.</em></h2>
-      <p class="sub rv">La renovación es un pago único. El hosting mantiene el sitio publicado en internet; elige si prefieres pagarlo cada año o cada mes.</p>
+      <p class="label rv">05 — Inversión</p>
+      <h2 class="h2 rv">Arma tu <em>inversión.</em></h2>
+      <p class="sub rv">La renovación y el sistema son pagos únicos. El hosting mantiene todo publicado en internet; elige si prefieres pagarlo cada año o cada mes.</p>
 
       <form class="price__grid" id="acepta" novalidate>
         <div class="card rv">
@@ -449,6 +631,16 @@
             <span>Diseño y desarrollo completo<small>Pago único · todo lo descrito en esta propuesta</small></span>
             <strong>$165</strong>
           </div>
+
+          <h3 class="mt">Adicional</h3>
+          <label class="addon">
+            <input type="checkbox" name="crm" checked />
+            <span class="addon__box">
+              <span class="addon__check"></span>
+              <span><b>Sistema de agenda y embudo de ventas</b><small>Panel admin, calendario de citas, embudo de ventas, formulario y enlaces para anuncios · <a href="#sistema">ver detalle</a></small></span>
+              <strong>+$185</strong>
+            </span>
+          </label>
 
           <fieldset class="plans">
             <legend>Plan de hosting</legend>
@@ -476,6 +668,7 @@
             <li>Publicación del sitio en internet</li>
             <li>Certificado de seguridad (https)</li>
             <li>Conexión con su dominio jprealstate.com</li>
+            <li data-crm-only>Base de datos del sistema en Firebase (plan gratuito de Google)</li>
           </ul>
 
           <div class="notinc">
@@ -483,6 +676,8 @@
             <ul>
               <li>Renovación del dominio jprealstate.com con su proveedor actual</li>
               <li>Funciones nuevas fuera de esta propuesta: se cotizan aparte</li>
+              <li data-crm-only>Planes de pago de Firebase (Google) si el uso supera el plan gratuito</li>
+              <li>Inversión en anuncios pagada a Meta, Google o TikTok</li>
             </ul>
           </div>
         </div>
@@ -490,10 +685,11 @@
         <div class="card summary rv" style="--d:.1s">
           <h3>Resumen</h3>
           <div class="line-item"><span>Renovación del sitio web<small>Pago único</small></span><span>$165</span></div>
+          <div class="line-item" data-crm-line><span>Sistema de agenda y embudo<small>Pago único</small></span><span>$185</span></div>
           <div class="line-item"><span data-plan-label>Hosting · Plan anual<small>Primer año</small></span><span data-plan-price>$145</span></div>
           <div class="total">
             <small>Total a pagar hoy</small>
-            <div class="total__num"><sup>$</sup><span data-total>310</span><span class="usd">USD</span></div>
+            <div class="total__num"><sup>$</sup><span data-total>495</span><span class="usd">USD</span></div>
             <p class="total__then" data-then>Después: $145 cada año por el hosting.</p>
           </div>
 
@@ -502,7 +698,7 @@
               <input id="a-name" name="nombre" type="text" placeholder=" " autocomplete="name" required />
               <label for="a-name">Nombre de quien aprueba*</label>
             </div>
-            <label class="check"><input type="checkbox" name="ok" required /> <span>He revisado la propuesta y acepto la renovación del sitio web con el plan de hosting seleccionado.</span></label>
+            <label class="check"><input type="checkbox" name="ok" required /> <span>He revisado la propuesta y la acepto con las opciones y el plan de hosting seleccionados.</span></label>
             <button type="submit" class="btn btn--wa">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 1.9 17.7L.3 23.7l6.2-1.6A11.8 11.8 0 0 0 20.5 3.5ZM12 21.6c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 1 1 12 21.6Zm5.4-7.3c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1l-.9 1.2c-.2.2-.3.2-.6.1a8 8 0 0 1-4-3.5c-.3-.5.3-.5.9-1.6.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5 1.9.8 2.6.9 3.6.7.6-.1 1.8-.7 2-1.5.3-.7.3-1.3.2-1.5-.1-.1-.3-.2-.6-.3Z"/></svg>
               Aceptar propuesta por WhatsApp
@@ -518,8 +714,8 @@
   <!-- ============ TERMS ============ -->
   <div class="terms container">
     <div class="terms__grid">
-      <div class="rv"><h4>Entrega</h4><p>El sitio ya está terminado. Se publica en jprealstate.com una vez aprobada la propuesta y recibido el pago.</p></div>
-      <div class="rv" style="--d:.05s"><h4>Facturación</h4><p>Al aceptar, DGP Global Group te envía la factura con el plan de hosting que elegiste.</p></div>
+      <div class="rv"><h4>Entrega</h4><p>El sitio y el sistema ya están terminados. Se publican en jprealstate.com y se activan con la cuenta de JP Real Estate una vez aprobada la propuesta y recibido el pago.</p></div>
+      <div class="rv" style="--d:.05s"><h4>Facturación</h4><p>Al aceptar, DGP Global Group te envía la factura con las opciones y el plan de hosting que elegiste.</p></div>
       <div class="rv" style="--d:.1s"><h4>Vigencia</h4><p>Emitida el <span data-date>24 de octubre de 2026</span>. Válida por 15 días.</p></div>
     </div>
   </div>
@@ -535,7 +731,7 @@
   </footer>
 
   <div class="mbar" aria-hidden="true">
-    <div><small>Total hoy</small><strong>$<span data-total>310</span></strong></div>
+    <div><small>Total hoy</small><strong>$<span data-total>495</span></strong></div>
     <a href="#inversion">Aceptar propuesta</a>
   </div>
 
@@ -547,6 +743,7 @@
 
     const DGP_WHATSAPP = "12398231738";
     const RENOVACION = 165;
+    const SISTEMA = 185;
     const PLANES = {
       anual:   { nombre: "Plan anual",   precio: 145, periodo: "año", label: "Primer año", then: "Después: $145 cada año por el hosting." },
       mensual: { nombre: "Plan mensual", precio: 25,  periodo: "mes", label: "Primer mes", then: "Después: $25 cada mes por el hosting." },
@@ -643,10 +840,42 @@
       ["nosotros", "porque", "servicios", "contacto"].forEach((k) => ["antes", "despues"].forEach((v) => { const i = new Image(); i.src = `img/ba/${k}-${v}.webp`; }));
     });
 
+    /* CRM showcase tabs */
+    const SHOTS = {
+      embudo: { t: "Embudo de ventas", p: "Ves de un vistazo cuántos clientes hay en cada etapa, cuánto avanza cada uno y cuánto dinero hay en juego.", l: ["Conversión entre cada etapa", "Valor total y ponderado del embudo", "Tasa de éxito y ciclo de venta", "Qué canal de anuncios trae más cierres"] },
+      kanban: { t: "Tablero", p: "Cada cliente es una tarjeta. Arrástrala a la siguiente etapa o pulsa “Avanzar”.", l: ["Temperatura: caliente, tibio o frío", "Alertas de clientes sin responder", "Tiempo en la etapa y próxima cita", "WhatsApp y llamada desde la tarjeta"] },
+      ficha: { t: "Ficha del cliente", p: "Todo lo que necesitas antes de llamar, en un solo lugar.", l: ["Puntaje y siguiente paso sugerido", "Datos de lo que busca y su presupuesto", "Valor de la operación", "Notas del equipo e historial completo"] },
+      calendario: { t: "Calendario", p: "Las citas del sitio web y de los anuncios llegan aquí solas, sin dobles reservas.", l: ["Citas por confirmar arriba, con un clic", "“Confirmar y avisar” por WhatsApp", "Vista del mes y horarios libres del día", "Agendar a mano en cualquier horario"] },
+      enlaces: { t: "Enlaces para anuncios", p: "Copias el enlace del canal y lo pegas en tu anuncio. El sistema sabe de dónde llegó cada cliente.", l: ["Meta (Instagram y Facebook), Google Ads, TikTok y WhatsApp", "Nombre de campaña para medir cada anuncio", "Código QR descargable", "Contador de clientes por canal"] },
+      resumen: { t: "Resumen", p: "Lo más importante del día apenas entras.", l: ["Valor del embudo y tasa de cierre", "Contactos nuevos de la semana", "Próximas citas", "Alertas de clientes que necesitan atención"] },
+    };
+    const showFrame = $(".show__frame");
+    const paintShot = (k) => {
+      const d = SHOTS[k];
+      $("[data-shot-title]").textContent = d.t;
+      $("[data-shot-text]").textContent = d.p;
+      $("[data-shot-list]").innerHTML = d.l.map((x) => `<li>${x}</li>`).join("");
+      $("[data-shot-list]").className = "ticks";
+    };
+    paintShot("embudo");
+    $$(".show__tab").forEach((t) => t.addEventListener("click", () => {
+      $$(".show__tab").forEach((x) => { x.classList.toggle("is-active", x === t); x.setAttribute("aria-selected", x === t); });
+      showFrame.classList.add("is-swapping");
+      setTimeout(() => {
+        const img = $("[data-shot-img]");
+        img.src = `img/crm/${t.dataset.shot}.webp`; img.alt = `${SHOTS[t.dataset.shot].t} del panel admin`;
+        (img.decode ? img.decode().catch(() => {}) : Promise.resolve()).then(() => showFrame.classList.remove("is-swapping"));
+        paintShot(t.dataset.shot);
+      }, 200);
+    }));
+    addEventListener("load", () => Object.keys(SHOTS).forEach((k) => { const i = new Image(); i.src = `img/crm/${k}.webp`; }));
+
     /* pricing */
     const form = $("#acepta");
     const totals = $$("[data-total]");
-    let shown = RENOVACION + PLANES.anual.precio;
+    let shown = RENOVACION + SISTEMA + PLANES.anual.precio;
+    const withCrm = () => form.crm.checked;
+    const totalNow = () => RENOVACION + (withCrm() ? SISTEMA : 0) + PLANES[form.plan.value].precio;
     const animateTo = (target) => {
       const from = shown, t0 = performance.now(), dur = reduced ? 1 : 700;
       const tick = (now) => {
@@ -662,9 +891,11 @@
       $("[data-plan-label]").innerHTML = `Hosting · ${plan.nombre}<small>${plan.label}</small>`;
       $("[data-plan-price]").textContent = `$${plan.precio}`;
       $("[data-then]").textContent = plan.then;
-      animateTo(RENOVACION + plan.precio);
+      $("[data-crm-line]").hidden = !withCrm();
+      $$("[data-crm-only]").forEach((el) => (el.hidden = !withCrm()));
+      animateTo(totalNow());
     };
-    $$('input[name="plan"]').forEach((r) => r.addEventListener("change", update));
+    $$('input[name="plan"], input[name="crm"]').forEach((r) => r.addEventListener("change", update));
 
     /* accept → WhatsApp */
     const ok = $(".accept__ok");
@@ -677,11 +908,12 @@
       if (!form.ok.checked) { form.ok.focus(); ok.textContent = "Marca la casilla para confirmar la aceptación."; return; }
 
       const plan = PLANES[form.plan.value];
-      const total = RENOVACION + plan.precio;
+      const total = totalNow();
       const text = [
         "Hola DGP Global Group, acepto la propuesta de renovación del sitio web de JP Real Estate.",
         "",
         `• Renovación del sitio web: $${RENOVACION} (pago único)`,
+        withCrm() ? `• Sistema de agenda y embudo de ventas: $${SISTEMA} (pago único)` : "• Sistema de agenda y embudo de ventas: no incluido",
         `• Hosting: ${plan.nombre} — $${plan.precio}/${plan.periodo}`,
         `• Total a pagar hoy: $${total} USD`,
         `• Después: $${plan.precio} cada ${plan.periodo} por el hosting`,
