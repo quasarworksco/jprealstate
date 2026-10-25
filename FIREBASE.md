@@ -14,8 +14,9 @@ sitio guardan todo en Firestore. La configuración web está en `assets/js/confi
 
 2. **Dominios autorizados para iniciar sesión**
    *Authentication* → *Settings* → **Authorized domains** → **Add domain**:
-   - `quasarworksco.github.io`
-   - `jprealstate.com` (cuando el sitio pase al dominio propio)
+   - `jprealstate.com`
+   - `www.jprealstate.com`
+   - `quasarworksco.github.io` (dirección anterior; redirige al dominio)
 
 3. **Inicio de sesión con correo** (ya está activo)
    *Authentication* → *Sign-in method* → **Email/Password** = Enabled.
@@ -49,11 +50,11 @@ Panel → **Usuarios**:
 
 ## Enlaces
 
-- Panel: https://quasarworksco.github.io/jprealstate/admin/
-- Formulario para anuncios: https://quasarworksco.github.io/jprealstate/registro/
+- Panel: https://jprealstate.com/admin/
+- Formulario para anuncios: https://jprealstate.com/registro/
   (los enlaces por canal con UTM se copian desde **Panel → Enlaces**)
 - Demo con datos de ejemplo (no toca Firebase):
-  https://quasarworksco.github.io/jprealstate/admin/?local=1&demo=1
+  https://jprealstate.com/admin/?local=1&demo=1
 
 ## Modo local
 
