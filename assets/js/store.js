@@ -115,6 +115,14 @@ export async function createUser(email, pass) {
     deleteApp(app2).catch(() => {});
   }
 }
+/** Cambia la contraseña de la sesión actual (pide la actual por seguridad). */
+export async function changePassword(current, next) {
+  const { au, auth } = await loadFirebase();
+  const user = auth.currentUser;
+  if (!user) throw Object.assign(new Error("Sin sesión"), { code: "auth/no-current-user" });
+  await au.reauthenticateWithCredential(user, au.EmailAuthProvider.credential(user.email, current));
+  await au.updatePassword(user, next);
+}
 export async function logout() {
   if (mode === "local") return;
   const { au, auth } = await loadFirebase();

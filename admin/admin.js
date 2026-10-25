@@ -164,7 +164,8 @@ $("[data-auth-reset]").addEventListener("click", async () => {
   try { await store.resetPassword(f.email.value); msg.className = "auth__msg is-ok"; msg.textContent = "Te enviamos un correo para crear una nueva contraseña."; }
   catch (e) { msg.className = "auth__msg"; msg.textContent = "No se pudo enviar el correo."; }
 });
-$$("[data-logout]").forEach((b) => b.addEventListener("click", () => store.logout().then(() => location.reload())));
+$$("[data-logout]").forEach((b) => b.addEventListener("click", (e) => { e.stopPropagation(); store.logout().then(() => location.reload()); }));
+$(".side__user").addEventListener("click", () => (location.hash = "usuarios"));
 
 store.onAuth(async (user) => {
   if (!user) { showAuth(); return; }
@@ -177,7 +178,7 @@ store.onAuth(async (user) => {
 /* =========================================================
    APP
    ========================================================= */
-const TITLES = { resumen: "Resumen", calendario: "Calendario", embudo: "Embudo de ventas", contactos: "Contactos", enlaces: "Enlaces para anuncios", ajustes: "Ajustes" };
+const TITLES = { resumen: "Resumen", calendario: "Calendario", embudo: "Embudo de ventas", contactos: "Contactos", enlaces: "Enlaces para anuncios", usuarios: "Usuarios", ajustes: "Ajustes" };
 
 async function start() {
   if (S.started) return;
@@ -197,7 +198,7 @@ async function start() {
   const ready = () => { if (++first >= 2) maybeDemo(); };
   store.watch("leads", (rows) => { S.leads = rows; refresh(); ready(); }, fail);
   store.watch("citas", (rows) => { S.citas = rows; refresh(); ready(); }, fail);
-  if (S.access.role === "admin" && store.mode === "firebase") store.watch("access", (rows) => { S.team = rows; if (S.view === "ajustes") render(); });
+  if (S.access.role === "admin") store.watch("access", (rows) => { S.team = rows; if (S.view === "usuarios") render(false); });
 
   addEventListener("hashchange", route);
   route();
@@ -668,21 +669,6 @@ VIEWS.ajustes = () => {
       <button class="b b--dark" type="submit" ${isAdmin ? "" : "disabled"}>Guardar horario</button>
     </form>
     <div class="stack">
-      ${store.mode === "firebase" && isAdmin ? `<div class="card stack">
-        <div><h2>Equipo</h2><p class="muted" style="margin:4px 0 0;font-size:13.5px">Personas que pueden entrar al panel. Desactiva o cambia el rol cuando quieras.</p></div>
-        <div class="team__row team__row--owner"><span class="team__who"><b>${esc(store.ownerEmail)}</b><small>Cuenta principal</small></span><span class="tag tag--dark">Dueña</span></div>
-        <div class="team">${S.team.map((t) => `<div class="team__row"><span class="team__who"><b>${esc(t.nombre || t.id)}</b>${t.nombre ? `<small>${esc(t.id)}</small>` : ""}</span>
-          <select class="sel" data-role="${esc(t.id)}"><option value="admin" ${t.role === "admin" ? "selected" : ""}>Admin</option><option value="agente" ${t.role === "agente" ? "selected" : ""}>Agente</option></select>
-          <label class="toggle"><input type="checkbox" data-active="${esc(t.id)}" ${t.active ? "checked" : ""} /><span>Activo</span></label>
-          <button class="icon-b" data-del-team="${esc(t.id)}" aria-label="Quitar">✕</button></div>`).join("") || `<p class="muted" style="margin:0">Aún no hay personas habilitadas.</p>`}</div>
-        <form class="stack team__new" id="team-form" novalidate>
-          <h3 style="margin:0;font-size:14px">Crear usuario</h3>
-          <div class="grid2"><label class="in"><span>Nombre</span><input name="nombre" placeholder="Ej. Juliana Osorio" /></label><label class="in"><span>Correo*</span><input type="email" name="email" required placeholder="persona@correo.com" autocomplete="off" /></label></div>
-          <div class="grid2"><label class="in"><span>Contraseña inicial*</span><input type="text" name="pass" minlength="6" placeholder="Mínimo 6 caracteres" autocomplete="new-password" /></label><label class="in"><span>Rol</span><select name="role"><option value="agente">Agente · contactos y citas</option><option value="admin">Admin · todo, incluido el equipo</option></select></label></div>
-          <p class="muted" style="margin:0;font-size:12.5px">Comparte el correo y la contraseña con la persona; podrá cambiarla con “Olvidé mi contraseña”. Si ya tenía cuenta, deja la contraseña vacía y solo se habilita su acceso.</p>
-          <button class="b b--dark" type="submit">Crear usuario</button>
-        </form>
-      </div>` : ""}
       <div class="card stack">
         <h2>Conexión</h2>
         <p style="margin:0">${store.mode === "firebase" ? `Conectado a Firebase · proyecto <b>${esc(CFG.firebase.projectId)}</b>. Los datos se comparten en tiempo real con todo el equipo.` : "Modo local: los datos viven solo en este navegador. Para compartirlos con el equipo, activa Firebase en <code style='background:var(--bg)'>assets/js/config.js</code> (ver FIREBASE.md)."}</p>
@@ -703,6 +689,73 @@ BIND.ajustes = (v) => {
     if (!ag.dias.length || ag.desde >= ag.hasta) { toast("Revisa los días y que “Desde” sea antes de “Hasta”."); return; }
     try { await store.saveAgenda(ag); S.agenda = ag; toast("Horario guardado."); render(false); } catch (err) { fail(err); }
   });
+  bindLocalTools(v);
+};
+
+/* ---------- USUARIOS: mi cuenta + equipo ---------- */
+VIEWS.usuarios = () => {
+  const isAdmin = S.access.role === "admin";
+  const me = S.access.email;
+  const local = store.mode === "local";
+  const roleLabel = S.access.owner ? "Cuenta principal · Admin" : S.access.role === "admin" ? "Admin" : "Agente";
+  const myName = S.team.find((t) => t.id === me)?.nombre || "";
+  return `<div class="settings">
+    <div class="stack">
+      <div class="card stack">
+        <div class="me">
+          <span class="av av--lg">${esc((myName || me || "J")[0])}</span>
+          <div><h2>${esc(myName || (local ? "Modo local" : me))}</h2><small class="muted">${esc(local ? "Demo en este navegador" : me)} · ${roleLabel}</small></div>
+        </div>
+      </div>
+      <form class="card stack" id="pass-form" novalidate>
+        <div><h2>Cambiar mi contraseña</h2><p class="muted" style="margin:4px 0 0;font-size:13.5px">Por seguridad te pedimos la contraseña actual.</p></div>
+        <label class="in"><span>Contraseña actual</span><input type="password" name="actual" autocomplete="current-password" ${local ? "disabled" : ""} /></label>
+        <div class="grid2"><label class="in"><span>Nueva contraseña</span><input type="password" name="nueva" minlength="6" autocomplete="new-password" ${local ? "disabled" : ""} /></label><label class="in"><span>Repite la nueva</span><input type="password" name="repite" minlength="6" autocomplete="new-password" ${local ? "disabled" : ""} /></label></div>
+        <p class="muted" style="margin:0;font-size:12.5px">${local ? "En la demo no hay contraseñas: esta opción funciona en el panel real." : "Mínimo 6 caracteres. Al guardar, tu sesión sigue abierta."}</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="b b--dark" type="submit" ${local ? "disabled" : ""}>Guardar contraseña</button>${local ? "" : `<button class="b b--line" type="button" data-reset-me>Enviarme correo para restablecerla</button>`}</div>
+      </form>
+    </div>
+    ${isAdmin ? `<div class="card stack">
+      <div><h2>Equipo</h2><p class="muted" style="margin:4px 0 0;font-size:13.5px">Personas que pueden entrar al panel. Cambia el rol, desactiva el acceso o envía un correo para restablecer su contraseña.</p></div>
+      <div class="team__row team__row--owner"><span class="team__who"><b>${esc(store.ownerEmail || "Cuenta principal")}</b><small>Cuenta principal · siempre Admin</small></span><span class="tag tag--dark">Dueña</span></div>
+      <div class="team">${S.team.map((t) => {
+        const self = t.id === me;
+        return `<div class="team__row"><span class="team__who"><b>${esc(t.nombre || t.id)}</b><small>${esc(t.nombre ? t.id : "")}${self ? " · tú" : ""}</small></span>
+          <select class="sel" data-role="${esc(t.id)}" ${self ? "disabled" : ""}><option value="admin" ${t.role === "admin" ? "selected" : ""}>Admin</option><option value="agente" ${t.role === "agente" ? "selected" : ""}>Agente</option></select>
+          <label class="toggle"><input type="checkbox" data-active="${esc(t.id)}" ${t.active ? "checked" : ""} ${self ? "disabled" : ""} /><span>Activo</span></label>
+          <span class="team__acts">${local ? "" : `<button class="icon-b" data-reset="${esc(t.id)}" title="Enviar correo para restablecer contraseña" aria-label="Restablecer contraseña"><svg viewBox="0 0 24 24"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></button>`}${self ? "" : `<button class="icon-b" data-del-team="${esc(t.id)}" title="Quitar acceso" aria-label="Quitar acceso">✕</button>`}</span></div>`;
+      }).join("") || `<p class="muted" style="margin:0">Aún no hay más personas en el equipo.</p>`}</div>
+      <form class="stack team__new" id="team-form" novalidate>
+        <h3 style="margin:0;font-size:14px">Agregar usuario</h3>
+        <div class="grid2"><label class="in"><span>Nombre</span><input name="nombre" placeholder="Ej. Juliana Osorio" /></label><label class="in"><span>Correo*</span><input type="email" name="email" required placeholder="persona@correo.com" autocomplete="off" /></label></div>
+        <div class="grid2"><label class="in"><span>Contraseña inicial*</span><input type="text" name="pass" minlength="6" placeholder="Mínimo 6 caracteres" autocomplete="new-password" /></label><label class="in"><span>Rol</span><select name="role"><option value="agente">Agente · contactos y citas</option><option value="admin">Admin · todo, incluido el equipo</option></select></label></div>
+        <p class="muted" style="margin:0;font-size:12.5px">Comparte el correo y la contraseña con la persona; luego podrá cambiarla en Usuarios → Cambiar mi contraseña. Si ya tenía cuenta, deja la contraseña vacía y solo se habilita su acceso.</p>
+        <button class="b b--dark" type="submit">Agregar usuario</button>
+      </form>
+    </div>` : `<div class="card stack"><h2>Equipo</h2><p class="muted" style="margin:0">Solo los administradores pueden agregar usuarios. Pide a la cuenta principal que te dé el rol Admin si lo necesitas.</p></div>`}
+  </div>`;
+};
+BIND.usuarios = (v) => {
+  $("#pass-form", v).addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const f = e.target, btn = $('button[type="submit"]', f);
+    if (!f.actual.value) { toast("Escribe tu contraseña actual."); f.actual.focus(); return; }
+    if (f.nueva.value.length < 6) { toast("La nueva contraseña debe tener al menos 6 caracteres."); f.nueva.focus(); return; }
+    if (f.nueva.value !== f.repite.value) { toast("Las contraseñas nuevas no coinciden."); f.repite.focus(); return; }
+    if (f.nueva.value === f.actual.value) { toast("La nueva contraseña debe ser distinta de la actual."); return; }
+    btn.disabled = true;
+    try { await store.changePassword(f.actual.value, f.nueva.value); f.reset(); toast("Contraseña actualizada."); }
+    catch (err) {
+      const m = { "auth/invalid-credential": "La contraseña actual no es correcta.", "auth/wrong-password": "La contraseña actual no es correcta.", "auth/weak-password": "La nueva contraseña es muy débil.", "auth/too-many-requests": "Demasiados intentos. Espera unos minutos.", "auth/requires-recent-login": "Vuelve a iniciar sesión e inténtalo de nuevo." };
+      toast(m[err.code] || "No se pudo cambiar la contraseña.");
+    } finally { btn.disabled = false; }
+  });
+  $("[data-reset-me]", v)?.addEventListener("click", async () => {
+    try { await store.resetPassword(S.access.email); toast(`Te enviamos un correo a ${S.access.email}.`); } catch (e) { toast("No se pudo enviar el correo."); }
+  });
+  $$("[data-reset]", v).forEach((b) => b.addEventListener("click", async () => {
+    try { await store.resetPassword(b.dataset.reset); toast(`Correo para restablecer enviado a ${b.dataset.reset}.`); } catch (e) { toast("No se pudo enviar el correo."); }
+  }));
   $("#team-form", v)?.addEventListener("submit", async (e) => {
     e.preventDefault();
     const f = e.target, btn = $('button[type="submit"]', f);
@@ -726,7 +779,6 @@ BIND.ajustes = (v) => {
   $$("[data-role]", v).forEach((s) => s.addEventListener("change", () => store.update("access", s.dataset.role, { role: s.value }).catch(fail)));
   $$("[data-active]", v).forEach((c) => c.addEventListener("change", () => store.update("access", c.dataset.active, { active: c.checked }).catch(fail)));
   $$("[data-del-team]", v).forEach((b) => b.addEventListener("click", () => confirm(`¿Quitar el acceso de ${b.dataset.delTeam}?`) && store.remove("access", b.dataset.delTeam).catch(fail)));
-  bindLocalTools(v);
 };
 
 /* =========================================================

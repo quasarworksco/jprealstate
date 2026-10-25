@@ -22,14 +22,20 @@ sitio guardan todo en Firestore. La configuración web está en `assets/js/confi
 
 4. **Cuenta principal** (ya está creada)
    `jprealstatefl@gmail.com` existe en *Authentication → Users*. Es administradora
-   siempre por las reglas. Se recomienda cambiar la contraseña desde
-   “Olvidé mi contraseña” en `/admin/`, ya que se compartió por chat.
+   siempre por las reglas. Se recomienda cambiar la contraseña en
+   **Usuarios → Cambiar mi contraseña**, ya que se compartió por chat.
 
-## Equipo
+## Usuarios
 
-Desde el panel → **Ajustes → Equipo** se habilita el correo de cada persona
-(rol *Admin* o *Agente*). Luego esa persona entra a `/admin/`, pulsa
-**“Crear mi acceso”** y crea su contraseña.
+Panel → **Usuarios**:
+
+- **Mi cuenta** (todas las personas): cambiar la propia contraseña (pide la actual)
+  o recibir un correo para restablecerla.
+- **Equipo** (solo Admin): agregar usuarios con nombre, correo, contraseña inicial y
+  rol (*Admin* o *Agente*), cambiar el rol, desactivar el acceso y enviar a cualquiera
+  un correo para restablecer su contraseña. La cuenta principal siempre es Admin.
+- Si la persona ya tenía cuenta, se deja la contraseña vacía y solo se habilita su
+  acceso; también puede crear la suya con **“Crear mi acceso”** en `/admin/`.
 
 ## Colecciones
 

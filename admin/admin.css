@@ -483,3 +483,14 @@ table.mini small { color: var(--grey); }
 .team__who small { color: var(--grey); font-size: 12px; overflow: hidden; text-overflow: ellipsis; }
 .team__row--owner { grid-template-columns: 1fr auto; background: var(--bg); }
 .team__new { padding-top: 14px; border-top: 1px solid var(--line); }
+
+.side__user { cursor: pointer; border-radius: 12px; transition: background .2s; }
+.side__user:hover { background: rgba(255,255,255,.06); }
+.me { display: flex; align-items: center; gap: 14px; }
+.me h2 { margin: 0 0 2px; font-size: 20px; font-weight: 500; letter-spacing: -.03em; }
+.av--lg { width: 56px; height: 56px; font-size: 20px; }
+.team__row { grid-template-columns: 1fr auto auto auto; }
+.team__acts { display: flex; gap: 6px; justify-content: flex-end; }
+@media (max-width: 860px) { .side__nav a span { font-size: 10px; } }
+@media (max-width: 520px) { .team__row { grid-template-columns: 1fr auto; } .team__row .toggle, .team__acts { grid-column: auto; } }
+@media (max-width: 860px) { .toast { bottom: calc(84px + env(safe-area-inset-bottom)); text-align: center; } }
