@@ -1,0 +1,87 @@
+rules_version = '2';
+
+// Reglas de seguridad — JP Real Estate (panel admin, agenda y embudo)
+// ---------------------------------------------------------------
+// - El panel solo lo usan personas con sesión iniciada y acceso activo.
+// - La cuenta principal (jprealstatefl@gmail.com) siempre es administradora.
+// - El acceso de cada persona se guarda en access/{correo} (lo escribe la administración).
+//     admin  → todo, incluido el equipo y el horario
+//     agente → contactos y citas (no borra ni administra el equipo)
+// - El público (sitio web y formulario de anuncios) SOLO puede crear
+//   contactos y citas con campos validados; nunca leerlos.
+// - "ocupados" guarda solo fecha y hora (sin datos personales) para que la
+//   agenda pública sepa qué horarios están tomados. Un horario no se puede
+//   volver a crear: eso evita las dobles reservas.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null && request.auth.token.email is string; }
+    function myEmail() { return request.auth.token.email.lower(); }
+    function isOwner() { return signedIn() && myEmail() == 'jprealstatefl@gmail.com'; }
+    function accessPath() { return /databases/$(database)/documents/access/$(myEmail()); }
+    function hasAccess() { return isOwner() || (signedIn() && exists(accessPath()) && get(accessPath()).data.active == true); }
+    function isAdmin() { return isOwner() || (hasAccess() && get(accessPath()).data.role == 'admin'); }
+
+    // texto opcional con largo máximo
+    function optStr(d, k, max) { return !(k in d) || (d[k] is string && d[k].size() <= max); }
+    function reqStr(d, k, min, max) { return k in d && d[k] is string && d[k].size() >= min && d[k].size() <= max; }
+    function stamped(d) { return d.createdAt == request.time && d.updatedAt == request.time; }
+
+    function validPublicLead(d) {
+      return d.keys().hasOnly(['nombre', 'telefono', 'email', 'interes', 'tipo', 'presupuesto', 'zona', 'plazo',
+                               'mensaje', 'origen', 'campana', 'accion', 'contactoPreferido', 'etapa', 'createdAt', 'updatedAt'])
+        && reqStr(d, 'nombre', 2, 120) && reqStr(d, 'telefono', 7, 40)
+        && optStr(d, 'email', 120) && optStr(d, 'interes', 40) && optStr(d, 'tipo', 60) && optStr(d, 'presupuesto', 80)
+        && optStr(d, 'zona', 120) && optStr(d, 'plazo', 80) && optStr(d, 'mensaje', 1000) && optStr(d, 'origen', 40)
+        && optStr(d, 'campana', 120) && optStr(d, 'accion', 20) && optStr(d, 'contactoPreferido', 20)
+        && d.etapa in ['nuevo', 'cita'] && stamped(d);
+    }
+    function validSlot(fecha, hora) {
+      return fecha is string && fecha.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && hora is string && hora.matches('^[0-9]{2}:[0-9]{2}$');
+    }
+    function validPublicCita(d) {
+      return d.keys().hasOnly(['nombre', 'telefono', 'email', 'interes', 'fecha', 'hora', 'mensaje', 'origen', 'tipo',
+                               'estado', 'leadId', 'createdAt', 'updatedAt'])
+        && reqStr(d, 'nombre', 2, 120) && reqStr(d, 'telefono', 7, 40)
+        && optStr(d, 'email', 120) && optStr(d, 'interes', 40) && optStr(d, 'mensaje', 1000)
+        && optStr(d, 'origen', 40) && optStr(d, 'tipo', 60) && optStr(d, 'leadId', 60)
+        && validSlot(d.fecha, d.hora) && d.estado == 'solicitada' && stamped(d);
+    }
+
+    // Accesos del equipo (doc id = correo en minúsculas)
+    match /access/{email} {
+      allow read: if signedIn() && (email == myEmail() || hasAccess());
+      allow write: if isAdmin();
+    }
+
+    // Contactos del embudo
+    match /leads/{id} {
+      allow read, update: if hasAccess();
+      allow create: if hasAccess() || validPublicLead(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    // Citas del calendario
+    match /citas/{id} {
+      allow read, update: if hasAccess();
+      allow create: if hasAccess() || validPublicCita(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    // Horarios tomados (sin datos personales). Solo se crean; no se pueden pisar.
+    match /ocupados/{slot} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['fecha', 'hora', 'createdAt', 'updatedAt'])
+        && validSlot(request.resource.data.fecha, request.resource.data.hora)
+        && slot == request.resource.data.fecha + 'T' + request.resource.data.hora;
+      allow delete: if hasAccess();
+    }
+
+    // Horario de atención que ve el público
+    match /ajustes/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agenda tu llamada 1 a 1 | JP Real Estate</title>
+  <meta name="description" content="Agenda una llamada 1 a 1 con Paula y Juliana de JP Real Estate o envíanos un mensaje. Compra, venta y alquiler de propiedades en Florida." />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="canonical" href="https://quasarworksco.github.io/jprealstate/registro/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="JP Real Estate" />
+  <meta property="og:locale" content="es_US" />
+  <meta property="og:url" content="https://quasarworksco.github.io/jprealstate/registro/" />
+  <meta property="og:title" content="Agenda tu llamada 1 a 1 con JP Real Estate" />
+  <meta property="og:description" content="¿Comprar, vender o alquilar en Florida? Elige día y hora para hablar con nosotras o envíanos un mensaje." />
+  <meta property="og:image" content="https://quasarworksco.github.io/jprealstate/assets/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Agenda tu llamada 1 a 1 con JP Real Estate" />
+  <meta name="twitter:description" content="¿Comprar, vender o alquilar en Florida? Elige día y hora para hablar con nosotras o envíanos un mensaje." />
+  <meta name="twitter:image" content="https://quasarworksco.github.io/jprealstate/assets/og-image.jpg" />
+
+  <link rel="icon" type="image/png" href="../assets/icon.png" />
+  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/inter-tight-latin.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/instrument-serif-italic-latin.woff2" crossorigin />
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    @font-face { font-family: "Inter Tight"; font-style: normal; font-weight: 300 700; font-display: swap; src: url("../assets/fonts/inter-tight-latin.woff2") format("woff2"); }
+    @font-face { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-display: swap; src: url("../assets/fonts/instrument-serif-italic-latin.woff2") format("woff2"); }
+
+    body { background: var(--white); }
+    .rg { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); min-height: 100vh; min-height: 100svh; }
+
+    /* left: brand panel */
+    .rg__side { position: relative; color: var(--white); background: var(--black); overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; padding: 36px clamp(24px, 4vw, 56px); }
+    .rg__side > img.bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .45; transform: scale(1.1); animation: zoom 2.4s var(--ease) forwards; }
+    @keyframes zoom { to { transform: scale(1); } }
+    .rg__side::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,10,10,.55), rgba(10,10,10,.2) 40%, rgba(10,10,10,.92)); }
+    .rg__side > * { position: relative; z-index: 1; }
+    .rg__brand { display: flex; align-items: center; gap: 14px; font-weight: 600; font-size: 15px; }
+    .rg__brand img { height: 34px; width: auto; }
+    .rg__brand span { padding-left: 14px; border-left: 1px solid rgba(255,255,255,.45); }
+    .rg__pitch h1 { margin: 0 0 18px; font-weight: 500; font-size: clamp(40px, 5vw, 76px); line-height: .94; letter-spacing: -.05em; }
+    .rg__pitch h1 em { letter-spacing: -.02em; }
+    .rg__pitch p { margin: 0 0 26px; max-width: 42ch; color: rgba(255,255,255,.78); font-size: 17px; }
+    .rg__people { display: flex; align-items: center; gap: 14px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.2); }
+    .rg__people img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; object-position: center 22%; border: 2px solid rgba(255,255,255,.7); }
+    .rg__people p { margin: 0; font-size: 14px; line-height: 1.4; color: rgba(255,255,255,.8); }
+    .rg__people strong { color: var(--white); font-weight: 600; }
+
+    /* right: form */
+    .rg__main { display: flex; flex-direction: column; justify-content: center; padding: clamp(28px, 5vw, 72px) clamp(20px, 5vw, 80px); }
+    .rg__inner { width: 100%; max-width: 620px; margin: 0 auto; }
+    .steps-bar { display: flex; gap: 6px; margin-bottom: 30px; }
+    .steps-bar i { flex: 1; height: 3px; border-radius: 3px; background: rgba(10,10,10,.1); overflow: hidden; position: relative; }
+    .steps-bar i::after { content: ""; position: absolute; inset: 0; background: var(--black); transform: scaleX(0); transform-origin: left; transition: transform .6s var(--ease); }
+    .steps-bar i.on::after { transform: scaleX(1); }
+    .step { display: none; }
+    .step.is-on { display: block; animation: stepIn .6s var(--ease); }
+    @keyframes stepIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    .step h2 { margin: 0 0 8px; font-weight: 500; font-size: clamp(32px, 3.4vw, 48px); line-height: 1; letter-spacing: -.045em; }
+    .step h2 em { letter-spacing: -.02em; }
+    .step > p.lead { margin: 0 0 28px; color: var(--grey-d); font-size: 16.5px; }
+
+    .choices { display: grid; gap: 14px; }
+    .choice { position: relative; display: grid; grid-template-columns: 56px 1fr 24px; gap: 18px; align-items: center; width: 100%; text-align: left; padding: 22px; border-radius: 18px; border: 1px solid rgba(10,10,10,.14); background: var(--white); color: var(--black); cursor: pointer; font-family: var(--sans); transition: border-color .3s, transform .4s var(--ease), box-shadow .4s var(--ease), background .3s, color .3s; }
+    .choice:hover { border-color: var(--black); transform: translateY(-3px); box-shadow: 0 20px 40px -24px rgba(0,0,0,.45); }
+    .choice__ic { width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; background: var(--black); color: var(--white); transition: background .3s, color .3s; }
+    .choice__ic svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+    .choice strong { display: block; font-size: 20px; font-weight: 500; letter-spacing: -.03em; margin-bottom: 2px; }
+    .choice span.d { color: var(--grey-d); font-size: 14.5px; line-height: 1.45; }
+    .choice .arr { font-size: 22px; transition: transform .4s var(--ease); }
+    .choice:hover .arr { transform: translateX(4px); }
+    .choice__tag { position: absolute; top: -10px; right: 18px; font-size: 11px; font-weight: 600; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: var(--black); color: var(--white); }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; border: 0; padding: 0; margin: 0 0 22px; }
+    .chips legend { width: 100%; font-size: 13px; text-transform: uppercase; color: var(--grey); margin-bottom: 10px; padding: 0; }
+    .chips input { position: absolute; opacity: 0; pointer-events: none; }
+    .chips span { display: inline-block; padding: 11px 18px; border-radius: 999px; border: 1px solid rgba(10,10,10,.22); font-size: 15px; font-weight: 500; cursor: pointer; transition: background .3s, color .3s, border-color .3s; }
+    .chips label:hover span { border-color: var(--black); }
+    .chips input:checked + span { background: var(--black); color: var(--white); border-color: var(--black); }
+    .chips input:focus-visible + span { outline: 2px solid var(--black); outline-offset: 2px; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 22px; }
+    .field select { width: 100%; border: 0; border-bottom: 1px solid rgba(10,10,10,.25); background: transparent; padding: 28px 0 12px; font: 500 17px var(--sans); color: var(--black); outline: none; border-radius: 0; appearance: none; -webkit-appearance: none; }
+    .field select + label { transform: translateY(-24px) scale(.78); }
+    .field.has-error input, .field.has-error select { border-color: #c0392b; }
+    .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 26px; }
+    .actions .btn { flex: 1 1 auto; justify-content: space-between; padding-left: 26px; }
+    .back { background: none; border: 0; padding: 12px 4px; font: 500 15px var(--sans); color: var(--grey-d); cursor: pointer; }
+    .back:hover { color: var(--black); }
+    .msg { min-height: 22px; margin: 14px 0 0; font-size: 14px; color: #c0392b; }
+    .tz { margin: 10px 0 0; font-size: 13px; color: var(--grey); }
+
+    .done { text-align: left; }
+    .done__check { width: 72px; height: 72px; border-radius: 50%; background: var(--black); color: var(--white); display: grid; place-items: center; margin-bottom: 26px; animation: pop .7s var(--ease); }
+    .done__check svg { width: 32px; height: 32px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 40; stroke-dashoffset: 40; animation: tick .6s .3s var(--ease) forwards; }
+    @keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
+    @keyframes tick { to { stroke-dashoffset: 0; } }
+    .done__card { margin: 24px 0; padding: 22px; border-radius: 16px; background: var(--paper); display: grid; gap: 6px; }
+    .done__card small { font-size: 12px; text-transform: uppercase; color: var(--grey); }
+    .done__card strong { font-size: 22px; font-weight: 500; letter-spacing: -.03em; }
+    .done .actions .btn { flex: 0 1 auto; }
+    .btn--line { background: transparent; color: var(--black); border-color: var(--black); --fill: var(--black); --icon-bg: var(--black); --icon-fg: var(--white); }
+    .btn--line:hover { color: var(--white); --icon-bg: var(--white); --icon-fg: var(--black); }
+    .local-note { margin-top: 30px; font-size: 12.5px; color: var(--grey); }
+
+    @media (max-width: 900px) {
+      .rg { grid-template-columns: 1fr; }
+      .rg__side { min-height: 46svh; padding: 22px 20px 26px; }
+      .rg__pitch h1 { font-size: clamp(36px, 9.5vw, 54px); }
+      .rg__pitch p { font-size: 15.5px; margin-bottom: 18px; }
+      .rg__main { padding: 30px 20px 60px; }
+    }
+    @media (max-width: 560px) {
+      .grid2 { grid-template-columns: 1fr; }
+      .choice { grid-template-columns: 46px 1fr 18px; gap: 14px; padding: 18px; }
+      .choice__ic { width: 46px; height: 46px; border-radius: 13px; }
+      .choice strong { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="rg">
+    <aside class="rg__side">
+      <img class="bg" src="../assets/hero-villa-900.webp" srcset="../assets/hero-villa-900.webp 900w, ../assets/hero-villa-1600.webp 1600w" sizes="(max-width: 900px) 100vw, 45vw" alt="" />
+      <a href="../" class="rg__brand" aria-label="JP Real Estate — sitio web">
+        <img src="../assets/logo-light.webp" alt="The Team · lpt realty" width="98" height="34" />
+        <span>JP Real Estate</span>
+      </a>
+      <div class="rg__pitch">
+        <h1>Hablemos de tu <em>próxima propiedad.</em></h1>
+        <p>Comprar, vender o alquilar en Florida es más fácil con alguien que te escucha. Agenda una llamada 1 a 1 o déjanos tu mensaje.</p>
+        <div class="rg__people">
+          <img src="../assets/equipo.webp" alt="Paula Chavez y Juliana Osorio" width="56" height="56" />
+          <p><strong>Paula Chavez &amp; Juliana Osorio</strong><br />The Team · lpt realty · Florida, EE. UU.</p>
+        </div>
+      </div>
+    </aside>
+
+    <main class="rg__main">
+      <div class="rg__inner">
+        <div class="steps-bar" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+
+        <form id="rg-form" novalidate>
+          <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+          <!-- STEP 1: choose -->
+          <section class="step is-on" data-step="1">
+            <h2>¿Cómo prefieres <em>conectar?</em></h2>
+            <p class="lead">Elige la opción que más te acomode. Te toma menos de un minuto.</p>
+            <div class="choices">
+              <button type="button" class="choice" data-accion="llamada">
+                <span class="choice__tag">Recomendado</span>
+                <span class="choice__ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4M8 14h3M8 17h6"/></svg></span>
+                <span><strong>Agenda una llamada 1 a 1</strong><span class="d">Elige el día y la hora. Hablamos de lo que buscas y te orientamos sin compromiso.</span></span>
+                <span class="arr" aria-hidden="true">→</span>
+              </button>
+              <button type="button" class="choice" data-accion="mensaje">
+                <span class="choice__ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12Z"/><path d="M8.5 11h7M8.5 14h4.5"/></svg></span>
+                <span><strong>Envíanos un mensaje</strong><span class="d">Cuéntanos qué necesitas y te contactamos por WhatsApp, llamada o correo.</span></span>
+                <span class="arr" aria-hidden="true">→</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- STEP 2: details -->
+          <section class="step" data-step="2">
+            <h2>Cuéntanos <em>sobre ti.</em></h2>
+            <p class="lead">Así preparamos la conversación según lo que buscas.</p>
+
+            <fieldset class="chips">
+              <legend>¿Qué te interesa?</legend>
+              <label><input type="radio" name="interes" value="Comprar" checked /><span>Comprar</span></label>
+              <label><input type="radio" name="interes" value="Vender" /><span>Vender</span></label>
+              <label><input type="radio" name="interes" value="Alquilar" /><span>Alquilar</span></label>
+              <label><input type="radio" name="interes" value="Invertir" /><span>Invertir</span></label>
+            </fieldset>
+
+            <div class="field">
+              <input id="r-name" name="nombre" type="text" placeholder=" " autocomplete="name" required />
+              <label for="r-name">Nombre completo*</label>
+              <span class="field__err">Escribe tu nombre</span>
+            </div>
+            <div class="grid2">
+              <div class="field">
+                <input id="r-phone" name="telefono" type="tel" placeholder=" " autocomplete="tel" required />
+                <label for="r-phone">Teléfono / WhatsApp*</label>
+                <span class="field__err">Escribe tu teléfono</span>
+              </div>
+              <div class="field">
+                <input id="r-email" name="email" type="email" placeholder=" " autocomplete="email" required />
+                <label for="r-email">Correo electrónico*</label>
+                <span class="field__err">Correo no válido</span>
+              </div>
+            </div>
+            <div class="grid2">
+              <div class="field">
+                <select id="r-tipo" name="tipo">
+                  <option value="">—</option><option>Casa</option><option>Apartamento</option><option>Townhouse</option><option>Terreno</option><option>Comercial</option>
+                </select>
+                <label for="r-tipo">Tipo de propiedad</label>
+              </div>
+              <div class="field">
+                <select id="r-presupuesto" name="presupuesto">
+                  <option value="">—</option><option>Menos de $250k</option><option>$250k – $400k</option><option>$400k – $600k</option><option>$600k – $1M</option><option>Más de $1M</option><option>Alquiler: menos de $2,000/mes</option><option>Alquiler: $2,000 – $3,500/mes</option><option>Alquiler: más de $3,500/mes</option>
+                </select>
+                <label for="r-presupuesto">Presupuesto aproximado</label>
+              </div>
+            </div>
+            <div class="grid2">
+              <div class="field">
+                <input id="r-zona" name="zona" type="text" placeholder=" " />
+                <label for="r-zona">Zona o ciudad de interés</label>
+              </div>
+              <div class="field" data-origen-field>
+                <select id="r-origen" name="origen">
+                  <option value="">—</option><option value="instagram">Instagram</option><option value="facebook">Facebook</option><option value="tiktok">TikTok</option><option value="whatsapp">WhatsApp</option><option value="google">Google</option><option value="referido">Me recomendaron</option><option value="otro">Otro</option>
+                </select>
+                <label for="r-origen">¿Cómo nos conociste?</label>
+              </div>
+            </div>
+
+            <p class="msg" data-msg-2 role="alert"></p>
+            <div class="actions">
+              <button type="button" class="back" data-back>← Volver</button>
+              <button type="button" class="btn btn--dark" data-next><span class="btn__text">Continuar</span><span class="btn__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>
+            </div>
+          </section>
+
+          <!-- STEP 3a: booking -->
+          <section class="step" data-step="3" data-for="llamada">
+            <h2>Elige el día <em>y la hora.</em></h2>
+            <p class="lead">Llamada de 20 minutos por teléfono o WhatsApp. Te confirmamos por mensaje.</p>
+            <div data-booking></div>
+            <p class="tz">Horarios en hora de Florida (ET).</p>
+            <div class="field" style="margin-top:18px">
+              <textarea id="r-nota" name="mensajeLlamada" rows="2" placeholder=" "></textarea>
+              <label for="r-nota">¿Algo que quieras que sepamos antes? (opcional)</label>
+            </div>
+            <p class="msg" data-msg-3 role="alert"></p>
+            <div class="actions">
+              <button type="button" class="back" data-back>← Volver</button>
+              <button type="submit" class="btn btn--dark"><span class="btn__text">Confirmar llamada</span><span class="btn__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span></button>
+            </div>
+          </section>
+
+          <!-- STEP 3b: message -->
+          <section class="step" data-step="3" data-for="mensaje">
+            <h2>Déjanos <em>tu mensaje.</em></h2>
+            <p class="lead">Te respondemos lo antes posible por el medio que prefieras.</p>
+            <div class="field">
+              <textarea id="r-msg" name="mensaje" rows="4" placeholder=" "></textarea>
+              <label for="r-msg">¿En qué te podemos ayudar?*</label>
+              <span class="field__err">Escribe tu mensaje</span>
+            </div>
+            <fieldset class="chips">
+              <legend>¿Cómo prefieres que te contactemos?</legend>
+              <label><input type="radio" name="contactoPreferido" value="WhatsApp" checked /><span>WhatsApp</span></label>
+              <label><input type="radio" name="contactoPreferido" value="Llamada" /><span>Llamada</span></label>
+              <label><input type="radio" name="contactoPreferido" value="Correo" /><span>Correo</span></label>
+            </fieldset>
+            <p class="msg" data-msg-3m role="alert"></p>
+            <div class="actions">
+              <button type="button" class="back" data-back>← Volver</button>
+              <button type="submit" class="btn btn--dark"><span class="btn__text">Enviar mensaje</span><span class="btn__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>
+            </div>
+          </section>
+
+          <!-- STEP 4: done -->
+          <section class="step done" data-step="4">
+            <div class="done__check"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+            <h2 data-done-title>¡Listo!</h2>
+            <p class="lead" data-done-text></p>
+            <div class="done__card" data-done-card hidden><small>Tu llamada</small><strong data-done-when></strong><span>Te confirmamos por WhatsApp antes de la llamada.</span></div>
+            <div class="actions">
+              <a class="btn btn--dark" data-gcal target="_blank" rel="noopener" hidden><span class="btn__text">Agregar a Google Calendar</span><span class="btn__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></a>
+              <a class="btn btn--line" data-wa target="_blank" rel="noopener"><span class="btn__text">Escribir por WhatsApp</span><span class="btn__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+            </div>
+            <p style="margin-top:24px"><a href="../" class="link">Conocer JP Real Estate <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></p>
+          </section>
+        </form>
+        <p class="local-note" data-local hidden>Modo local de prueba: los registros se guardan solo en este navegador.</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="../assets/js/config.js"></script>
+  <script type="module">
+    import * as store from "../assets/js/store.js";
+    import { mountBooking, hora12, fechaLarga } from "../assets/js/booking.js";
+
+    const $ = (s, c = document) => c.querySelector(s);
+    const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+    const form = $("#rg-form");
+    const WA = (window.JP_CONFIG && window.JP_CONFIG.whatsapp) || "13219612892";
+    if (store.mode === "local") $("[data-local]").hidden = false;
+    store.loadFirebase(); // empieza a cargar mientras la persona elige
+
+    /* origen y campaña desde el enlace (?utm_source=instagram&utm_campaign=...) */
+    const qs = new URLSearchParams(location.search);
+    const SOURCES = ["instagram", "facebook", "tiktok", "whatsapp", "google", "referido", "otro"];
+    const utmSource = (qs.get("utm_source") || qs.get("o") || "").toLowerCase();
+    const origen = SOURCES.includes(utmSource) ? utmSource : utmSource ? "otro" : "";
+    const campana = qs.get("utm_campaign") || "";
+    if (origen) { form.origen.value = origen; $("[data-origen-field]").hidden = true; }
+
+    let accion = null, step = 1, booking = null;
+
+    const show = (n) => {
+      step = n;
+      $$(".step").forEach((s) => s.classList.toggle("is-on", +s.dataset.step === n && (!s.dataset.for || s.dataset.for === accion)));
+      $$(".steps-bar i").forEach((b, i) => b.classList.toggle("on", i < Math.min(n, 3)));
+      $(".steps-bar").hidden = n === 4;
+      window.scrollTo({ top: innerWidth < 900 ? $(".rg__main").offsetTop - 10 : 0, behavior: "smooth" });
+    };
+
+    $$(".choice").forEach((c) => c.addEventListener("click", () => { accion = c.dataset.accion; show(2); }));
+    $$("[data-back]").forEach((b) => b.addEventListener("click", () => show(step - 1)));
+
+    const valid2 = () => {
+      const checks = [
+        [form.nombre, form.nombre.value.trim().length > 1],
+        [form.telefono, form.telefono.value.replace(/\D/g, "").length >= 7],
+        [form.email, /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.value.trim())],
+      ];
+      checks.forEach(([el, ok]) => el.closest(".field").classList.toggle("has-error", !ok));
+      const bad = checks.find(([, ok]) => !ok);
+      if (bad) { bad[0].focus(); return false; }
+      return true;
+    };
+    $("[data-next]").addEventListener("click", async () => {
+      if (!valid2()) return;
+      show(3);
+      if (accion === "llamada" && !booking) booking = await mountBooking($("[data-booking]"), { onChange: () => ($("[data-msg-3]").textContent = "") });
+    });
+    $$("input, textarea", form).forEach((i) => i.addEventListener("input", () => i.closest(".field")?.classList.remove("has-error")));
+
+    const gcalLink = (fecha, hora, nombre) => {
+      const start = new Date(`${fecha}T${hora}:00`);
+      const end = new Date(start.getTime() + 20 * 60e3);
+      const f = (d) => `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}T${String(d.getHours()).padStart(2, "0")}${String(d.getMinutes()).padStart(2, "0")}00`;
+      const p = new URLSearchParams({
+        action: "TEMPLATE",
+        text: "Llamada 1 a 1 con JP Real Estate",
+        dates: `${f(start)}/${f(end)}`,
+        ctz: "America/New_York",
+        details: `Llamada con Paula Chavez y Juliana Osorio (JP Real Estate) para ${nombre}. WhatsApp: +${WA}`,
+      });
+      return `https://calendar.google.com/calendar/render?${p}`;
+    };
+
+    let sending = false;
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (sending) return;
+      const msgEl = accion === "llamada" ? $("[data-msg-3]") : $("[data-msg-3m]");
+      msgEl.textContent = "";
+      const base = {
+        nombre: form.nombre.value, telefono: form.telefono.value, email: form.email.value,
+        interes: form.interes.value, tipo: form.tipo.value, presupuesto: form.presupuesto.value,
+        zona: form.zona.value, origen: form.origen.value || "otro", campana, accion,
+      };
+      const honeypot = form.website.value.trim() !== "";
+      let slot = null;
+      if (accion === "llamada") {
+        slot = booking?.value();
+        if (!slot) { msgEl.textContent = "Elige un día y una hora para tu llamada."; return; }
+      } else if (form.mensaje.value.trim().length < 3) {
+        form.mensaje.closest(".field").classList.add("has-error"); form.mensaje.focus(); return;
+      }
+
+      sending = true;
+      const btn = $(`.step.is-on button[type="submit"] .btn__text`);
+      const label = btn.textContent; btn.textContent = "Enviando…";
+      try {
+        if (!honeypot) {
+          if (accion === "llamada") {
+            await store.publicCita({ ...base, ...slot, tipo: "Llamada 1 a 1", mensaje: form.mensajeLlamada.value });
+          } else {
+            await store.publicLead({ ...base, mensaje: form.mensaje.value, contactoPreferido: form.contactoPreferido.value });
+          }
+        }
+        const nombre = form.nombre.value.trim().split(" ")[0];
+        if (accion === "llamada") {
+          const when = `${fechaLarga(slot.fecha)} · ${hora12(slot.hora)}`;
+          $("[data-done-title]").textContent = `¡Listo, ${nombre}!`;
+          $("[data-done-text]").textContent = "Tu llamada 1 a 1 quedó agendada. Paula o Juliana te llamarán a la hora acordada.";
+          $("[data-done-card]").hidden = false;
+          $("[data-done-when]").textContent = when.charAt(0).toUpperCase() + when.slice(1);
+          const g = $("[data-gcal]"); g.hidden = false; g.href = gcalLink(slot.fecha, slot.hora, form.nombre.value.trim());
+          $("[data-wa]").href = `https://wa.me/${WA}?text=${encodeURIComponent(`Hola JP Real Estate, soy ${form.nombre.value.trim()}. Acabo de agendar una llamada para el ${when}.`)}`;
+        } else {
+          $("[data-done-title]").textContent = `¡Gracias, ${nombre}!`;
+          $("[data-done-text]").textContent = `Recibimos tu mensaje. Te contactaremos pronto por ${form.contactoPreferido.value.toLowerCase()}.`;
+          $("[data-wa]").href = `https://wa.me/${WA}?text=${encodeURIComponent(`Hola JP Real Estate, soy ${form.nombre.value.trim()}. Les acabo de dejar un mensaje en su formulario.`)}`;
+        }
+        show(4);
+      } catch (err) {
+        if (err instanceof store.SlotTakenError) {
+          msgEl.textContent = "Ese horario se acaba de ocupar. Elige otro, por favor.";
+          booking?.refresh();
+        } else {
+          console.error(err);
+          msgEl.textContent = "No pudimos enviar tu solicitud. Intenta de nuevo o escríbenos por WhatsApp.";
+        }
+      } finally {
+        sending = false; btn.textContent = label;
+      }
+    });
+  </script>
+</body>
+</html>

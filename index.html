@@ -411,6 +411,11 @@
               <span class="field__err">Escribe tu teléfono</span>
             </div>
           </div>
+          <div class="form__booking">
+            <p class="form__label">Elige día y hora para tu cita*</p>
+            <div data-booking></div>
+            <p class="form__tz">Horarios en hora de Florida (ET).</p>
+          </div>
           <div class="field">
             <textarea id="f-msg" name="mensaje" rows="3" placeholder=" "></textarea>
             <label for="f-msg">Cuéntanos qué buscas (opcional)</label>
@@ -420,7 +425,7 @@
             <button type="submit" value="whatsapp" class="btn btn--dark magnetic" data-hover><span class="btn__text" data-text="Enviar por WhatsApp">Enviar por WhatsApp</span><span class="btn__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></button>
             <button type="submit" value="correo" class="btn btn--line magnetic" data-hover><span class="btn__text" data-text="Enviar por correo">Enviar por correo</span><span class="btn__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v12H3z"/><path d="m3 7 9 6 9-6"/></svg></span></button>
           </div>
-          <p class="form__note">Se abrirá WhatsApp o tu app de correo con el mensaje listo para JP Real Estate.</p>
+          <p class="form__note">Tu cita queda reservada y se abrirá WhatsApp o tu app de correo con el mensaje listo para JP Real Estate.</p>
           <div class="form__ok" role="status" aria-live="polite"></div>
         </form>
       </div>
@@ -467,5 +472,7 @@
   <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
   <script src="assets/vendor/lenis.min.js" defer></script>
   <script src="main.js" defer></script>
+  <script src="assets/js/config.js" defer></script>
+  <script type="module" src="assets/js/site-booking.js"></script>
 </body>
 </html>

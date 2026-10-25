@@ -368,8 +368,11 @@
   const EMAIL = ""; // correo del negocio que recibe las citas
   const form = $("#cita-form");
   const ok = $(".form__ok", form);
-  form.addEventListener("submit", (e) => {
+  const say = (text, isError = false) => { ok.textContent = text; ok.classList.toggle("is-error", isError); };
+  let sending = false;
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    if (sending) return;
     const name = form.nombre, email = form.correo, phone = form.telefono;
     const checks = [
       [name, name.value.trim().length > 1],
@@ -380,26 +383,59 @@
     const bad = checks.find(([, good]) => !good);
     if (bad) { bad[0].focus(); return; }
 
+    // Agenda conectada al CRM (si el módulo cargó)
+    const agenda = window.JPBooking;
+    const slot = agenda?.value();
+    if (agenda && !slot) { say("Elige un día y una hora para tu cita.", true); form.querySelector("[data-booking]")?.scrollIntoView({ block: "center", behavior: "smooth" }); return; }
+
     const msg = form.mensaje.value.trim();
     const lines = [
       `• Interés: ${form.interes.value}`,
+      slot && `• Cita: ${agenda.label(slot)}`,
       `• Nombre: ${name.value.trim()}`,
       `• Correo: ${email.value.trim()}`,
       `• Teléfono: ${phone.value.trim()}`,
       msg && `• Mensaje: ${msg}`,
     ].filter(Boolean);
+    const byEmail = e.submitter?.value === "correo";
+    // La ventana de WhatsApp se abre ya (dentro del clic) para que el navegador no la bloquee.
+    const win = byEmail ? null : window.open("", "_blank");
 
-    if (e.submitter?.value === "correo") {
+    if (slot) {
+      sending = true;
+      say("Reservando tu cita…");
+      try {
+        await agenda.save({
+          nombre: name.value, email: email.value, telefono: phone.value,
+          interes: form.interes.value, mensaje: msg, ...slot,
+          tipo: "Cita (sitio web)", origen: "sitio", accion: "llamada",
+        });
+      } catch (err) {
+        sending = false;
+        if (agenda.isTaken(err)) {
+          win?.close();
+          say("Ese horario se acaba de ocupar. Elige otro, por favor.", true);
+          agenda.refresh();
+          return;
+        }
+        console.error(err); // si falla la base de datos, igual enviamos el mensaje
+      }
+      sending = false;
+    }
+
+    if (byEmail) {
       const subject = `Solicitud de cita (${form.interes.value}) — ${name.value.trim()}`;
       const bodyText = ["¡Hola JP Real Estate! Quiero agendar una cita.", "", ...lines].join("\n");
       location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
-      ok.textContent = "¡Gracias! Abrimos tu app de correo con el mensaje listo para enviar.";
+      say(slot ? "¡Cita reservada! Abrimos tu app de correo con el mensaje listo para enviar." : "¡Gracias! Abrimos tu app de correo con el mensaje listo para enviar.");
     } else {
       const text = ["¡Hola JP Real Estate! Quiero agendar una cita.", ...lines].join("\n");
-      window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`, "_blank", "noopener");
-      ok.textContent = "¡Gracias! Abrimos WhatsApp con tu mensaje listo para enviar.";
+      const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`;
+      if (win) { win.opener = null; win.location.href = url; } else { location.href = url; }
+      say(slot ? "¡Cita reservada! Abrimos WhatsApp con tu mensaje listo para enviar." : "¡Gracias! Abrimos WhatsApp con tu mensaje listo para enviar.");
     }
     form.reset();
+    agenda?.reset();
   });
   $$("input", form).forEach((i) => i.addEventListener("input", () => i.closest(".field")?.classList.remove("has-error")));
 })();
